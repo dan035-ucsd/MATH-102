@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1758695368.15485 "/home/dani/Documents/School/MATH-102/Lecture 1.tex" "out_dir/Lecture 1.pdf" "Lecture 1" 1758695368.44442 0
+["pdflatex"] 1758697213.99281 "/home/dani/Documents/School/MATH-102/Lecture 1.tex" "out_dir/Lecture 1.pdf" "Lecture 1" 1758697214.3248 0
   "/etc/texmf/web2c/texmf.cnf" 1731154068.07356 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/dani/Documents/School/MATH-102/Lecture 1.tex" 1758695367.34453 2174 5063b56de67fa0e281c2cc3e359f1b9c ""
+  "/home/dani/Documents/School/MATH-102/Lecture 1.tex" 1758697213.75478 2455 4f405bbcbcbfc646a5ca1dfc394995cd ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -43,13 +43,14 @@
   "/usr/share/texlive/texmf-dist/tex/latex/base/article.cls" 1705352648 20144 147463a6a579f4597269ef9565205cfe ""
   "/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo" 1705352648 8449 f07039d8e4e89f21078d9b5137579bfc ""
   "/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def" 1704491087 30006 57b07afb710ee2f649c65cfbafda39c1 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/tools/enumerate.sty" 1698869629 3468 0ef513f22d965f96b06adb5cff671cd7 ""
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1731154071.76139 75955 f78456fd1308dc295dc476a68e28d85b ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1731154080 6800792 e0a76f497b00ea2d16b50307d9c5c5b9 ""
-  "Lecture 1.tex" 1758695367.34453 2174 5063b56de67fa0e281c2cc3e359f1b9c ""
-  "out_dir/Lecture 1.aux" 1758695368.3938 349 c6bf1fbcbf6cd0085191a52b2118177b "pdflatex"
-  "out_dir/Lecture 1.toc" 1758695368.3938 194 35973e9b71f4b5650efb4d6ab4e6a7ce "pdflatex"
+  "Lecture 1.tex" 1758697213.75478 2455 4f405bbcbcbfc646a5ca1dfc394995cd ""
+  "out_dir/Lecture 1.aux" 1758697214.25979 349 c6bf1fbcbf6cd0085191a52b2118177b "pdflatex"
+  "out_dir/Lecture 1.toc" 1758697214.26179 194 35973e9b71f4b5650efb4d6ab4e6a7ce "pdflatex"
   (generated)
   "out_dir/Lecture 1.aux"
   "out_dir/Lecture 1.log"
