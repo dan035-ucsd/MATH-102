@@ -1,0 +1,11 @@
+\documentclass[12pt, letterpaper]{article} 
+\title{Lecture}
+\author{Dani Nguyen}
+\date{\today}}
+
+\begin{document}
+\maketitle
+
+Hello world!
+
+\end{document}
