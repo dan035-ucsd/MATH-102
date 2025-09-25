@@ -4,7 +4,7 @@
 
 \title{Lecture 1}
 \author{Dani Nguyen}
-\date{\today}
+\date{September 30, 2025}
 
 \begin{document}
 \maketitle
@@ -69,7 +69,20 @@ true or all false.
     By property 1 and 16 of IMT, if rank(A - $\lambda I$) $<$ n then (A - $\lambda I$) is not invertible.
     \item $\Leftrightarrow$ (f)
     
-    
+    Suppose we have $A - \lambda I = $ 
+    $\begin{bmatrix}
+        a - \lambda I & b  \\
+        c & d - \lambda I  \\
+    \end{bmatrix}$, 
+    and suppose it is not invertible, its determinant is $(a - \lambda I)(d - \lambda I) - bc = 0$. Consider the case of $A^\top - \lambda I$, we have 
+    $\begin{bmatrix}
+        a - \lambda I & c  \\
+        b & d - \lambda I  \\
+    \end{bmatrix}$, 
+    whose determinant is $(a - \lambda I)(d - \lambda I) - cb$. And by commutativity of multiplication, $bc = cb$, so the determinant is also 0, meaning $A^\top - \lambda I$ is also not invertible.
+
+
+
     \item $\Leftrightarrow$ (g)
     
     Since (a) is equivalent to (e), the same is true for $A^\top$.
