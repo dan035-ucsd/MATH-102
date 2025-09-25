@@ -46,7 +46,7 @@ true or all false.
 \begin{enumerate}[(a)]
     \item $\lambda$ is an eigenvalue of A.
     \item A\textbf{x} = $\lambda$\textbf{x} for some nonzero \textbf{x} $\in \mathbb{C}^n$.
-    \item (A - $\lambda$I)\textbf{x} = \textbf{0} has a nontrivial solution, that is, nullity(A-$\lambda$I) $>$ 0.
+    \item (A - $\lambda$I)\textbf{x} = \textbf{0} has a nontrivial solution, that is, nullity(A - $\lambda I$) $>$ 0.
     \item rank(A - $\lambda$I) $<$ n.
     \item A - $\lambda$I is not invertible.
     \item A$^\top$ - $\lambda$I is not invertible.
@@ -54,12 +54,25 @@ true or all false.
 \end{enumerate}
 \textbf{Proof}
 \begin{enumerate}[(a)]
-    \item $\Leftrightarrow$ (b)
+    \item $\Leftrightarrow$ (b) 
+    
+    By definition 9.1.1, if $A\mathbf{x}=\lambda\mathbf{x}$ and $\mathbf{x}\neq\mathbf{0}$ then $(\lambda,\mathbf{x})$
+    is an eigenpair of A, meaning $\lambda$ is an eigenvalue of A.
     \item $\Leftrightarrow$ (c)
+    
+    These are restatements of one another.
     \item $\Leftrightarrow$ (d)
-    \item $\Leftrightarrow$ (e)
+    
+    By rank nullity theorem, if nullity(A - $\lambda I$) $>$ 0, then rank(A - $\lambda I$) $<$ n.
+    \item $\Leftrightarrow$ (e) 
+    
+    By property 1 and 16 of IMT, if rank(A - $\lambda I$) $<$ n then (A - $\lambda I$) is not invertible.
     \item $\Leftrightarrow$ (f)
+    
+    
     \item $\Leftrightarrow$ (g)
+    
+    
 \end{enumerate}
 
 \end{document}
