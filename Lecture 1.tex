@@ -46,7 +46,7 @@ true or all false.
 \begin{enumerate}[(a)]
     \item $\lambda$ is an eigenvalue of A.
     \item A\textbf{x} = $\lambda$\textbf{x} for some nonzero \textbf{x} $\in \mathbb{C}^n$.
-    \item (A - $\lambda$I)\textbf{x} = \textbf{0} has a nontrivial solution, that is, nullity(A-$\lambda$I) $>$ 0.
+    \item (A - $\lambda$I)\textbf{x} = \textbf{0} has a nontrivial solution, that is, nullity(A - $\lambda I$) $>$ 0.
     \item rank(A - $\lambda$I) $<$ n.
     \item A - $\lambda$I is not invertible.
     \item A$^\top$ - $\lambda$I is not invertible.
@@ -60,14 +60,19 @@ true or all false.
     is an eigenpair of A, meaning $\lambda$ is an eigenvalue of A.
     \item $\Leftrightarrow$ (c)
     
-
+    These are restatements of one another.
     \item $\Leftrightarrow$ (d)
+    
+    By rank nullity theorem, if nullity(A - $\lambda I$) $>$ 0, then rank(A - $\lambda I$) $<$ n.
     \item $\Leftrightarrow$ (e) 
+    
+    By property 1 and 16 of IMT, if rank(A - $\lambda I$) $<$ n then (A - $\lambda I$) is not invertible.
     \item $\Leftrightarrow$ (f)
     
-    By IMT, if $A^\top$ is not invertible, then $A$ is not invertible. The same follows for 
-    $A - \lambda I$ and $A^\top - \lambda I$.
+    
     \item $\Leftrightarrow$ (g)
+    
+    
 \end{enumerate}
 
 \end{document}
