@@ -1,0 +1,2 @@
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qdim Col A = n. rank A = n Nul A = 0 dim Nul A = 0 The number 0 is not an eigenvalue of A. det A \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q 0.\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qrank(A - \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\QI) \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-)[0-9]+\\Q n.\\E$"}
