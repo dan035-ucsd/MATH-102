@@ -1,0 +1,107 @@
+\documentclass[12pt, letterpaper]{article} 
+
+\usepackage{amsmath, amssymb, amsthm, enumerate}
+
+\title{MATH 174 - Numerical Analysis}
+\author{Dani Nguyen}
+\date{Fall 2025}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\setlength{\parindent}{20pt}
+
+\section{Error}
+\subsection{Approximation}
+\noindent Let x be an exact number. \\
+Let y be an approximation of x. \\ \\
+\textbf{Def:} The absolute error is $|x-y|$. \\
+\textbf{Def:} The relative error is $\displaystyle \frac{|x-y|}{|x|}$, 
+
+
+\subsection{Round-off Error}
+Usually a machine uses a finite amount of memory to store a number.
+
+$\text{machine} \leftarrow \pi$
+\\
+Suppose a machine can store some number of digits. 
+\begin{enumerate}[1.]
+    \item Allocate a digit for sign, positive or negative.
+    \item Allocate a number of digits for the mantissa.
+    \item Allocate a digit for sign of the exponent.
+    \item Allocate a number of digits for the exponent.
+\end{enumerate}
+
+\noindent Under rounding in the case of a 4 digit mantissa, $\pi = 0.3142 \cdot 10^1$, this is the machine $\#$ representation of pi. \\
+
+\noindent \textbf{Def:} Round-off error are all errors arising from the error between actual $\#$ and machine $\#$. \\
+
+\noindent \textbf{Notation:} 
+\begin{align*}
+x &= \text{real } \# \\
+fl(x) &= \text{machine } \# \text{ representation of } x
+\end{align*}
+
+\noindent In an s-digit rounding machine,
+    
+Abs error = $|x=fl(x)|$
+
+Rel error = $\displaystyle \frac{|x-fl(x)|}{|x|}$
+    $\le \frac{1}{2} \cdot 10^{1-5} = 5\cdot 10^{-5}$
+
+\subsection{Floating Point Arithmetic}
+What happens under arithmetic operations? (+, -, $\cdot$, /) \\
+
+\noindent Two things to watch out for:
+\begin{enumerate}[1.]
+    \item Many operations can degrade error.
+    \item Catastrophic cancellation.
+\end{enumerate}
+
+\subsubsection{Degrading Error}
+\[\begin{matrix}
+    \text{number} & \text{machine} \\
+    x & fl(x) \\
+    y & fl(y) \\
+    x+y & fl(fl(x)+fl(y))
+\end{matrix}\]
+
+The more nested $fl()$ there are, the larger the error will be. The same follows for -, $\cdot$, /. \\
+
+When performing arithmetic, it temporarily allows for more digits than the mantissa allows. \\ 
+
+\noindent Algorithmic "solutions"
+
+$((x+y)+z)+w$
+
+Worst case, 4 times the error.
+
+$(x+y)+(z+w)$
+
+Worst case, 3 times the error. 
+
+
+\subsubsection{Catastrophic Cancellation}
+\textbf{Ex: } 3-digit rounding machine. Given 2 numbers: 0.312 and 0.311.
+\begin{gather*} 0.312 - 0.311 = 0.001 = 0.1 \cdot 10^{-2} \\ \text{Loss of significant digits!} 
+\end{gather*}
+
+\noindent \textbf{Ex: } 5-digit rounding machine. Given 2 numbers:
+\begin{align*}
+x &= 0.41626324 \\
+y &= 0.41626323 \\
+x-y &= 0.00000001 \\
+\text{In machine:} \\
+fl(x) &= 0.41626 \\
+fl(y) &= 0.41626 \\
+fl(x)-fl(y) &= 0.00000 = 0 \\
+fl(fl(x)-fl(y)) &= 0 \\ 
+\text{Relative error:} \\
+\frac{|x-y-fl(fl(x)-fl(y))|}{|x-y|} &= \frac{|x-y-0|}{|x-y|}\\
+&= 1 = 100\% \text{ error!}
+\end{align*}
+
+
+
+
+\end{document}
