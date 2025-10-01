@@ -101,6 +101,86 @@ fl(fl(x)-fl(y)) &= 0 \\
 &= 1 = 100\% \text{ error!}
 \end{align*}
 
+\section{Speed}
+\subsection{Dot Product}
+
+Consider dot product of vectors
+\begin{gather*}
+\vec{x} \in \mathbb{R}^n, \vec{y} \in \mathbb{R}^n \\
+\vec{x} \cdot \vec{y} = 
+\begin{bmatrix}
+    x_1 & x_2 & \ldots & x_n \\
+\end{bmatrix}
+\begin{bmatrix}
+    y_1 \\ y_2 \\ \vdots \\ y_n \\
+\end{bmatrix} \\
+= x_1y_1 + x_2y_2 + \ldots + x_ny_n
+\end{gather*}
+
+\noindent Count time-consuming operations:
+\begin{enumerate}
+    \item Add/subtract
+    \item Multiply/divide
+    \item Comparisons
+    \item Memory access/storage
+\end{enumerate}
+
+\noindent These are called FLOPS (floating point operations). \\
+
+\noindent For the dot product, there are n multiplications and n-1 additions.
+
+Adding these together, we get $2n-1$ FLOPS.
+
+\textit{Note that this expression is linear in $n$.} \\
+
+\noindent For large $n$, 2n dominates,
+$=\mathcal{O}(n) \approx $ constant times $n$.
+
+ex: For $n$ vs $2n$, $2n$ will take twice as long.
+
+ex: For $\mathcal{O}(n^2)$, $n$ vs $2n$, $2n$ will take four times as long.
+
+\subsection{Memory}
+\noindent Consider a matrix $A_{n\times n}$
+\[
+\begin{bmatrix}
+    a_{11} & a_{12} & \ldots & a_{1n} \\
+    a_{21} & a_{22} & \ldots & a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{n1} & a_{n2} & \ldots & a_{nn} \\
+\end{bmatrix}
+vs
+\begin{bmatrix}
+    x_1 \\
+    x_2 \\
+    \vdots \\
+    x_n \\
+\end{bmatrix}
+\]
+
+The square matrix uses $n^2$ memory locations, while the vector uses $n$ memory locations.
+Each number also uses 8 bytes, creating another goal for algorithm development, \underline{reduce memory usage}.
+
+\subsection{MATLAB}
+A simple MATLAB function to compute the dot product of two vectors and return the number of FLOPS used.
+\begin{verbatim}
+function [thedotproduct, theflops] = dotprod(x, y, n) 
+    thedotproduct = x(1)*y(1);
+    theflops = 1;
+    for i = 2:n    
+        thedotproduct = thedotproduct + x(i)*y(i); 
+        theflops = theflops + 2;
+    end
+end
+\end{verbatim}
+
+\subsubsection{First Problem}
+\noindent Write a MATLAB function that when given $A\vec{x}=\vec{b}$, computes $\vec{x}$
+\[
+A\vec{x} = \vec{b} 
+\]
+A is triangular
+We assume A is invertible (non-singular) meaning det A = 0
 
 
 
