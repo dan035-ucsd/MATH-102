@@ -109,6 +109,13 @@ This ensures that $\lambda_i$ is an eigenvalue of $A$.
 \subsubsection{Proof 1}
 $\lambda$ is an eigenvector of $A \in \mathbb{M}_n$ iff det($A-\lambda I$) = 0. \\
 $p(\lambda) = \text{det} (A-\lambda I)$ is a polynomial of degree n (the characteristic polynomial of A). \\
-Therefore, $\lambda$ is an eigenvalue of A iff $\lambda$ is a root of p (i.e. $p$)
+Therefore, $\lambda$ is an eigenvalue of A iff $\lambda$ is a root of p (i.e. $p$) \\
+By the Fundamental Theorem of Algebra (FTA), each polynomial over the complex has a root. \\
+Hence, each matrix $A \in \mathbb{M}_n$ has an eigenvalue.
+\subsubsection{Proof 2}
+We've shown that each matrix $A \in \mathbb{M}_n$ has an annihilator $p$. \\
+By the FTA, $p$ must have a root. \\
+In 2.1, we showed that at least one root of $p$ is an eigenvalue of $A$. \\
+Hence, each matrix $A \in \mathbb{M}_n$ has an eigenvalue. 
 
 \end{document}
