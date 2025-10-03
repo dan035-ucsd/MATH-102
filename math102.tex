@@ -81,11 +81,34 @@ true or all false.
     \end{bmatrix}$, 
     whose determinant is $(a - \lambda I)(d - \lambda I) - cb$. And by commutativity of multiplication, $bc = cb$, so the determinant is also 0, meaning $A^\top - \lambda I$ is also not invertible.
 
-
-
     \item $\Leftrightarrow$ (g)
     
     Since (a) is equivalent to (e), the same is true for $A^\top$.
 \end{enumerate}
+
+\section{Annihilator}
+\subsection{Some Roots of an Annihilator are Eigenvalues}
+While all the eigenvalues of a matrix are roots of each of its annihilators,
+the roots of an annihilator are not necessarily eigenvalues. \\
+
+\noindent This raises a question:
+
+Must \underline{some} of the roots of an annihilator of a matrix be eigenvalues
+of the matrix? The answer is yes. \\
+
+\noindent Let $p(z) = a_0 + a_1z + a_2z^2 + \ldots + a_kz^k$ be an annihilator of a matrix $A \in \mathbb{M}_n$. \\
+Factor $p$ as follows: $p(z) = a_k(z-\lambda _1)(z-\lambda _2)\ldots(z-\lambda _k), a_k \ne 0$ \\
+Since $p$ annihilates $A$, we have
+\[
+0=p(A)=a_k(A-\lambda_1I)(A-\lambda_2I)\ldots(A-\lambda_kI)
+\]
+Since the zero matrix is not invertible, one of the factors $A-\lambda_iI$ is not invertible. 
+This ensures that $\lambda_i$ is an eigenvalue of $A$.
+
+\subsection{Each Matrix has an Eigenvector}
+\subsubsection{Proof 1}
+$\lambda$ is an eigenvector of $A \in \mathbb{M}_n$ iff det($A-\lambda I$) = 0. \\
+$p(\lambda) = \text{det} (A-\lambda I)$ is a polynomial of degree n (the characteristic polynomial of A). \\
+Therefore, $\lambda$ is an eigenvalue of A iff $\lambda$ is a root of p (i.e. $p$)
 
 \end{document}
