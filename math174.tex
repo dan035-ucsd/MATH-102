@@ -161,7 +161,7 @@ vs
 The square matrix uses $n^2$ memory locations, while the vector uses $n$ memory locations.
 Each number also uses 8 bytes, creating another goal for algorithm development, \underline{reduce memory usage}.
 
-\subsection{MATLAB}
+\subsubsection{MATLAB Dot Product Function}
 A simple MATLAB function to compute the dot product of two vectors and return the number of FLOPS used.
 \begin{verbatim}
 function [thedotproduct, theflops] = dotprod(x, y, n) 
@@ -174,7 +174,7 @@ function [thedotproduct, theflops] = dotprod(x, y, n)
 end
 \end{verbatim}
 
-\subsubsection{First Problem}
+\subsection{Triangular Matrices}
 \noindent Write a MATLAB function that when given $A\vec{x}=\vec{b}$, computes $\vec{x}$
 \[
 A\vec{x} = \vec{b} 
@@ -233,10 +233,6 @@ For $i = n,n-1,\ldots, 1$
 x_i&=\frac{b_i-(a_{i,i+1}x_{i+1}+\ldots+a_{i,n}x_n)}{a_{ii}} \\
 &= \frac{b_i - \sum_{j=i+1}^{n} a_{ij}x_j}{a_{ii}}
 \end{align*}
-
-
-
-
 
 \noindent \textbf{Ex: } $A\vec{x} = \vec{b}$, A is lower triangular.
 \[
