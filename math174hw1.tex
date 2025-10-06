@@ -14,35 +14,35 @@
         \begin{enumerate}[(a)]
             \item Forward substitution on $Ly=b$
                 \begin{align*}
-                    x_1               &= 2  \\
-                    -x_1 + x_2        &= -1 \\
-                    3x_1 - 3x_2 + x_3 &= 3
+                    y_1               &= 2  \\
+                    -y_1 + y_2        &= -1 \\
+                    3y_1 - 3y_2 + y_3 &= 3
                 \end{align*}
                 So, we have 
                 \begin{align*}
-                    x_1 &= 2 \\
-                    x_2 &= -1 + x_1 \\
+                    y_1 &= 2 \\
+                    y_2 &= -1 + x_1 \\
                         &= -1 + 2 \\
                         &= 1 \\
-                    x_3 &= 3 - 3x_1 + 3x_2 \\
+                    y_3 &= 3 - 3x_1 + 3x_2 \\
                         &= 3 - 3(2) + 3(1) \\
                         &= 0
                 \end{align*}
             \item Backward substitution on $Ux=y$
                 \begin{align*}
-                    -1x_1 + 2x_2 + x_3 &= y_1  \\
-                    2x_2 - 2x_3 &= y_2 \\
-                    5x_3 &= y_3
+                    -1x_1 + 2x_2 + x_3 &= 2  \\
+                    2x_2 - 2x_3 &= 1 \\
+                    5x_3 &= 0
                 \end{align*}
                 So, we have
                 \begin{align*}
-                    x_3 &= \frac{y_3}{5} \\
-                    2x_2 &= y_2 + 2x_3 \\
-                    2x_2 &= y_2 + 2\left(\frac{y_3}{5}\right) \\
-                    x_2  &= \frac{1}{2}y_2 + \frac{y_3}{5} \\
+                    x_3 &= 0 \\
+                    2x_2 &= 1 + 2x_3 \\
+                    2x_2 &= 1 + 0 \\
+                    x_2  &= \frac{1}{2} \\
                     -x_1 &= y_1 - 2x_2 - x_3 \\
-                    x_1 &= -y_1 + 2y_2 + \frac{2y_3}{5} + \frac{y_3}{5} \\
-                    &= -y_1 + 2y_2 + \frac{3y_3}{5}
+                    x_1 &= -2+2(\frac{1}{2})+0 \\ 
+                    x_1 &= -1
                 \end{align*}
             \item Compute $A=LU$
                 \[
@@ -72,34 +72,22 @@
                         -3 & 0 & 20
                     \end{bmatrix}
                     \begin{bmatrix}
-                        x_1 \\
-                        x_2 \\
-                        x_3
+                        -1 \\
+                        \frac{1}{2} \\
+                        0
                     \end{bmatrix}
                     &=
                     \begin{bmatrix}
                         2 \\
                         -1 \\
                         3
-                    \end{bmatrix} \\
-                    \begin{bmatrix}
-                        1 & 0 & 0 \\
-                        0 & 1 & 0 \\
-                        0 & 0 & 1
-                    \end{bmatrix}
-                    \begin{bmatrix}
-                        x_1 \\
-                        x_2 \\
-                        x_3
-                    \end{bmatrix}
-                    &=
-                    \begin{bmatrix}
-                        -1 \\
-                        \frac{1}{2} \\
-                        0
-                    \end{bmatrix}
+                    \end{bmatrix} 
                 \end{align*}
-                The solution to $Ax+b$ is any multiple of $\begin{bmatrix} -1 \\ \frac{1}{2} \\ 0 \end{bmatrix}$
+                The solution to $Ax=b$ is correct because \begin{align*}
+                    A\vec x &= \vec b \\ 
+                    LU\vec x & = L \vec y \\
+                    LU\vec x &= LU\vec x
+                \end{align*}
         \end{enumerate}
     \item %Problem 2
         \begin{enumerate}[(a)]
@@ -117,49 +105,30 @@
                     \end{bmatrix}& \\
                     \begin{bmatrix}
                         2 & -3 & 1  & \bigm| & 1\\
-                        1 &  1 & -1 & \bigm| & 2\\
+                        0 &  \frac 52 & -\frac{3}2 & \bigm| & \frac32\\
+                        -4 & 0 & 4  & \bigm| & -1
+                    \end{bmatrix}& R_2 = R_2 - \frac12 R_1\\
+                    \begin{bmatrix}
+                        1 & -4 & 2  & \bigm| & -1\\
+                        0 & \frac52  & -\frac32 & \bigm| & \frac32\\
                         0 & -6 & 6  & \bigm| & 1
                     \end{bmatrix}& R_3 = R_3 + 2R_1\\
                     \begin{bmatrix}
                         1 & -4 & 2  & \bigm| & -1\\
-                        1 & 1  & -1 & \bigm| & 2\\
-                        0 & -6 & 6  & \bigm| & 1
-                    \end{bmatrix}& R_1 = R_1 - R_2\\
-                    \begin{bmatrix}
-                        1 & -4 & 2  & \bigm| & -1\\
-                        0 & 5  & -3 & \bigm| & 3 \\
-                        0 & -6 & 6  & \bigm| & 1
-                    \end{bmatrix}& R_2 = R_2 - R_1\\
-                    \begin{bmatrix}
-                        1 & -4 & 2  & \bigm| & -1\\
-                        0 & -1 & 3  & \bigm| & 4 \\
-                        0 & -6 & 6  & \bigm| & 1
-                    \end{bmatrix}& R_2 = R_2 + R_3\\
-                    \begin{bmatrix}
-                        1 & -4 & 2  & \bigm| & -1\\
-                        0 &  1 & -3  & \bigm| & -4 \\
-                        0 & -6 & 6  & \bigm| & 1
-                    \end{bmatrix}& R_2 = -R_2 \\
-                    \begin{bmatrix}
-                        1 & -4 & 2  & \bigm| & -1\\
-                        0 &  1 & -3  & \bigm| & -4 \\
-                        0 & 0 & -12  & \bigm| & -23
-                    \end{bmatrix}& R_3 = R_3+6R_2 \\
-                    \begin{bmatrix}
-                        1 & -4 & 2  & \bigm| & -1\\
-                        0 &  1 & -3  & \bigm| & -4 \\
-                        0 & 0 & 1  & \bigm| & \frac{23}{12}
-                    \end{bmatrix}& R_3 = \frac{-1}{12}R_3 \\
+                        0 & \frac52  & -\frac32 & \bigm| & \frac32\\
+                        0 & 0 & \frac{12}5  & \bigm| & \frac{23}5
+                    \end{bmatrix}& R_3 = R_3 + \frac{12}5R_1\\
                 \end{align*}
-                Back substitution
+            \item Back substitution
                 \begin{align*}
-                    x_3 &= \frac{23}{12} \\
-                    x_2 &= 3x_3 - 4 \\
-                        &= \frac{23}{4}-4 \\
-                        &= \frac{7}{4} \\
-                    x_1 &= 4x_2 - 2x_3 - 1 \\
-                        &= 7 - \frac{23}{6} - 1 \\ 
-                        &= \frac{13}{6}
+                    \frac{12}5 x_3 &= \frac{23}{12} \\
+                    x_3 &= \frac{115}{144} \\
+                    \frac52 x_2 &= \frac32x_3 + \frac32 \\
+                    x_2 &= \frac35(\frac{115}{144})+\frac35 \\
+                        &= \frac{259}{240} \\
+                    x_1 &= -1 + 4x_2 - 2x_3 \\
+                        &= -1 + \frac{259}{60} - \frac{115}{72} \\ 
+                        &= \frac{619}{360}
                 \end{align*}
         \end{enumerate}
     \item %Problem 4
@@ -172,14 +141,74 @@
                     \end{bmatrix}& \\
                     \begin{bmatrix}
                         1 & 4 &  \bigm| & 3\\
-                        0 & 4 &  \bigm| & -1\times 10^3 
-                    \end{bmatrix}& \\
+                        0 & -4.01 &  \bigm| & -2.01 
+                    \end{bmatrix}& R_2 = R_2 - 0.002R_1\\
                 \end{align*}
-            \item 
-            \item 
+                Back substitution
+                \begin{align*}
+                    -4.01x_2&=-2.01 \\
+                    x_2 &= \frac{201}{401}\ \text{or}\ 0.501\\ 
+                    x_1 &= 3 - 4x_2 \\
+                    &= \frac{399}{401}\ \text{or}\ 0.995
+                \end{align*}
+            \item Gaussian elimination
+                \begin{align*}
+                    \begin{bmatrix}
+                        0.002 &  -4 &  \bigm| & -2\\
+                            1 &   4 &  \bigm| & 3 
+                    \end{bmatrix}& \\
+                    \begin{bmatrix}
+                        0.002 &  -4 &  \bigm| & -2\\
+                            0 & 2000 &  \bigm| & 1000 
+                    \end{bmatrix}& R_2 = R_2 - 500R_1\\
+                \end{align*}
+                Back substitution
+                \begin{align*}
+                    2000x_2 &= 1000 \\
+                    x_2 &= \frac12 \\
+                    0.002x_1 &= -2 + 4x_2 \\
+                    x_1 &= -1000 + 1000 \\
+                    &= 0
+                \end{align*}
+            \item In a 3-digit rounding machine, $x = \frac{500}{501}=0.998$ which is $\frac{\frac{500}{501}-0.998}{\frac{500}{501}}=4\times10^{-6}\%$ error.
+            
+            For y, $y = \frac{1003}{2004}= .500 $ which is $\frac{\frac{1003}{2004}-.5}{\frac{1003}{2004}}=9.97 \times 10^{-4}\%$ error.
+
+            Therefore, $x=\frac{500}{501}$ is closer to the exact answer.
         \end{enumerate}
-                
     \item %Problem 5
+        \begin{enumerate}[(a)]
+            \item $\begin{bmatrix}
+                    1 & 2 & 3 \\
+                    4 & 5 & 6 \\
+                    7 & 8 & 9
+                  \end{bmatrix}$
+            \item
+                $\begin{bmatrix}
+                    -2 & 0 & 1 &-1 \\
+                    -1 & 2 & 0 & 1 \\
+                    4 & -1 & -2 &-4 \\
+                    0 & 0 & 2 & 0
+                \end{bmatrix}$ \\ \\
+                $\begin{bmatrix}
+                    -2 & 0 & 1 &-1 \\
+                    0 & 2 & -\frac12 & \frac32 \\
+                    4 & -1 & -2 &-4 \\
+                    0 & 0 & 2 & 0
+                \end{bmatrix}$ $R_2 = R_2 -\frac12 R_1$ \\ \\ 
+                $\begin{bmatrix}
+                    -2 & 0 & 1 &-1 \\
+                    0 & 2 & -\frac12 & \frac32 \\
+                    0 & -1 & 0 &-6 \\
+                    0 & 0 & 2 & 0
+                \end{bmatrix}$ $R_3 = R_3 + 2R_1$ \\ \\ 
+                $\begin{bmatrix}
+                    -2 & 0 & 1 &-1 \\
+                    0 & 2 & -\frac12 & \frac32 \\
+                    0 & 0 & -\frac14 &-\frac{21}4 \\
+                    0 & 0 & 2 & 0
+                \end{bmatrix}$ $R_3 = R_3 + \frac12R_2$ \\ \\ 
+        \end{enumerate}
     \item %Problem 6
     \item %Problem 7
     \item %Problem 8
