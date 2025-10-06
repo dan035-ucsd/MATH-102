@@ -140,6 +140,19 @@ ex: For $n$ vs $2n$, $2n$ will take twice as long.
 
 ex: For $\mathcal{O}(n^2)$, $n$ vs $2n$, $2n$ will take four times as long.
 
+\subsubsection{MATLAB Dot Product Function}
+A simple MATLAB function to compute the dot product of two vectors and return the number of FLOPS used.
+\begin{verbatim}
+function [thedotproduct, theflops] = dotprod(x, y, n) 
+    thedotproduct = x(1)*y(1);
+    theflops = 1;
+    for i = 2:n    
+        thedotproduct = thedotproduct + x(i)*y(i); 
+        theflops = theflops + 2;
+    end
+end
+\end{verbatim}
+
 \subsection{Memory}
 \noindent Consider a matrix $A_{n\times n}$
 \[
@@ -161,19 +174,8 @@ vs
 The square matrix uses $n^2$ memory locations, while the vector uses $n$ memory locations.
 Each number also uses 8 bytes, creating another goal for algorithm development, \underline{reduce memory usage}.
 
-\subsubsection{MATLAB Dot Product Function}
-A simple MATLAB function to compute the dot product of two vectors and return the number of FLOPS used.
-\begin{verbatim}
-function [thedotproduct, theflops] = dotprod(x, y, n) 
-    thedotproduct = x(1)*y(1);
-    theflops = 1;
-    for i = 2:n    
-        thedotproduct = thedotproduct + x(i)*y(i); 
-        theflops = theflops + 2;
-    end
-end
-\end{verbatim}
 
+\section{Gaussian Elimination}
 \subsection{Triangular Matrices}
 \noindent Write a MATLAB function that when given $A\vec{x}=\vec{b}$, computes $\vec{x}$
 \[
@@ -275,6 +277,38 @@ x_i&=\frac{b_i-(a_{i,1}x_{1}+\ldots+a_{i,i-1}x_{i-1})}{a_{ii}} \\
     \item $E_i$ replaced by $E_i + cE_j$. Row addition.
 \end{enumerate}
 
+\subsubsection{Speed of Back Substitution}
+For $i=n,n-1,\ldots, 1$
+
+$x_i = \frac{b_i-\displaystyle\sum^n_{j=i+1}u_{ij}x_j}{u_{ii}}$
+ 
+\begin{alignat*}{2}
+    i =\ & n &\qquad& 1\ \text{flop} \\
+        & n-1 && 3\ \text{flops} \\
+        & \vdots && \vdots \\
+        & 1 && 2n-1\ \text{flops}
+\end{alignat*}
+
+\[
+    \sum^n_{j=1} (2j-1) = 2 \sum^n_{j=1}(j)-1 = 2\left(\frac{n(n+1)}{2}\right)-1 = n^2+n-1
+\]
+\begin{center}
+With a large $n$, the term $n^2$ dominates, meaning $\mathcal{O}(n^2)$
+\end{center}
+
+
+\subsection{Augmented Matrices}
+
+Gaussian Elimination on same matrices and different RHS comes up often in applications and algorithms.
+
+\subsubsection{LU Factorization}
+\[ A = LU \]
+\begin{center}
+where L is lower triangular with 1's in the diagonal and U is upper triangular
+\end{center}
+
+\noindent The important entries of L are called \underline{multipliers}. These entries can be found 
+with the negative of the coefficients of the steps of Gaussian elimination.
 
 
 \end{document}
