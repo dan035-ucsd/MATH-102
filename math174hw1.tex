@@ -103,9 +103,67 @@
         \end{enumerate}
     \item %Problem 2
         \begin{enumerate}[(a)]
-            \item The number of additions and subtractions needed to perform forward substitution is
-    \item %Problem 3
+            \item The summation is from $j=1$ to $i-1$, there are $i-1$ additions. There is also one more subtraction between $b_i$ and the summation. So in total, there are $i$ additions and subtractions.
+            \item There are $i-1$ terms in the summation, therefore there are $i-1$ multiplications.
+        \end{enumerate}
+    \item %Problem 3 
+        \begin{enumerate}[(a)]  
+            \item Gaussian elimination
+                \begin{align*}
+                    \begin{bmatrix}
+                        2  & -3 & 1  & \bigm| & 1\\
+                        1  & 1  & -1  & \bigm| & 2\\
+                        -4 & 0  & 4 & \bigm| & -1
+                    \end{bmatrix}& \\
+                    \begin{bmatrix}
+                        2 & -3 & 1  & \bigm| & 1\\
+                        1 &  1 & -1 & \bigm| & 2\\
+                        0 & -6 & 6  & \bigm| & 1
+                    \end{bmatrix}& R_3 = R_3 + 2R_1\\
+                    \begin{bmatrix}
+                        1 & -4 & 2  & \bigm| & -1\\
+                        1 & 1  & -1 & \bigm| & 2\\
+                        0 & -6 & 6  & \bigm| & 1
+                    \end{bmatrix}& R_1 = R_1 - R_2\\
+                    \begin{bmatrix}
+                        1 & -4 & 2  & \bigm| & -1\\
+                        0 & 5  & -3 & \bigm| & 3 \\
+                        0 & -6 & 6  & \bigm| & 1
+                    \end{bmatrix}& R_2 = R_2 - R_1\\
+                    \begin{bmatrix}
+                        1 & -4 & 2  & \bigm| & -1\\
+                        0 & -1 & 3  & \bigm| & 4 \\
+                        0 & -6 & 6  & \bigm| & 1
+                    \end{bmatrix}& R_2 = R_2 + R_3\\
+                    \begin{bmatrix}
+                        1 & -4 & 2  & \bigm| & -1\\
+                        0 &  1 & -3  & \bigm| & -4 \\
+                        0 & -6 & 6  & \bigm| & 1
+                    \end{bmatrix}& R_2 = -R_2 \\
+                    \begin{bmatrix}
+                        1 & -4 & 2  & \bigm| & -1\\
+                        0 &  1 & -3  & \bigm| & -4 \\
+                        0 & 0 & -12  & \bigm| & -23
+                    \end{bmatrix}& R_3 = R_3+6R_2 \\
+                    \begin{bmatrix}
+                        1 & -4 & 2  & \bigm| & -1\\
+                        0 &  1 & -3  & \bigm| & -4 \\
+                        0 & 0 & 1  & \bigm| & \frac{23}{12}
+                    \end{bmatrix}& R_3 = \frac{-1}{12}R_3 \\
+                \end{align*}
+                Back substitution
+                \begin{align*}
+                    x_3 &= \frac{23}{12} \\
+                    x_2 &= 3x_3 - 4 \\
+                        &= \frac{23}{4}-4 \\
+                        &= \frac{7}{4} \\
+                    x_1 &= 4x_2 - 2x_3 - 1 \\
+                        &= 7 - \frac{23}{6} - 1 \\ 
+                        &= \frac{13}{6}
+                \end{align*}
+        \end{enumerate}
     \item %Problem 4
+        
     \item %Problem 5
     \item %Problem 6
     \item %Problem 7
