@@ -215,15 +215,108 @@
                     0 & 0 & 0 & -42
                 \end{bmatrix}$ $R_4 = R_4 + 8R_3$
             \item 
-                L = $\begin{bmatrix}
+                \begin{align*}
+                    L\vec y &=\vec b \\
+                    \begin{bmatrix}
                     1 & 0 & 0 & 0 \\
                     \frac12 & 1 & 0 & 0 \\
                     -2 & -\frac12 & 1 & 0 \\
                     0 & 0 & -8 & 1
-                \end{bmatrix}$
+                \end{bmatrix} 
+                \begin{bmatrix}
+                        y_1 \\
+                        y_2 \\
+                        y_3 \\
+                        y_4
+                \end{bmatrix} 
+                &=
+                \begin{bmatrix}
+                    0 \\
+                    1 \\
+                    2 \\
+                    3
+                \end{bmatrix}
+                \end{align*}
+            Forward substitution
+            \begin{align*}
+                y_1 &= 0 \\
+                y_2 &= 1 - \frac12 y_1 \\
+                    &= 1 \\
+                y_3 &= 2 + 2 y_1 + \frac 12 y_2 \\
+                    &= 2 + 0 + \frac 12 \\
+                    &= \frac52 \\
+                y_4 &= 3 + 8 y_3 \\
+                    &= 3 + 8(\frac52) \\
+                    &= 23
+            \end{align*}
+            \begin{align*}
+                U\vec x &= \vec y \\
+                \begin{bmatrix}
+                    -2 & 0 & 1 &-1 \\
+                    0 & 2 & -\frac12 & \frac32 \\
+                    0 & 0 & -\frac14 &-\frac{21}4 \\
+                    0 & 0 & 0 & -42
+                \end{bmatrix} 
+                \begin{bmatrix}
+                        x_1 \\
+                        x_2 \\
+                        x_3 \\
+                        x_4
+                \end{bmatrix}
+                &= 
+                \begin{bmatrix}
+                        0 \\
+                        1 \\
+                        \frac 52 \\
+                        23
+                \end{bmatrix}
+            \end{align*}
+            Back substitution
+            \begin{align*}
+                -42x_4 &= 23 \\
+                x_4 &= -\frac{23}{42} \\
+                -\frac14 x_3 &= - \frac52 + \frac{21}4 x_4 \\
+                x_3 &= 10 - 21(-\frac{23}{42}) \\
+                    &= \frac{43}{2} \\
+                2x_2 &= 1 + \frac12 x_3 - \frac32 x_4 \\
+                x_2 &= \frac12 + \frac14(\frac{43}{2}) - \frac34(-\frac{23}{42}) \\
+                    &= \frac{44}7 \\
+                -2x_1 &= -1 x_3 + 1 x_4 \\
+                x_1 &= \frac12(\frac{43}{2}) - \frac12(-\frac{23}{42}) \\
+                    &= \frac{463}{42}
+            \end{align*}
+            \begin{align*}
+                A\vec x &= \vec b \\
+                \begin{bmatrix}
+                    -2 & 0 & 1 &-1 \\
+                    -1 & 2 & 0 & 1 \\
+                    4 & -1 & -2 &-4 \\
+                    0 & 0 & 2 & 0
+                \end{bmatrix} 
+                \begin{bmatrix}
+                        \frac{463}{42} \\
+                        \frac{44}{7} \\
+                        \frac{43}{2} \\
+                        -\frac{23}{42}
+                \end{bmatrix}
+                &= 
+                \begin{bmatrix}
+                        0 \\
+                        1 \\
+                        2 \\
+                        3
+                \end{bmatrix}
+            \end{align*}
         \end{enumerate}
     \item %Problem 6
     \item %Problem 7
     \item %Problem 8
+        \begin{enumerate}
+            \item 
+                \begin{verbatim}
+function [vectorx] = forwardsub(dim, matrix, b) 
+end
+                \end{verbatim}
+        \end{enumerate}
 \end{enumerate}
 \end{document}
