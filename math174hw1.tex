@@ -314,7 +314,18 @@
         \begin{enumerate}
             \item 
                 \begin{verbatim}
-function [vectorx] = forwardsub(dim, matrix, b) 
+function [vectorx] = forwardsub(dim, matrix, b)
+    for i = 1:dim
+        vectorx(i) = b(i);
+        for j = 1:i
+            vectorx(i) = vectorx(i) - matrix(i,j);
+        end
+    end
+end
+                \end{verbatim}
+            \item
+                \begin{verbatim}
+function [outmatrix] = lufactorization(dim, matrix)
 end
                 \end{verbatim}
         \end{enumerate}
