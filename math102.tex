@@ -119,4 +119,40 @@ By the FTA, $p$ must have a root. \\
 In 2.1, we showed that at least one root of $p$ is an eigenvalue of $A$. \\
 Hence, each matrix $A \in \mathbb{M}_n$ has an eigenvalue. 
 
+\section{Eigenvalues}
+\subsection{Commuting Matrices Share An Eigenvector}
+\subsubsection{2-Commute}
+\textbf{Thm:} Let $A_1, A_2 \in \mathbb{M}_n$. Let $\lambda$ be an eigenvalue of $A_1$. 
+
+Suppose $A_1A_2=A_2A_1$, then $A_1,A_2$ share an eigenvector in $\mathcal{E}_\lambda (A_1)$ \\
+
+\noindent \textbf{Computation:} 
+\begin{enumerate}
+    \item[0.] Choose $A_1$ or $A_2$. Say, $A_1$
+    \item Compute an eigenvalue of $A_1$. Say, $\lambda$, and form its eigenspace $\mathcal{E}_\lambda(A_1)$
+    \item Select a basis $\ \vec x_1,\vec x_2,...,\vec x_k\ $ for $\mathcal{E}_\lambda(A_1)$ and form a matrix $X=[\vec x_1\; \vec x_2\; \ldots\; \vec x_k]$
+    \item Solve $A_2X=XC$ for $C$
+    \item Find an eigenpair of $C:(\mu,u)$
+    \item Compute $v=Xu$
+\end{enumerate}
+\newpage
+\noindent \textbf{Proof:} 
+\begin{align*}
+    Ax_1=\lambda x_1,\ \ Ax_2=\lambda x_2,\ ...\; ,\ Ax_k=\lambda x_k \\
+    Ax_i=\lambda x_i\qquad\text{for}\ i=1,2,...,k 
+\end{align*}
+\begin{align*}
+    A_1x_i &= \lambda x_i \\
+    A_2(A_1x_i) &= A_2(\lambda x_i) \\
+    A_1(A_2x_i) &= \lambda (A_2x_i) \tag{commutativity}\\
+\end{align*}
+\begin{enumerate}
+    \item[Case 1:] $A_2x_i=0$ \\
+                    $\Rightarrow A_2x_i \in \mathcal{E}_\lambda(A_1)$ 
+    \item[Case 2:] $A_2x_i\ne0$ \\
+                    $\Rightarrow A_2x_i$ is an eigenvector of $A_1$ and 
+                    $A_2x_i \in \mathcal{E}_\lambda(A_1)$
+\end{enumerate}
+
+
 \end{document}
