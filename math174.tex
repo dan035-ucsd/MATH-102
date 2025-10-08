@@ -290,7 +290,7 @@ $x_i = \frac{b_i-\displaystyle\sum^n_{j=i+1}u_{ij}x_j}{u_{ii}}$
 \end{alignat*}
 
 \[
-    \sum^n_{j=1} (2j-1) = 2 \sum^n_{j=1}(j)-1 = 2\left(\frac{n(n+1)}{2}\right)-1 = n^2+n-1
+    \sum^n_{j=1} (2j-1) = 2 \sum^n_{j=1}(j)-\sum^n_{j-1}1 = 2\left(\frac{n(n+1)}{2}\right)-n = n^2
 \]
 \begin{center}
 With a large $n$, the term $n^2$ dominates, meaning $\mathcal{O}(n^2)$
@@ -315,4 +315,85 @@ with the negative of the coefficients of the steps of Gaussian elimination.
     U\vec x = \vec y &\qquad \text{get x from back substitution}
 \end{align*}
 
+\subsection{Matrix Inverses}
+\noindent Matrix-vector multiplication:
+\begin{align*}
+(A\vec x)_i &= \sum_{j=1}^{n} a_{ij}x_j \\
+\text{which gives } 2&(n-1)n \text{ flops total}
+\end{align*}
+
+\noindent Backwards substitution uses $n^2$ flops. \\
+\noindent Forward substitution uses $n^2-n$ flops. Because we're working with L, which has 1's on the diagonal, we save $n$ divisions. \\
+
+In summary, getting $A^{-1}$ to solve $A\vec x = \vec b$ is slower. Also, $A^{-1}$ has memory storage issues for certain matrices.
+For example, a tridiagonal matrix, even though it has zeroes on most of its entries, $A^{-1}$ has no zeroes.
+
+\subsubsection{MATLAB Back Substitution Function}
+% Ax = b 
+% n = dimension
+\begin{verbatim} 
+function [x] = backsub(A, b, n)
+    for i = n:-1:1
+        x(i,1) = b(i);
+        for j = i+1:n
+            x(i) = x(i)-A(i,j)*x(j)
+        end
+        x(i,1) = x(i)/A(i,i)
+    end
+end
+\end{verbatim}
+
+\subsubsection{Gaussian Elimination FLOP count}
+\begin{center}
+$\begin{bmatrix}
+    a_{11} & a_{12} & a_{13} & \ldots & a_{1n} \\
+    a_{21} & a_{22} & a_{23} & \ldots & a_{2n} \\
+    a_{31} & a_{32} & a_{33} & \ldots & a_{3n} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    a_{n1} & a_{n2} & a_{n3} & \ldots & a_{nn} \\    
+\end{bmatrix}$ \\
+
+$\begin{bmatrix}
+    a_{11} & a_{12} & a_{13} & \ldots & a_{1n} \\
+    0 & a_{22} & a_{23} & \ldots & a_{2n} \\
+    a_{31} & a_{32} & a_{33} & \ldots & a_{3n} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    a_{n1} & a_{n2} & a_{n3} & \ldots & a_{nn} \\    
+\end{bmatrix}$ \\
+This step has 1 division, 1 multiplication, 1 addition/subtraction. \\
+In total there are $2n-1$ total flops.\\
+$\begin{bmatrix}
+    a_{11} & a_{12} & a_{13} & \ldots & a_{1n} \\
+    0 & a_{22} & a_{23} & \ldots & a_{2n} \\
+    0 & a_{32} & a_{33} & \ldots & a_{3n} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    0 & a_{n2} & a_{n3} & \ldots & a_{nn} \\    
+\end{bmatrix}$ \\
+Repeat this for $n-1$ rows (minus 1 because we are excluding the first row).\\
+We can then repeat this for the inner block matrix.
+\end{center}
+\begin{align*}
+    (2n-1)(n-1)+(2(n-1)-1)((&n-1)-1)+(2(n-2)-1)((n-2)-1) \ldots \\
+    \sum^n_{j-1} j &= \frac{n(n+1)}{2} \\
+    \sum^n_{j-1} j^2 &= \frac{n(n+1)(2n+1)}{6}
+\end{align*}
+
+\subsubsection{Gaussian Elimination With Pivoting}
+\noindent But what about $A=\begin{bmatrix}
+    0 & 1 \\
+    1 & 0
+\end{bmatrix}$
+Gaussian elimination fails on first step. Can we use another elementary row operation, namely, row swapping? \\
+
+\noindent In general, \\
+\[\begin{bmatrix}
+    0 & a_{12} & a_{13} & \ldots & a_{1n} \\
+    a_{21} & a_{22} & a_{23} & \ldots & a_{2n} \\
+    a_{31} & a_{32} & a_{33} & \ldots & a_{3n} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    a_{n1} & a_{n2} & a_{n3} & \ldots & a_{nn} \\    
+\end{bmatrix}\] \\
+Find a nonzero element $a_{i1}$ then perform $E_1\leftrightarrow E_2$. We have to do this before each elimination step.
+
+  
 \end{document}
