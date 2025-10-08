@@ -39,22 +39,29 @@
 		"description": "Insert inline math"
 	},
 
-	"Math Blackboard Bold": {
+	"Matrix 2x2": {
 		"scope": "latex",
-		"prefix": "bb",
+		"prefix": "mat2",
 		"body": [
-			"\\mathbb{${1:letter}}$0"
+			"\\begin{bmatrix}",
+			"\t$1 & $2 \\\\\\\\",
+			"\t$3 & $4",
+			"\\end{bmatrix}$0"
 		],
-		"description": "Insert math blackboard bold text"
+		"description": "Insert a 2x2 matrix"
 	},
-
-	"Math Calligraphy": {
+	
+	"Matrix 3x3": {
 		"scope": "latex",
-		"prefix": "cal",
+		"prefix": "mat3",
 		"body": [
-			"\\mathcal{${1:letter}}$0"
+			"\\begin{bmatrix}",
+			"\t$1 & $2 & $3 \\\\\\\\",
+			"\t$4 & $5 & $6 \\\\\\\\",
+			"\t$7 & $8 & $9",
+			"\\end{bmatrix}$0"
 		],
-		"description": "Insert math calligraphy text"
+		"description": "Insert a 3x3 matrix"
 	},
 	
 	"Vectors": {
