@@ -393,6 +393,16 @@ Gaussian elimination fails on first step. Can we use another elementary row oper
     a_{n1} & a_{n2} & a_{n3} & \ldots & a_{nn} \\    
 \end{bmatrix}\] \\
 Find a nonzero element $a_{i1}$ then perform $E_1\leftrightarrow E_2$. We have to do this before each elimination step.
+However, there is error involved.
+\begin{align*}
+\begin{bmatrix}
+    \epsilon & 1 & \bigl{|}  & 1\\
+    \times & \times & \bigl{|} & \times
+\end{bmatrix} &\rightarrow
+    \tilde{x}_2=x_2 + \delta \\
+    &\rightarrow \tilde{x}_1=\frac{1-\tilde{x}_2}{\epsilon} = \frac{1-x_2-\delta}{\epsilon} = \frac{1-x_2}{\epsilon}-\frac{\delta}{\epsilon}
+\end{align*}
 
+\noindent Note that in this situation, choosing an $x_1$ that is small leads to a small $\epsilon$ which leads to a large error. We have to be careful when swapping rows.
   
 \end{document}
