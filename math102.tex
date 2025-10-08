@@ -139,7 +139,7 @@ Suppose $A_1A_2=A_2A_1$, then $A_1,A_2$ share an eigenvector in $\mathcal{E}_\la
 \noindent \textbf{Proof:} 
 \begin{align*}
     Ax_1=\lambda x_1,\ \ Ax_2=\lambda x_2,\ ...\; ,\ Ax_k=\lambda x_k \\
-    Ax_i=\lambda x_i\qquad\text{for}\ i=1,2,...,k 
+    A\vec x_i=\lambda \vec x_i\qquad\text{for}\ i=1,2,...,k 
 \end{align*}
 \begin{align*}
     A_1x_i &= \lambda x_i \\
@@ -153,6 +153,19 @@ Suppose $A_1A_2=A_2A_1$, then $A_1,A_2$ share an eigenvector in $\mathcal{E}_\la
                     $\Rightarrow A_2x_i$ is an eigenvector of $A_1$ and 
                     $A_2x_i \in \mathcal{E}_\lambda(A_1)$
 \end{enumerate}
-
+\begin{align*}
+    A_2x_1=Xc_1,\ A_2x_2&=Xc_2,\ ...\; ,\ A_2x_k=Xc_k \\
+    A_2[x_1\ x_2\ ...\ x_k]=[A_2x_1\ A_2x_2\ ...\ A_2x_k]&=[Xc_1\ Xc_2\ ...\ Xc_k]=X[c_1\ c_2\ ...\ c_k] \\
+    A_2X&=XC 
+\end{align*}
+\begin{align*}    
+    \text{Let } (\mu,u) \text{ be an eigenpair of } C & \qquad C\vec u=\mu \vec u \qquad u\ne 0 \\
+    \text{Say } v&=Xu \ne 0 \\
+    Cu &= \mu u \\
+    XCu &= X\mu u \\
+    A_2Xu &= \mu Xu \\
+    A_2v &= \mu v \\
+    \therefore v=Xu \in \mathcal{E}_\lambda(A_1) &\text{ is an eigenvector of } A_2
+\end{align*}
 
 \end{document}
