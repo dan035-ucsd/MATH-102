@@ -314,18 +314,19 @@
         \begin{enumerate}
             \item 
                 \begin{verbatim}
-function [vectorx] = forwardsub(dim, matrix, b)
-    for i = 1:dim
-        vectorx(i) = b(i);
+function [x] = forwardsub(A, b, n)
+    for i = 1:n
+        x(i) = b(i);
         for j = 1:i
-            vectorx(i) = vectorx(i) - matrix(i,j);
+            x(i) = x(i) - A(i,j);
         end
+        x(i) = x(i) / A(i,i)
     end
 end
                 \end{verbatim}
             \item
                 \begin{verbatim}
-function [outmatrix] = lufactorization(dim, matrix)
+function [B] = lufactorization(A, n)
 end
                 \end{verbatim}
         \end{enumerate}
