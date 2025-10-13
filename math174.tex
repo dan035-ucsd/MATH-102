@@ -424,8 +424,25 @@ However, there is error involved.
     A\vec{\delta x} &= \vec{\delta b} \\
     \vec{\delta x} &= A^{-1} \vec{\delta b}
 \end{align*}
-
 We can use a norm to measure the size of error vectors.
+\begin{align*}
+    ||\vec{\delta x}|| &= ||A^{-1} \vec{\delta b}|| \le ||A^{-1}||\ ||\vec{\delta b}|| \\
+    \frac{||\vec {\delta x}||}{||\vec x||} &\le || A ||\ ||A^{-1}|| \frac{||\vec{\delta b}||}{||\vec b||} \\
+    \text{rel error} &\le \text{condition }\# \times \text{rel size of change of }\vec{b}
+\end{align*}
+
+\noindent \textbf{Ex: } Suppose you need to solve accurately $A\vec x = \vec b$ and someone gives you the approx $\tilde x$, is it accurate?
+
+We can use the residual vector.
+\begin{align*}
+    \vec r &= \vec b - A\tilde x \\ 
+    A\tilde x &= \vec b - \vec r 
+\end{align*}
+
+If A is well-conditioned (small condition number), then  
+$\frac{||\vec r||}{||\vec b||}$ is small and $\frac{||\vec x - \tilde x||}{||\vec x||}$ small.
+
+If A is ill-conditioned (large condition number), then we don't know.
 
 \subsection{Row Swapping}
 \begin{align*}    
@@ -459,5 +476,48 @@ We can use a norm to measure the size of error vectors.
     \item Scaled row partial pivoting: 
     \item Complete pivoting: row swaps and column swaps to move the largest element to pivot element.
 \end{enumerate}
+
+\section{Sparse Matrices}
+\subsection{Fixed Point Problems}
+
+Solve an equation $g(x)= h(x)$ \\
+Modify to $f(x)= x$ \\ 
+
+Now we have the fixed point problem, which we can try to solve using fixed point iterations. \\
+
+\noindent Start with guess $x^{(0)}$\\
+Then iterate $x^{(k+1)}=f(x^{(k)})$ \\
+The $x^{(k)}$ are approximations of the fixed point. \\ 
+
+We can also write $A\vec x = \vec b$ as fixed point problem using \underline{splitting}.
+\begin{align*}
+    A &= M-N \\
+    (M-N)\vec x &= \vec b \\
+    M\vec x &= N\vec x+ \vec b \\
+    \vec x &= M^{-1}(N\vec x +\vec b) \\
+    \text{where the RHS is }&f(\vec x)
+\end{align*}
+
+\noindent Choices for M,N: 
+
+Let $A=D-L-U$, where D is diagonal, L is lower triangular, U is upper triangular. We have
+\begin{enumerate}
+    \item Jacobi iterative method.
+        \begin{align*}
+            M&=D \\ 
+            N&=L+U \\ 
+            D\vec x &= (L+U)\vec x +\vec b
+        \end{align*}
+        
+    \item Gauss-Seidel method.
+        \begin{align*}
+            M&=D-L \\ 
+            N&= U \\
+            (D-L)\vec x &= U\vec x + \vec b
+        \end{align*}
+\end{enumerate}
+
+\subsubsection{Jacobi Iterative Method}
+\subsubsection{Gauss-Seidel Iterative Method}
 
 \end{document}
