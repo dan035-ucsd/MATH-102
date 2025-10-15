@@ -509,7 +509,7 @@ Let $A=D-L-U$, where D is diagonal, L is lower triangular, U is upper triangular
             D\vec x &= (L+U)\vec x +\vec b
         \end{align*}
         
-    \item Gauss-Seidel method.
+    \item Gauss-Seidel iterative method.
         \begin{align*}
             M&=D-L \\ 
             N&= U \\
@@ -518,6 +518,45 @@ Let $A=D-L-U$, where D is diagonal, L is lower triangular, U is upper triangular
 \end{enumerate}
 
 \subsubsection{Jacobi Iterative Method}
+\begin{align*}
+     x_i^{(k+1)}=\frac{b_i-\displaystyle\sum_{j=1}^{i-1}a_{ij}x^{(k)}_j-\sum_{j=i+1}^{n} a_{ij} x_j^{(k)}}{a_{ii}}
+\end{align*}
 \subsubsection{Gauss-Seidel Iterative Method}
+\begin{align*}
+    x_i^{(k+1)}=\frac{b_i-\displaystyle\sum_{j>i}^{}a_{ij}x^{(k)}_j-\sum_{j<i}^{} a_{ij} x_j^{(k+1)}}{a_{ii}}
+\end{align*}
 
+\subsection{Convergence}
+Jacobi \& Gauss-Seidel are iterative methods. They start with a guess, which improves their approximations at each step. We want $\vec x^{(k)}$ 
+sequence of approximations to converge to the exact solution. \\
+
+\noindent Practically, we need a stopping condition. Here are our choices:
+\begin{enumerate}
+    \item Stop after certain number of steps
+    \item Stop when residual is small, where the residual is $\vec r = \vec b - A\vec x$, $||\vec r|| \le$ tolerance.
+    \item Stop when the algorithm slows down, $||x^{(k+1)}-x^{(k)}||\le $ tolerance.
+\end{enumerate}
+\begin{align*}
+    A&=M-N \\ 
+    \text{Jacobi }\quad& M = D \\
+    \text{Gauss-Seidel }\quad& M = D - L \\
+    A\vec x = \vec b &\rightarrow (M-N)\vec x = \vec b \\
+    &\rightarrow M\vec x =N\vec x +\vec b \\
+    &\rightarrow \vec x = M^{-1} (N\vec x +\vec b) \\
+    &\rightarrow \vec x^{(k+1)}=M^{-1}(N\vec x^{(k)}+\vec b) \\
+    &\rightarrow \vec x^{(k+1)}=\mathsf{T} \vec x^{(k)}+\vec c \\
+    &\text{where } \mathsf{T} \text{ is the iteration mx, } M^{-1}N \\
+    &\text{and } \vec c \text{ is } M^{-1} \vec b
+\end{align*}
+
+\noindent An iterative method using  $\vec x ^{(k+1)} = \mathsf{T} \vec x ^{(k)} +\vec c$\ \underline{converges} if $\varphi(\mathsf{T})<1$, where $\varphi (\mathsf T)$ is the spectral radius of $\mathsf T$.\\
+
+\noindent \textit{Note:} For a general A, 
+\begin{align*}
+    \mathsf{T}_J = \begin{bmatrix}
+        0 & \frac{-a_{12}}{a_{11}} & \frac{-a_{13}}{a_{11}} \\
+        \frac{-a_{21}}{a_{22}} & 0 & \frac{-a_{23}}{a_{22}} \\
+        \frac{-a_{31}}{a_{33}} & \frac{-a_{32}}{a_{33}} & 0
+    \end{bmatrix}
+\end{align*}
 \end{document}
