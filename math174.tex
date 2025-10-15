@@ -477,7 +477,7 @@ If A is ill-conditioned (large condition number), then we don't know.
     \item Complete pivoting: row swaps and column swaps to move the largest element to pivot element.
 \end{enumerate}
 
-\section{Sparse Matrices}
+\section{Approximations}
 \subsection{Fixed Point Problems}
 
 Solve an equation $g(x)= h(x)$ \\
@@ -503,25 +503,23 @@ We can also write $A\vec x = \vec b$ as fixed point problem using \underline{spl
 Let $A=D-L-U$, where D is diagonal, L is lower triangular, U is upper triangular. We have
 \begin{enumerate}
     \item Jacobi iterative method.
-        \begin{align*}
+    \item Gauss-Seidel iterative method.
+\end{enumerate}
+\subsubsection{Jacobi Iterative Method}
+\begin{align*}
             M&=D \\ 
             N&=L+U \\ 
             D\vec x &= (L+U)\vec x +\vec b
         \end{align*}
-        
-    \item Gauss-Seidel iterative method.
-        \begin{align*}
-            M&=D-L \\ 
-            N&= U \\
-            (D-L)\vec x &= U\vec x + \vec b
-        \end{align*}
-\end{enumerate}
-
-\subsubsection{Jacobi Iterative Method}
 \begin{align*}
      x_i^{(k+1)}=\frac{b_i-\displaystyle\sum_{j=1}^{i-1}a_{ij}x^{(k)}_j-\sum_{j=i+1}^{n} a_{ij} x_j^{(k)}}{a_{ii}}
 \end{align*}
 \subsubsection{Gauss-Seidel Iterative Method}
+\begin{align*}
+            M&=D-L \\ 
+            N&= U \\
+            (D-L)\vec x &= U\vec x + \vec b
+        \end{align*}
 \begin{align*}
     x_i^{(k+1)}=\frac{b_i-\displaystyle\sum_{j>i}^{}a_{ij}x^{(k)}_j-\sum_{j<i}^{} a_{ij} x_j^{(k+1)}}{a_{ii}}
 \end{align*}
@@ -549,7 +547,10 @@ sequence of approximations to converge to the exact solution. \\
     &\text{and } \vec c \text{ is } M^{-1} \vec b
 \end{align*}
 
-\noindent An iterative method using  $\vec x ^{(k+1)} = \mathsf{T} \vec x ^{(k)} +\vec c$\ \underline{converges} if $\varphi(\mathsf{T})<1$, where $\varphi (\mathsf T)$ is the spectral radius of $\mathsf T$.\\
+\noindent An iterative method using  $\vec x ^{(k+1)} = \mathsf{T} \vec x ^{(k)} +\vec c$\ \underline{converges} if $\varphi(\mathsf{T})<1$, 
+where $\varphi (\mathsf T)$ is the spectral radius of $\mathsf T$. \\
+
+\noindent \textbf{Def: } Spectral radius $\varphi(A)=\max \{ |\lambda_1|,|\lambda_2|,\ldots,|\lambda_n|\}$ \\
 
 \noindent \textit{Note:} For a general A, 
 \begin{align*}
