@@ -43,9 +43,9 @@ fl(x) &= \text{machine } \# \text{ representation of } x
 
 \noindent In an s-digit rounding machine,
     
-Abs error = $|x=fl(x)|$
+Absolute error = $|x=fl(x)|$
 
-Rel error = $\displaystyle \frac{|x-fl(x)|}{|x|}$
+Relative error = $\displaystyle \frac{|x-fl(x)|}{|x|}$
     $\le \frac{1}{2} \cdot 10^{1-5} = 5\cdot 10^{-5}$
 
 \subsection{Floating Point Arithmetic}
@@ -135,9 +135,9 @@ Adding these together, we get $2n-1$ FLOPS.
 \noindent For large $n$, 2n dominates,
 $=\mathcal{O}(n) \approx $ constant times $n$.
 
-ex: For $n$ vs $2n$, $2n$ will take twice as long.
+Ex: For $n$ vs $2n$, $2n$ will take twice as long.
 
-ex: For $\mathcal{O}(n^2)$, $n$ vs $2n$, $2n$ will take four times as long.
+Ex: For $\mathcal{O}(n^2)$, $n$ vs $2n$, $2n$ will take four times as long.
 
 \subsubsection{MATLAB Dot Product Function}
 A simple MATLAB function to compute the dot product of two vectors and return the number of FLOPS used.
@@ -428,7 +428,7 @@ We can use a norm to measure the size of error vectors.
 \begin{align*}
     ||\vec{\delta x}|| &= ||A^{-1} \vec{\delta b}|| \le ||A^{-1}||\ ||\vec{\delta b}|| \\
     \frac{||\vec {\delta x}||}{||\vec x||} &\le || A ||\ ||A^{-1}|| \frac{||\vec{\delta b}||}{||\vec b||} \\
-    \text{rel error} &\le \text{condition }\# \times \text{rel size of change of }\vec{b}
+    \text{relative error} &\le \text{condition }\# \times \text{relative size of change of }\vec{b}
 \end{align*}
 
 \noindent \textbf{Ex: } Suppose you need to solve accurately $A\vec x = \vec b$ and someone gives you the approx $\tilde x$, is it accurate?
@@ -498,7 +498,7 @@ We can also write $A\vec x = \vec b$ as fixed point problem using \underline{spl
     \text{where the RHS is }&f(\vec x)
 \end{align*}
 
-\noindent Choices for M,N: 
+\noindent Choices for M, N: 
 
 Let $A=D-L-U$, where D is diagonal, L is lower triangular, U is upper triangular. We have
 \begin{enumerate}
@@ -543,7 +543,7 @@ sequence of approximations to converge to the exact solution. \\
     &\rightarrow \vec x = M^{-1} (N\vec x +\vec b) \\
     &\rightarrow \vec x^{(k+1)}=M^{-1}(N\vec x^{(k)}+\vec b) \\
     &\rightarrow \vec x^{(k+1)}=\mathsf{T} \vec x^{(k)}+\vec c \\
-    &\text{where } \mathsf{T} \text{ is the iteration mx, } M^{-1}N \\
+    &\text{where } \mathsf{T} \text{ is the iteration matrix, } M^{-1}N \\
     &\text{and } \vec c \text{ is } M^{-1} \vec b
 \end{align*}
 
