@@ -17,9 +17,9 @@ function [x] = jacobi(A, b, n, N)
                     sum = sum + A(row,col) * x(col);  
                 end
            end
-           x(row) = ( b(row) - sum ) / A(row,row)
+           x(row) = ( b(row) - sum ) / A(row,row);
         end
     end
 end
 
-x = jacobi(A,b,n,N);
+x = jacobi(A,b,n,N)
