@@ -13,7 +13,7 @@ function [x] = gaussseidel(A, b, n, N)
         for row = 1:n   
            sum1 = 0;     % reset first sum to zero for each row
            sum2 = 0;     % reset second sum to zero for each row
-           for col = 1:row-1   % need to change this    
+           for col = 1:row-1     
                 sum1 = sum1 + A(row,col) * x(col);  % how to iterate on x^(k+1)  
            end
            for col = row+1:n
