@@ -43,9 +43,9 @@ fl(x) &= \text{machine } \# \text{ representation of } x
 
 \noindent In an s-digit rounding machine,
     
-Abs error = $|x=fl(x)|$
+Absolute error = $|x=fl(x)|$
 
-Rel error = $\displaystyle \frac{|x-fl(x)|}{|x|}$
+Relative error = $\displaystyle \frac{|x-fl(x)|}{|x|}$
     $\le \frac{1}{2} \cdot 10^{1-5} = 5\cdot 10^{-5}$
 
 \subsection{Floating Point Arithmetic}
@@ -135,9 +135,9 @@ Adding these together, we get $2n-1$ FLOPS.
 \noindent For large $n$, 2n dominates,
 $=\mathcal{O}(n) \approx $ constant times $n$.
 
-ex: For $n$ vs $2n$, $2n$ will take twice as long.
+Ex: For $n$ vs $2n$, $2n$ will take twice as long.
 
-ex: For $\mathcal{O}(n^2)$, $n$ vs $2n$, $2n$ will take four times as long.
+Ex: For $\mathcal{O}(n^2)$, $n$ vs $2n$, $2n$ will take four times as long.
 
 \subsubsection{MATLAB Dot Product Function}
 A simple MATLAB function to compute the dot product of two vectors and return the number of FLOPS used.
@@ -424,8 +424,25 @@ However, there is error involved.
     A\vec{\delta x} &= \vec{\delta b} \\
     \vec{\delta x} &= A^{-1} \vec{\delta b}
 \end{align*}
-
 We can use a norm to measure the size of error vectors.
+\begin{align*}
+    ||\vec{\delta x}|| &= ||A^{-1} \vec{\delta b}|| \le ||A^{-1}||\ ||\vec{\delta b}|| \\
+    \frac{||\vec {\delta x}||}{||\vec x||} &\le || A ||\ ||A^{-1}|| \frac{||\vec{\delta b}||}{||\vec b||} \\
+    \text{relative error} &\le \text{condition }\# \times \text{relative size of change of }\vec{b}
+\end{align*}
+
+\noindent \textbf{Ex: } Suppose you need to solve accurately $A\vec x = \vec b$ and someone gives you the approx $\tilde x$, is it accurate?
+
+We can use the residual vector.
+\begin{align*}
+    \vec r &= \vec b - A\tilde x \\ 
+    A\tilde x &= \vec b - \vec r 
+\end{align*}
+
+If A is well-conditioned (small condition number), then  
+$\frac{||\vec r||}{||\vec b||}$ is small and $\frac{||\vec x - \tilde x||}{||\vec x||}$ small.
+
+If A is ill-conditioned (large condition number), then we don't know.
 
 \subsection{Row Swapping}
 \begin{align*}    
@@ -460,4 +477,87 @@ We can use a norm to measure the size of error vectors.
     \item Complete pivoting: row swaps and column swaps to move the largest element to pivot element.
 \end{enumerate}
 
+\section{Approximations}
+\subsection{Fixed Point Problems}
+
+Solve an equation $g(x)= h(x)$ \\
+Modify to $f(x)= x$ \\ 
+
+Now we have the fixed point problem, which we can try to solve using fixed point iterations. \\
+
+\noindent Start with guess $x^{(0)}$\\
+Then iterate $x^{(k+1)}=f(x^{(k)})$ \\
+The $x^{(k)}$ are approximations of the fixed point. \\ 
+
+We can also write $A\vec x = \vec b$ as fixed point problem using \underline{splitting}.
+\begin{align*}
+    A &= M-N \\
+    (M-N)\vec x &= \vec b \\
+    M\vec x &= N\vec x+ \vec b \\
+    \vec x &= M^{-1}(N\vec x +\vec b) \\
+    \text{where the RHS is }&f(\vec x)
+\end{align*}
+
+\noindent Choices for M, N: 
+
+Let $A=D-L-U$, where D is diagonal, L is lower triangular, U is upper triangular. We have
+\begin{enumerate}
+    \item Jacobi iterative method.
+    \item Gauss-Seidel iterative method.
+\end{enumerate}
+\subsubsection{Jacobi Iterative Method}
+\begin{align*}
+            M&=D \\ 
+            N&=L+U \\ 
+            D\vec x &= (L+U)\vec x +\vec b
+        \end{align*}
+\begin{align*}
+     x_i^{(k+1)}=\frac{b_i-\displaystyle\sum_{j=1}^{i-1}a_{ij}x^{(k)}_j-\sum_{j=i+1}^{n} a_{ij} x_j^{(k)}}{a_{ii}}
+\end{align*}
+\subsubsection{Gauss-Seidel Iterative Method}
+\begin{align*}
+            M&=D-L \\ 
+            N&= U \\
+            (D-L)\vec x &= U\vec x + \vec b
+        \end{align*}
+\begin{align*}
+    x_i^{(k+1)}=\frac{b_i-\displaystyle\sum_{j>i}^{}a_{ij}x^{(k)}_j-\sum_{j<i}^{} a_{ij} x_j^{(k+1)}}{a_{ii}}
+\end{align*}
+
+\subsection{Convergence}
+Jacobi \& Gauss-Seidel are iterative methods. They start with a guess, which improves their approximations at each step. We want $\vec x^{(k)}$ 
+sequence of approximations to converge to the exact solution. \\
+
+\noindent Practically, we need a stopping condition. Here are our choices:
+\begin{enumerate}
+    \item Stop after certain number of steps
+    \item Stop when residual is small, where the residual is $\vec r = \vec b - A\vec x$, $||\vec r|| \le$ tolerance.
+    \item Stop when the algorithm slows down, $||x^{(k+1)}-x^{(k)}||\le $ tolerance.
+\end{enumerate}
+\begin{align*}
+    A&=M-N \\ 
+    \text{Jacobi }\quad& M = D \\
+    \text{Gauss-Seidel }\quad& M = D - L \\
+    A\vec x = \vec b &\rightarrow (M-N)\vec x = \vec b \\
+    &\rightarrow M\vec x =N\vec x +\vec b \\
+    &\rightarrow \vec x = M^{-1} (N\vec x +\vec b) \\
+    &\rightarrow \vec x^{(k+1)}=M^{-1}(N\vec x^{(k)}+\vec b) \\
+    &\rightarrow \vec x^{(k+1)}=\mathsf{T} \vec x^{(k)}+\vec c \\
+    &\text{where } \mathsf{T} \text{ is the iteration matrix, } M^{-1}N \\
+    &\text{and } \vec c \text{ is } M^{-1} \vec b
+\end{align*}
+
+\noindent An iterative method using  $\vec x ^{(k+1)} = \mathsf{T} \vec x ^{(k)} +\vec c$\ \underline{converges} if $\varphi(\mathsf{T})<1$, 
+where $\varphi (\mathsf T)$ is the spectral radius of $\mathsf T$. \\
+
+\noindent \textbf{Def: } Spectral radius $\varphi(A)=\max \{ |\lambda_1|,|\lambda_2|,\ldots,|\lambda_n|\}$ \\
+
+\noindent \textit{Note:} For a general A, 
+\begin{align*}
+    \mathsf{T}_J = \begin{bmatrix}
+        0 & \frac{-a_{12}}{a_{11}} & \frac{-a_{13}}{a_{11}} \\
+        \frac{-a_{21}}{a_{22}} & 0 & \frac{-a_{23}}{a_{22}} \\
+        \frac{-a_{31}}{a_{33}} & \frac{-a_{32}}{a_{33}} & 0
+    \end{bmatrix}
+\end{align*}
 \end{document}
