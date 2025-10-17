@@ -3,7 +3,7 @@ A = [ 3  1  -1
       2 -2  5 ]; 
 b = [ 2 0 10 ];
 n = 3;
-N = 10;
+N = 1;
 
 function [x] = jacobi(A, b, n, N)
     for i = 1:n
@@ -17,9 +17,9 @@ function [x] = jacobi(A, b, n, N)
                     sum = sum + A(row,col) * x(col);  
                 end
            end
-           x(row) = ( b(row) - sum ) / A(row,row);
+           x(row) = ( b(row) - sum ) / A(row,row)
         end
     end
 end
 
-x = jacobi(A,b,n,N)
+x = jacobi(A,b,n,N);
