@@ -3,7 +3,7 @@ A = [ 3  1  -1
       2 -2  5 ]; 
 b = [ 2 0 10 ];
 n = 3;
-N = 1;
+N = 10;
 
 function [x] = jacobi(A, b, n, N)
     for i = 1:n
