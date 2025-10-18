@@ -3,7 +3,7 @@ A = [ 3  1  -1
       2 -2  5 ]; 
 b = [ 2 0 10 ];
 n = 3;
-N = 10;
+N = 32;
 
 function [x] = gaussseidel(A, b, n, N) 
     x = zeros(n,1);     % set initial guess to zero vector
@@ -15,9 +15,15 @@ function [x] = gaussseidel(A, b, n, N)
                     sum = sum + A(row,col) * x(col);  
                 end
            end
-           x(row) = ( b(row) - sum ) / A(row,row)
+           x(row) = ( b(row) - sum ) / A(row,row);
         end
+        r = b' - A * x;  % compute the residual vector
+        rnorm = 0;
+        sumnorm = 0;
+        for i = 1:n
+            sumnorm = sumnorm + r(i)^2;
+        end
+        rnorm = sqrt(sumnorm)
     end
 end
-
 x = gaussseidel(A,b,n,N)

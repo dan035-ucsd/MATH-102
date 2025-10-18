@@ -139,19 +139,6 @@ Ex: For $n$ vs $2n$, $2n$ will take twice as long.
 
 Ex: For $\mathcal{O}(n^2)$, $n$ vs $2n$, $2n$ will take four times as long.
 
-\subsubsection{MATLAB Dot Product Function}
-A simple MATLAB function to compute the dot product of two vectors and return the number of FLOPS used.
-\begin{verbatim}
-function [thedotproduct, theflops] = dotprod(x, y, n) 
-    thedotproduct = x(1)*y(1);
-    theflops = 1;
-    for i = 2:n    
-        thedotproduct = thedotproduct + x(i)*y(i); 
-        theflops = theflops + 2;
-    end
-end
-\end{verbatim}
-
 \subsection{Memory}
 \noindent Consider a matrix $A_{n\times n}$
 \[
@@ -326,21 +313,6 @@ with the negative of the coefficients of the steps of Gaussian elimination.
 
 In summary, getting $A^{-1}$ to solve $A\vec x = \vec b$ is slower. Also, $A^{-1}$ has memory storage issues for certain matrices.
 For example, a tridiagonal matrix, even though it has zeroes on most of its entries, $A^{-1}$ has no zeroes.
-
-\subsubsection{MATLAB Back Substitution Function}
-% Ax = b 
-% n = dimension
-\begin{verbatim} 
-function [x] = backsub(A, b, n)
-    for i = n:-1:1
-        x(i,1) = b(i);
-        for j = i+1:n
-            x(i) = x(i)-A(i,j)*x(j)
-        end
-        x(i,1) = x(i)/A(i,i)
-    end
-end
-\end{verbatim}
 
 \subsubsection{Gaussian Elimination FLOP count}
 \begin{center}
@@ -550,15 +522,91 @@ sequence of approximations to converge to the exact solution. \\
 \noindent An iterative method using  $\vec x ^{(k+1)} = \mathsf{T} \vec x ^{(k)} +\vec c$\ \underline{converges} if $\varphi(\mathsf{T})<1$, 
 where $\varphi (\mathsf T)$ is the spectral radius of $\mathsf T$. \\
 
-\noindent \textbf{Def: } Spectral radius $\varphi(A)=\max \{ |\lambda_1|,|\lambda_2|,\ldots,|\lambda_n|\}$ \\
-
-\noindent \textit{Note:} For a general A, 
+\noindent \textbf{Def: } Spectral radius $\varphi(A)=\max \{ |\lambda_1|,|\lambda_2|,\ldots,|\lambda_n|\}$ 
 \begin{align*}
-    \mathsf{T}_J = \begin{bmatrix}
-        0 & \frac{-a_{12}}{a_{11}} & \frac{-a_{13}}{a_{11}} \\
-        \frac{-a_{21}}{a_{22}} & 0 & \frac{-a_{23}}{a_{22}} \\
-        \frac{-a_{31}}{a_{33}} & \frac{-a_{32}}{a_{33}} & 0
-    \end{bmatrix}
-    
+    ||\vec e\ ^{k+1}|| &\approx \varphi(T) ||\vec e\ ^{k} \\
+    ||\vec e\ ^{k}|| &\approx \varphi(T)^k ||\vec e\ ^{(0)}|| \\
 \end{align*}
-\end{document}
+Let A =
+    $\begin{bmatrix}
+        a & b \\
+        b & c
+    \end{bmatrix}$ \\
+
+$T_J = 
+\begin{bmatrix}
+    0 & \frac{-b}{a} \\
+    \frac{-b}{c} & 0
+\end{bmatrix}$ \\
+
+$T_{GS} = 
+\begin{bmatrix}
+    0 & \frac{-b}{a} \\
+    0 & \frac{b^2}{ac}
+\end{bmatrix}$ \\
+
+$\det T_J= \begin{bmatrix}
+    -\lambda & \frac{-b}{a} \\
+    \frac{-b}{c} & -\lambda
+\end{bmatrix} = \lambda^2-\frac{b^2}{ac}$
+
+$\det T_{GS}= \begin{bmatrix}
+    -\lambda & \frac{-b}{a} \\
+    0 & \frac{b^2}{ac}-\lambda
+\end{bmatrix} = \lambda(\lambda-\frac{b^2}{ac})$
+
+$\lambda_J = \pm \sqrt{\frac{b^2}{ac}} = \varphi(T_J)$
+
+$\lambda_{GS} = 0 \text{ or } \frac{b^2}{ac},\ \varphi(T_{GS}) = \frac{b^2}{ac}$
+
+If they converge, then $\frac{b^2}{|ac|}<1$, and when this condition is true, 
+Gauss-Seidel's method has a lower spectral radius than Jacobi, since $x < \sqrt{x}$ for x $<1$.
+
+However, there are examples for general matrices where Jacobi's method converges and 
+Gauss-Seidel's method does not. So for general matrices, we do not know which one is faster. 
+In practice, however, Gauss-Seidel is almost always faster.
+
+\noindent Other iterative mathods:
+\begin{enumerate}
+    \item Richardsons
+    \item Successive Over-Relaxation (SOR) - Gauss-Seidel is in this class
+    \item Conjugate Gradient (not splitting)
+    \item GMRES
+\end{enumerate}
+\subsubsection{Richardsons' Iterative Method}
+\begin{align*}
+    A\vec x &= \vec b\\
+    \omega A\vec x &= \omega \vec b \\
+    \omega A &= I-I+\omega A \\
+    &= I-(I-\omega A) \text{ where I is M, and }(I-\omega A) \text{ is N} 
+\end{align*}
+\begin{align*}
+    x^{k+1}&=M^{-1}(Nx^k+\omega b) \\
+    &=Nx^k +\omega b \\
+    &=(I-\omega A)x^k+\omega b \\
+    x^{k+1}_i &= x_i^k - \omega\displaystyle \sum_{j=1}^{n}a_{ij}x_j^k + \omega b_i
+\end{align*}
+
+\section{Eigenvalues}
+\subsection{Finding Eigenvalues of a Matrix}
+Given $A\in \mathbb{R}^{n\times n}$, we want to find either an eigenvalue or all eigenvalues. \\
+
+\noindent Suppose we have $\lambda_1,\lambda_2,\ldots,\lambda_n$, where $|\lambda_1|\ge|\lambda_2|\ge\ldots\ge|\lambda_n|$ \\
+
+\noindent Consider the special case where $A$ has a linearly independent set of eigenvectors (which is true when $A$ is symmetric). \\ 
+
+\noindent Let our eigenvectors be $\vec x_1, \vec x_2, \ldots, \vec x_n$ with $\vec x_i$ corresponding to $\lambda_i$. \\ 
+
+\noindent So $A\vec x_i = \lambda_i \vec x_i$, with the iterative method, we can start with initial guess $\vec x\,^{(0)}$
+\begin{align*}
+    \vec x\,^{(0)} &= \alpha_1\vec x_1 + \alpha_2\vec x_2 + \ldots + \alpha_n\vec x_n \\
+    A\vec x\,^{(0)} &= A\alpha_1\vec x_1 + A\alpha_2\vec x_2 + \ldots + A\alpha_n\vec x_n \\
+    A\vec x\,^{(0)} &= \alpha_1A\vec x_1 + \alpha_2A\vec x_2 + \ldots + \alpha_nA\vec x_n \\
+    A\vec x\,^{(0)} &= \alpha_1\lambda_1\vec x_1 + \alpha_2\lambda_2\vec x_2 + \ldots + \alpha_n\lambda_n\vec x_n \\
+    A^k\vec x\,^{(0)} &= \alpha_1\lambda_1^k\vec x_1 + \alpha_2\lambda_2^k\vec x_2 + \ldots + \alpha_n\lambda_n^k\vec x_n \\
+    &\approx \alpha_1\lambda_1^k \vec x_1
+\end{align*}
+
+
+
+\end{document} 
