@@ -1,3 +1,6 @@
 Thm
 Nul
 eigenpair
+tridiagonal
+GMRES
+SOR
