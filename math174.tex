@@ -604,9 +604,36 @@ Given $A\in \mathbb{R}^{n\times n}$, we want to find either an eigenvalue or all
     A\vec x\,^{(0)} &= \alpha_1A\vec x_1 + \alpha_2A\vec x_2 + \ldots + \alpha_nA\vec x_n \\
     A\vec x\,^{(0)} &= \alpha_1\lambda_1\vec x_1 + \alpha_2\lambda_2\vec x_2 + \ldots + \alpha_n\lambda_n\vec x_n \\
     A^k\vec x\,^{(0)} &= \alpha_1\lambda_1^k\vec x_1 + \alpha_2\lambda_2^k\vec x_2 + \ldots + \alpha_n\lambda_n^k\vec x_n \\
-    &\approx \alpha_1\lambda_1^k \vec x_1
+    &\approx \alpha_1\lambda_1^k \vec x_1 \text{ which is our approximate eigenvector}
 \end{align*}
 
+The convergence speed of this approximation is related to $\left|\frac{\lambda_2}{\lambda_1}\right|^k$ (compared to $\varphi(\textsf{T}^k)$). \\
 
+\noindent There are two main issues with this approximation.
+\begin{enumerate}
+    \item $\lambda_1^k\alpha_1\vec x_1 \rightarrow \infty \text{ or } 0$ which is not our eigenvector.
+    \item $\lambda_1^k\alpha_1\vec x_1 \rightarrow 0$ if $\alpha_1 = 0$ 
+\end{enumerate}
+
+\subsection{Power Method}
+\begin{enumerate}
+    \item Start with initial guess $\vec x^{(0)}$.
+    \item Find component largest in magnitude.
+    \item Replace $\vec{x}^{(0)}$ by $\vec{x}^{(0)}$ divided by largest component.
+    \item Perform $A\vec x^{(0)}$ and call result $\vec x ^{(1)}$
+    \item Normalize $\vec x^{(1)}$, this is our approximate eigenvector.
+    \item Repeat from step 4.
+\end{enumerate}
+
+\noindent But what about other eigenvalues?
+
+\subsubsection{Inverse Power Method}
+Choose a $q$ which will be our initial guess for eigenvalue.
+
+$A^{-1}$ has eigenvalues $\frac{1}{\lambda_1},\frac{1}{\lambda_2},\ldots,\frac{1}{\lambda_n}$ 
+
+with $|\frac{1}{\lambda_n}|\ge|\frac{1}{\lambda_{n-1}}|\ge\ldots\ge|\frac{1}{\lambda_1}|$ 
+
+\noindent Power method on $A^{-1}$ gives $\frac{1}{\lambda_n}$
 
 \end{document} 
