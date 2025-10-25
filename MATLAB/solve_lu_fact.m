@@ -19,11 +19,3 @@ function [x] = solvelufact(n, lu, b)
         x(i) = (y(i) - sum) / lu(i, i);
     end
 end
-
-A = [4 -1 -2 -4 
-     -1/4 7/4 -1/2 0
-     -1/2 -2/7 -1/7 -3
-     0 0 -14 -42]
-b = [1; 0; 1; 0];
-
-solvelufact(4, A, b)
