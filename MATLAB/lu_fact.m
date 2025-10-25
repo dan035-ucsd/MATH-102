@@ -1,4 +1,4 @@
-function [LU] = luFactorization(n, A)
+function [LU] = lu_fact(n, A)
     LU = A;
     for k = 1:n-1
         for i = k+1:n
