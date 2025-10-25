@@ -1,14 +1,14 @@
-function [eigvec] = inversepowermethod(n, A, q, N, z)
+function [eigvec] = inversepowermethod(dim, A, q, N, z)
     for iter = 1:N
-        for row = 1:n
-           for col = 1:n
+        for row = 1:dim
+           for col = 1:dim
                     if row == col
                     A(row, col) = A(row, col) - q;    % calculate A - qI
                 end
             end
         end
-        lu = lu_fact(n, A);              % calculate LU factorization of A - qI
-        z = solve_lu_fact(n, lu, z);      % solve (A - qI)x = z
+        lu = lu_fact(dim, A);              % calculate LU factorization of A - qI
+        z = solve_lu_fact(dim, lu, z);      % solve (A - qI)x = z
     end
     eigvec = z;
 end
