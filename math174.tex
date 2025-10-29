@@ -12,9 +12,11 @@
 
 \section{Error}
 \subsection{Approximation}
-\noindent Let x be an exact number. \\
-Let y be an approximation of x. \\ \\
-\textbf{Def:} The absolute error is $|x-y|$. \\
+\noindent Let x be an exact number.
+
+\noindent Let y be an approximation of x.
+
+\noindent \textbf{Def:} The absolute error is $|x-y|$. \\
 \textbf{Def:} The relative error is $\displaystyle \frac{|x-y|}{|x|}$, 
 
 
@@ -618,22 +620,113 @@ The convergence speed of this approximation is related to $\left|\frac{\lambda_2
 \subsection{Power Method}
 \begin{enumerate}
     \item Start with initial guess $\vec x^{(0)}$.
-    \item Find component largest in magnitude.
-    \item Replace $\vec{x}^{(0)}$ by $\vec{x}^{(0)}$ divided by largest component.
+    \item Find component largest in magnitude and replace $\vec{x}^{(0)}$ by $\vec{x}^{(0)}$ 
+            divided by largest component. This is called normalization.
     \item Perform $A\vec x^{(0)}$ and call result $\vec x ^{(1)}$
     \item Normalize $\vec x^{(1)}$, this is our approximate eigenvector.
-    \item Repeat from step 4.
+    \item Repeat from step 3.
 \end{enumerate}
 
 \noindent But what about other eigenvalues?
 
 \subsubsection{Inverse Power Method}
-Choose a $q$ which will be our initial guess for eigenvalue.
 
-$A^{-1}$ has eigenvalues $\frac{1}{\lambda_1},\frac{1}{\lambda_2},\ldots,\frac{1}{\lambda_n}$ 
+\begin{enumerate}
+    \item Start with initial guess $\vec{x}^{(0)}$ and normalize it.
+    \item Choose a $q$ which will be our initial guess for eigenvalue.
+    \item Find the LU factorization of $A-qI$, where $LU=A-qI$
+    \item For each step, $LU\vec{y}^{(k+1)}$ = $\vec x^{(k)}$
+    \item Let $U\vec y = \vec z$ and solve $L\vec z = \vec x$
+    \item Solve $U\vec y = \vec z$ for $\vec y$
+    \item Normalize $\vec{y}^{(k+1)}$ to get $\vec x^{(k+1)}$
+\end{enumerate}
 
+\noindent $A^{-1}$ has eigenvalues $\frac{1}{\lambda_1},\frac{1}{\lambda_2},\ldots,\frac{1}{\lambda_n}$ 
 with $|\frac{1}{\lambda_n}|\ge|\frac{1}{\lambda_{n-1}}|\ge\ldots\ge|\frac{1}{\lambda_1}|$ 
 
 \noindent Power method on $A^{-1}$ gives $\frac{1}{\lambda_n}$
+
+\section{Root-finding Problems}
+
+The root finding problem is defined as $f(x)=0$. \\
+
+\noindent \textbf{Intermediate Value Theorem (IVT)}
+
+If $f(x)$ is continuous in $[a,b]$ and if you choose any $M$ between $f(a)$ and $f(b)$. Then $\exists f(c), c\in [a,b]\ s.t.\ f(c)=M$ \\
+
+\noindent Now consider $M=0$
+
+If $f$ is continuous in $[a,b]$ and $f(a),f(b)$ have different signs.
+Then $\exists\ c \in [a,b]\ s.t.\ f(c)=0$, where $c$ is a root. \\
+
+If $a,b$ are close to each other $s.t.\ |a-b|\le \epsilon$ and $f(a),f(b)$ have different signs.
+Then for any $c \in [a,b],\ |c-r|\le |a-b|\le \epsilon$
+
+\subsection{Bisection Method}
+If we have a sufficiently small interval with the root inside, then any point within the interval is a good approximation of the root. 
+However, if we chose the midpoint of the interval, we can reduce the error bound by half, $|c-r|\le \frac{b-a}{2}$. 
+The bisection method relies on this to reduce the interval and have our guesses converge on the root itself.
+
+\begin{enumerate}
+    \item Suppose initial interval $[a_0,b_0]$ with $f(a),f(b)$ having different signs.
+    \item Find the midpoint $c_0=\frac{b-a}{2}$, this is our zeroth approximation.
+    \item Find $f(c_0)$ and check its sign.
+    \item Choose $[a_0,c_0]$ or $[c_0,b_0]$ depending on which has different signs.
+    \item Rename the new interval $[a_1, b_1]$ and find $c_1$.
+\end{enumerate}
+
+\noindent Eventually, $c_k \rightarrow r$ and $|c_k-r|\rightarrow 0$, because 
+
+\begin{align*}
+    |c_k-r|\le \frac{b_k-a_k}{2}=\frac 12 \frac{b_{k-1}-a_{k-1}}{2}=
+    \frac{b_0-a_0}{2^{k+1}} \rightarrow 0
+\end{align*} 
+
+\textit{Note: different signs can be ambiguous, mathematically we can use } $f(a)f(b)\le 0\implies $ \textit{different signs.}
+
+\newpage
+\boxed{ex} How many iterations until we get error $\le 10^{-6}$ with initial bounds $[2,3]$?
+\begin{align*}
+    |c_k-r| &\le \frac{b_0-a_0}{2^{k+1}} \\
+    &\le \frac{1}{2^{k+1}} \\
+    \Rightarrow 2^{k+1}&\ge 10^6 \\
+    k+1 &\ge \log_2 10^6 \\
+    k+1 &\ge 6\log_2 10 \\
+    k &\ge 6\log_2 10 - 1 \approx 18.932 \Rightarrow c_{19}
+\end{align*}
+
+\subsection{Newton's Method / Tangent Line Approximation}
+This method uses the root of the tangent line at an initial guess to approximate the root of the function.
+\begin{align*}
+    y &= f'(p_0)(x-p_0)+f(p_0) \text{ where } p_0 \text{ is initial guess} \\
+    0 &= f'(p_0)(x-p_0)+f(p_0) \\
+    x &= p_0 - \frac{f(p_0)}{f'(p_0)} \\
+    \text {Set } p_1 &= p_0 - \frac{f(p_0)}{f'(p_0)} \\
+    p_{k+1} &= p_k - \frac{f(p_k)}{f'(p_k)}
+\end{align*}
+
+\noindent There are several cases where Newton's method fails:
+\begin{enumerate}
+    \item Initial guess has a tangent slope of 0.
+    \item The function has a vertical slope at the root. This causes certain guesses to bounce around the root rather than converge.
+\end{enumerate}
+
+\subsubsection{Error \& Convergence for Newton's Method}
+
+Using the Taylor Series between $r$ and $p_k$:
+\begin{align*}
+    e_{k+1} = \frac{f''(e_k)}{2f'(p_k)} e_k^2 
+\end{align*}
+
+\noindent \textbf{Def:} If $e_k \rightarrow 0$ and
+\begin{align*}
+    \lim_{k \to \infty} \frac{|e_{k+1}|}{|e_k|} \rightarrow c &\qquad \text{This is linear convergence.} \\
+    \lim_{k \to \infty} \frac{|e_{k+1}|}{|e_k|^2} \rightarrow c &\qquad \text{This is quadratic convergence.} 
+\end{align*}
+
+\noindent\textbf{Thm}
+
+If $f$ is twice continuously differentiable around root $r$ and $f'(r)\ne 0$ and $p_0$ sufficiently close to $r$.
+Then Newton's method converges for initial guess $p_0$ with quadratic convergence.
 
 \end{document} 

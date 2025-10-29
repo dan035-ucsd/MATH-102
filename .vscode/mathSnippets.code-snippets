@@ -54,6 +54,15 @@
 		],
 		"description": "Insert a 3x3 matrix"
 	},
+
+	"Norm": {
+		"scope": "latex",
+		"prefix": "norm",
+		"body": [
+			"\\left\\lVert ${1:vector} \\right\\rVert$0"
+		],
+		"description": "Insert norm notation"
+	},
 	
 	// Place your MATH workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
 	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
