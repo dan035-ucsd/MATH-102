@@ -87,7 +87,17 @@ Let A $\in M_n$ and let $\lambda \in \mathbb{C}$. Then the following statements 
 \end{enumerate}
 
 \section{Annihilator}
-\subsection{Some Roots of an Annihilator are Eigenvalues}
+\subsection{Theorem 9.3.3}
+
+Let $A\in \mathbb{M}_n$ and let $p$ be a nonconstant polynomial that annihilates $A$. 
+Every eigenvalue of $A$ is a root of $p(z)=0$. \\ 
+
+\noindent \textbf{Proof:} 
+
+Let $(\lambda,\mathbf{x})$ be an eigenpair of $A$. Then $\mathbf{0} = 0_n\mathbf{x}=p(A)\mathbf{x} = p(\lambda)\mathbf{x}$, so $p(\lambda)\mathbf{x} = 0$
+
+
+\subsubsection{Is The Converse True?}
 While all the eigenvalues of a matrix are roots of each of its annihilators,
 the roots of an annihilator are not necessarily eigenvalues. \\
 
@@ -201,6 +211,24 @@ a_{ij}
 \end{align*}
 
 Let $k \in \{ 1,2,...,n \}$ be any index such that $|x_k|=\max_{1\le i \le n} |x_i|$. Since $\mathbf{x} \ne \mathbf{0}$, 
-it follows that 
+it follows that $|x_k|>0$ and $\frac{|x_j|}{x_k}\le 1$ for all $i = 1,2,...,n$. Set $i = k$ and divide by $x_k$ to obtain
+\begin{align*}
+    \lambda - a_{kk} = \displaystyle\sum_{j\ne k} a_{kj} \frac{x_j}{x_k}
+\end{align*}
+
+By the triangle inequality,
+\begin{align*}
+    |\lambda-a_{kk}|=\left| \displaystyle\sum_{j\ne k}a_{kj}\frac{x_j}{x_k} \right| \le \sum_{j\ne k} |a_{kj}| \left| \frac{x_j}{x_k} \right| \le \sum_{j\ne k} |a_{kj}| = R'_k(A)
+\end{align*}
+
+Therefore, $\lambda \in \mathcal{G}_k(A)\subseteq \mathcal{G}(A)$
+
+\subsection{Corollary 9.4.15}
+Let $A\in \mathbb{M}_n$. If $A$ is strictly diagonally dominant, then it is invertible. \\
+
+\noindent \textbf{Proof: }
+
+The strict diagonal dominance of $A$ ensures that $0\notin\mathcal{G}_k(A)$ for each $k=1,2,...,n$. 
+The Gershgorin Disk Theorem then tells us that 0 is not an eigenvalue of $A$ and therefore $A$ is invertible.
 
 \end{document}
