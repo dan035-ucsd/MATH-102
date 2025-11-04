@@ -41,8 +41,8 @@ true or all false.
     \item Row A = $\mathbb{R}^n$
 \end{enumerate}
 
-\subsection{Exercise}
-\textbf{Thm 9.1.16} Let A $\in M_n$ and let $\lambda \in \mathbb{C}$. Then the following statements are equivalent:
+\subsection{Thm 9.1.16}
+Let A $\in M_n$ and let $\lambda \in \mathbb{C}$. Then the following statements are equivalent:
 \begin{enumerate}[(a)]
     \item $\lambda$ is an eigenvalue of A.
     \item A\textbf{x} = $\lambda$\textbf{x} for some nonzero \textbf{x} $\in \mathbb{C}^n$.
@@ -119,11 +119,25 @@ In 2.1, we showed that at least one root of $p$ is an eigenvalue of $A$. \\
 Hence, each matrix $A \in \mathbb{M}_n$ has an eigenvalue. 
 
 \section{Eigenvalues}
-\subsection{Commuting Matrices Share An Eigenvector}
-\subsubsection{2-Commute}
-\textbf{Thm:} Let $A_1, A_2 \in \mathbb{M}_n$. Let $\lambda$ be an eigenvalue of $A_1$. 
+\subsection{Lemma 9.3.2}
+Let $(\lambda,x)$ be an eigenpair of $A\in \mathbb{M}_n$ and let $p$ be a polynomial.
+Then $p(A)x=p(\lambda)x$, that is, $(p(\lambda),x)$ is an eigenpair of $p(A)$. \\
 
-Suppose $A_1A_2=A_2A_1$, then $A_1,A_2$ share an eigenvector in $\mathcal{E}_\lambda (A_1)$ \\
+\noindent \textbf{Proof:} 
+
+Recall $A^k\textbf x = \lambda^k \textbf x$.
+\begin{align*}
+    p(A)\textbf x &= (c_k A^k + c_{k-1} A^{k-1} + ... + c_1A + c_0I)\textbf x \\
+    &= c_k A^k \textbf x + c_{k-1} A^{k-1} \textbf x+ ... + c_1A \textbf x + c_0I\textbf x \\
+    &= c_k \lambda^k \textbf x + c_{k-1} \lambda^{k-1} \textbf x+ ... + c_1\lambda \textbf x + c_0\textbf x \\
+    &= (c_k \lambda^k + c_{k-1} \lambda^{k-1} + ... + c_1\lambda + c_0)\textbf x \\
+    &= p(\lambda)\textbf x 
+\end{align*}
+
+\subsection{}
+
+\subsection{2-Commute}
+Let $A_1, A_2 \in \mathbb{M}_n$. Let $\lambda$ be an eigenvalue of $A_1$. Suppose $A_1A_2=A_2A_1$, then $A_1,A_2$ share an eigenvector in $\mathcal{E}_\lambda (A_1)$ \\
 
 \noindent \textbf{Computation:} 
 \begin{enumerate}
