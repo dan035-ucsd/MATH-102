@@ -729,4 +729,53 @@ Using the Taylor Series between $r$ and $p_k$:
 If $f$ is twice continuously differentiable around root $r$ and $f'(r)\ne 0$ and $p_0$ sufficiently close to $r$.
 Then Newton's method converges for initial guess $p_0$ with quadratic convergence.
 
+\section{Interpolation}
+\subsection{Lagrange Interpolating Polynomial}
+
+Given the data points $(x_0,y_0), (x_1,y_1), ..., (x_n,y_n)$ where $x_k$ is a node and $(x_k,y_k)$ is a data point. 
+How do we find a polynomial that interpolates them? \\
+
+\noindent Since there are infinitely many polynomials that can fit a set of data points, we want to choose the "simplest," 
+or the lowest degree polynomial possible. Specifically, since there are $n+1$ data points, we want a polynomial of degree $\le n$.
+
+\subsubsection{Existence}
+
+Idea: find a degree $\le n$ polynomial that satisfies
+\begin{align*}
+    \begin{matrix}
+        \text{node}  & \bigl{|} & x_0  & ... &   x_k & ... &  x_n \\
+        \text{value} & \bigl{|} & 0    & ... &   1   & ... & 0     
+    \end{matrix} \\
+    \text{We will call this polynomial } L_{n,k}
+\end{align*}
+\begin{align*}
+    \text{Then we have } p(x) &= y_0 L_{n,0}(x) + y_1 L_{n,1}(x) + ... + y_n L_{n,n}(x) \\
+    p(x_1) &= 0 + y_1 + 0 + ... + 0 \\ 
+    p(x_k) &= y_k \\ \\ 
+    L_{n,k}(x) &= \displaystyle\prod_{j=0,j\ne k}^{n}\frac{(x-x_j)}{(x_k-x_j)}
+\end{align*}
+
+\boxed{\text{ex}}\text{ Find an interpolating polynomial for the following data points.} \\
+
+    $\begin{matrix}
+        x & \bigl{|} & -1 & 2 & 1 \\
+        y & \bigl{|} & 3  & 1 & -4    
+    \end{matrix}$\\
+
+    Since there are $n+1=3$ data points, we want a polynomial of degree $n=2$ or less. 
+    So a parabola, or preferably, a line.
+    \begin{align*}
+        \text{Recall that } p(x) &= y_0 L_{n,0}(x) + y_1 L_{n,1}(x) + ... + y_n L_{n,n}(x) \\
+        &= 3 \frac{(x-2)(x-1)}{(-1-2)(-1-1)} + 1 \frac{(x+1)(x-1)}{(2+1)(2-1)} - 4 \frac{(x+1)(x-2)}{(1+1)(1-2)}
+    \end{align*}
+
+    \noindent Here this $p(x)$ is said to be in Lagrange form.
+
+\subsubsection{Uniqueness}
+\textbf{Fundamental Theorem of Algebra (FTA)}
+
+A non-constant polynomial of degree $n$ has $n$ roots in the complex plane.
+Then if $p(x)$ is a polynomial of degree $\le n$ and suppose we find $n+1$ distinct roots then $p$ must be a constant.
+
+
 \end{document} 
