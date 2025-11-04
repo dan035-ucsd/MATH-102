@@ -134,8 +134,6 @@ Recall $A^k\textbf x = \lambda^k \textbf x$.
     &= p(\lambda)\textbf x 
 \end{align*}
 
-\subsection{}
-
 \subsection{2-Commute}
 Let $A_1, A_2 \in \mathbb{M}_n$. Let $\lambda$ be an eigenvalue of $A_1$. Suppose $A_1A_2=A_2A_1$, then $A_1,A_2$ share an eigenvector in $\mathcal{E}_\lambda (A_1)$ \\
 
@@ -180,5 +178,29 @@ Let $A_1, A_2 \in \mathbb{M}_n$. Let $\lambda$ be an eigenvalue of $A_1$. Suppos
     A_2v &= \mu v \\
     \therefore v=Xu \in \mathcal{E}_\lambda(A_1) &\text{ is an eigenvector of } A_2
 \end{align*}
+
+\newpage
+\subsection{Gershgorin Disk Theorem}
+If $n \ge 2$ and $A=\begin{bmatrix}
+    a_{ij}
+\end{bmatrix} \in \mathbb{M}_n$ then
+\begin{align*}
+    \text{spec } A \subseteq \mathcal{G}(A)= \bigcup^n_{k=1} \mathcal{G}_k(A).
+\end{align*}
+
+\noindent\textbf{Proof:}
+
+Let $(\lambda,\mathbf{x})$ be an eigenpair of $A = \begin{bmatrix}
+a_{ij} 
+\end{bmatrix} \in \mathbb{M}_n$ and let $\mathbf{x}=\begin{bmatrix}
+    x_i
+\end{bmatrix}$. Since $\lambda \mathbf{x}=A\mathbf{x}$, we have
+\begin{align*}
+    \lambda x_i = \displaystyle\sum^n_{j=1} a_{ij}x_j &= a_{ii}x_i+\displaystyle\sum_{j\ne i} a_{ij}x_j \\
+    (\lambda - a_{ii})x_i &= \displaystyle\sum_{j\ne i} a_{ij}x_j 
+\end{align*}
+
+Let $k \in \{ 1,2,...,n \}$ be any index such that $|x_k|=\max_{1\le i \le n} |x_i|$. Since $\mathbf{x} \ne \mathbf{0}$, 
+it follows that 
 
 \end{document}
