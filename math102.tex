@@ -86,7 +86,7 @@ Let A $\in M_n$ and let $\lambda \in \mathbb{C}$. Then the following statements 
     Since (a) is equivalent to (e), the same is true for $A^\top$.
 \end{enumerate}
 
-\section{Annihilator}
+\section{Annihilators}
 \subsection{Theorem 9.3.3}
 
 Let $A\in \mathbb{M}_n$ and let $p$ be a nonconstant polynomial that annihilates $A$. 
@@ -230,5 +230,23 @@ Let $A\in \mathbb{M}_n$. If $A$ is strictly diagonally dominant, then it is inve
 
 The strict diagonal dominance of $A$ ensures that $0\notin\mathcal{G}_k(A)$ for each $k=1,2,...,n$. 
 The Gershgorin Disk Theorem then tells us that 0 is not an eigenvalue of $A$ and therefore $A$ is invertible.
+
+\section{Similar Matrices}
+\subsection{Theorem 9.6.3}
+If two real matrices are similar, then they are similar via a real matrix. \\
+
+\noindent \textbf{Proof:}
+
+Let $A,B \in \mathbb{M}_n(\mathbb{R})$. Let $S\in \mathbb{M}_n$ be invertible such that $A=SBS^{-1}$.
+For any $\theta \in (-\pi, \pi ],$ let $S_\theta = e^{i\theta}S$ and compute $A = (e^{i\theta}S)B(e^{-i\theta}S^{-1})=S_\theta B S_\theta ^{-1}$.
+Then $AS_\theta = S_\theta B$. The complex conjugate of this identity is $A\bar{S_\theta}=\bar{S_\theta}B$ since $A$ and $B$ are real.
+Let $R_\theta=S_\theta+\bar{S_\theta} = 2\text{ Re } S_\theta $ which is real for all $\theta\in (-\pi,\pi]$. 
+Then $AR_\theta = A(S_\theta + \bar{S_\theta})=(S_\theta + \bar{S_\theta})B=R_\theta B$. The computation 
+\begin{align*}
+    R_\theta = S_\theta(I+S_\theta^{-1}\bar{S_\theta}) = S_\theta (I+e^{-2i\theta}S^{-1}\bar S)= e^{-2i\theta}S_\theta(e^{2i\theta}I+S^{-1}\bar S)
+\end{align*}
+
+\noindent shows that $R_\theta$ is invertible if $-e^{-2i\theta}$ is not an eigenvalue of $S^{-1}\bar S$. Since $S^{-1}\bar S$ has at most $n$ distinct eigenvalues, 
+there is a $\phi$ such that $-e^{-2i\phi}$ is not an eigenvalue of $S^{-1}\bar S$. Then $AR_\phi = R_\phi B$, where $R_\phi$ is real and invertible, and $A=R_\phi BR_\phi^{-1}$.
 
 \end{document}
