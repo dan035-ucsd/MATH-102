@@ -729,6 +729,32 @@ Using the Taylor Series between $r$ and $p_k$:
 If $f$ is twice continuously differentiable around root $r$ and $f'(r)\ne 0$ and $p_0$ sufficiently close to $r$.
 Then Newton's method converges for initial guess $p_0$ with quadratic convergence.
 
+\subsection{Secant Method}
+
+\begin{align*}
+    p_{n+1}=p_n - \frac{f(p_n)(p_n-p_{n-1})}{f(p_n)-f(p_{n-1})}
+\end{align*}
+
+In terms of function evaluations, the secant method requires 1 function evaluation per iteration,
+similar to Bisection method and dissimilar to Newton's method's 2 function evaluation per iteration. 
+Its drawbacks are that it requires 2 initial guesses $p_0$ and $p_1$.
+
+\subsubsection{Error}
+\begin{align*}
+    e_{n+1} \approx Ke_n^{\frac{1+\sqrt{5}}{2}} \\ 
+    \approx Ke_n^{1.618}  \\
+\end{align*}
+\noindent Compare this to $e_n^2$ of Newton's method. This is called super-linear convergence.
+
+\subsubsection{Speed}
+For 2 function evaluations,
+\begin{align*}
+    \text{Bisection} \quad& e_{n+2} \approx \frac 14 e_n \\
+    \text{Newton}    \quad& e_{n+1} \approx C e_n^2 \\
+    \text{Secant}    \quad& e_{n+2} \approx K e_n^{2.618}
+\end{align*}
+
+
 \section{Interpolation}
 \subsection{Lagrange Interpolating Polynomial}
 
@@ -755,7 +781,7 @@ Idea: find a degree $\le n$ polynomial that satisfies
     L_{n,k}(x) &= \displaystyle\prod_{j=0,j\ne k}^{n}\frac{(x-x_j)}{(x_k-x_j)}
 \end{align*}
 
-\boxed{\text{ex}}\text{ Find an interpolating polynomial for the following data points.} \\
+\noindent \boxed{\text{ex}}\text{ Find an interpolating polynomial for the following data points.} \\
 
     $\begin{matrix}
         x & \bigl{|} & -1 & 2 & 1 \\
@@ -775,7 +801,39 @@ Idea: find a degree $\le n$ polynomial that satisfies
 \textbf{Fundamental Theorem of Algebra (FTA)}
 
 A non-constant polynomial of degree $n$ has $n$ roots in the complex plane.
-Then if $p(x)$ is a polynomial of degree $\le n$ and suppose we find $n+1$ distinct roots then $p$ must be a constant.
+Then if $p(x)$ is a polynomial of degree $\le n$ and suppose we find $n+1$ distinct roots then $p$ must be a constant. \\
+
+Let $p,q$ be polynomials of deg $\le n$ that interpolate the data points with distinct nodes $x_0,x_1,...,x_n$. 
+Look at their difference $r= p-q$, which is a polynomial of deg $\le n$.
+\begin{align*}
+    r(x_i) = p(x_i) - q(x_i) = y_i - y_i = 0
+\end{align*}
+
+at each node $x_i$ for $0\le i \le n$. Therefore $r$ has $n+1$ roots.
+Yet its degree is $\le n$. Therefore, $r$ is a constant polynomial. 
+Since we evaluated it at $x_i$ which resulted in zero, it must be zero, guaranteeing uniqueness.
+
+
+
+\subsubsection{Error}
+
+\noindent \textbf{Thm}
+
+Let $(x_0, f(x_0)),(x_1, f(x_1)),...,(x_n,f(x_n))$ be $n+1$ data points with distinct nodes.
+Suppose that $f \in \mathbb{C}^{n+1}\ [a,b]$ is $n+1$ times differentiable where $x_i \in [a,b]\ \forall\ i$.
+Let $p$ be the interpolating polynomial.
+Then 
+\begin{align*}
+    f(x)=p(x)+ \frac{f^{(n+1)}(\xi_x)}{(n+1)!} (x-x_0)(x-x_1)...(x-x_n)
+\end{align*}
+
+where $\xi_x \in [a,b]$ or 
+$\left(\displaystyle \min_{0\le i\le n}x_i, \max_{0\le i\le n}x_i \right)$. \\
+
+When our chosen $x$ is far from the nodes, then $|x-x_i|$ becomes large and our error also becomes large.
+The same happens when derivatives are large. To counter this effect and have small error, we can find $\max |f^{(n+1)}(x)|$
+and vary $x,x_0,x_1,...,x_n$ to counter it with $\prod_{j=0}^n(x-x_j)$. We can also use less data points than available, creating piecewise linear or quadratic functions.
+
 
 
 \end{document} 
