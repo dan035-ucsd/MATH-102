@@ -21,7 +21,7 @@ function [val] = lagrangeinterp2(x, y, n, z)
     for i = 1:n
         for j = 1:n
             if j ~= i
-                prod = prod * ((z-x(j))/(x(i)-x(j)));
+                prod = prod * ((z - x(j)) / (x(i) - x(j)));
             end
         end
         val = val + y(i) * prod;
