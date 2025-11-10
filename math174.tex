@@ -813,8 +813,6 @@ at each node $x_i$ for $0\le i \le n$. Therefore $r$ has $n+1$ roots.
 Yet its degree is $\le n$. Therefore, $r$ is a constant polynomial. 
 Since we evaluated it at $x_i$ which resulted in zero, it must be zero, guaranteeing uniqueness.
 
-
-
 \subsubsection{Error}
 
 \noindent \textbf{Thm}
@@ -834,6 +832,68 @@ When our chosen $x$ is far from the nodes, then $|x-x_i|$ becomes large and our 
 The same happens when derivatives are large. To counter this effect and have small error, we can find $\max |f^{(n+1)}(x)|$
 and vary $x,x_0,x_1,...,x_n$ to counter it with $\prod_{j=0}^n(x-x_j)$. We can also use less data points than available, creating piecewise linear or quadratic functions.
 
+\subsection{Piecewise Interpolating Polynomials}
+\subsubsection{Piecewise Linear Interpolating Polynomials}
+\boxed{\text{ex}} Suppose the following data points. What is the value of the piecewise linear polynomial at $x=0.32$.
+\begin{align*}
+    \begin{tabular}{c |c| c| c| c| c| c}
+        x & 0 & 0.1 & 0.2 & 0.3 & 0.4 & 0.5 \\ \hline
+        y & 2.1 & 2.4 & 2.7 & 3 & 1.7 & 1.2
+    \end{tabular}
+\end{align*}
 
+\begin{enumerate}
+    \item Find correct interval $(0.3,3),(0.4,1.7)$
+    \item Find interpolating polynomial 
+    \begin{align*}
+        p(x) &= 3 \left( \frac{x-0.4}{0.3-0.4}\right) +1.7\left(\frac{x-0.3}{.4-.3} \right) \\
+        \text{or } p(x) &= \frac{1.7-3}{0.4-0.3}(x-0.3)+3
+    \end{align*}
+    \item Evaluate interpolating polynomial
+    \begin{align*}
+        p(0.32) &= \frac{3(0.08)}{0.1} + \frac{1.7(0.02)}{0.1} \\
+                &= 2.4 + 0.34 \\
+                &= 2.74
+    \end{align*} 
+\end{enumerate}
+
+
+\subsubsection{Smoothness}
+Piecewise linear interpolating polynomials are very jagged, we wish to find something smoother. 
+This comes from degrees of freedom, or unknowns, which is the coefficients of the pieces of the polynomials. \\
+
+\noindent Consider a polynomial with degree $\le k$. There are $(k+1)n$ total number of subintervals, 
+and for piecewise quadratics, $2n+(n-1)$ conditions, where $2n$ is the condition for interpolation and continuity, 
+and $n-1$ is the condition for a continuous $1^{st}$ derivative. \\
+
+\noindent In general, for existence of solutions, we want the number of unknowns $\ge$ the number of equations.
+and so we want $(k+1)n\ge 2n+(n-1) = 3n-1$. In this case we choose $k=2$ which means piecewise quadratics, giving $3n$ unknowns on $3n-1$ equations.
+In general, we can create a boundary equation which is a condition at $x_0$ or $x_n$ to get $3n$ equations. \\
+
+\noindent We can impose an additional condition so that our interpolating polynomial becomes even smoother. 
+This condition is that second derivatives must match on both sides of junction points.
+\begin{align*}
+    p''_i(x_1) = p''_{i+1}(x_1) \text{ for } i=0,1,2,...,n-2 \\ 
+    \text{conditions: } 2n + (n-1) +(n-1) = 4n-2
+\end{align*}
+So we have $(k+1)n \ge 4n-2$. We can set $k = 3$ and create 2 more conditions to match the number of unknowns.
+Since $k=3$ this gives us a piecewise cubic function for a cubic spline. \\
+
+\noindent Here are the possible conditions we can create:
+\begin{enumerate}
+    \item Clamped boundary conditions. This can be thought of as prescribed angles for the endpoints of the spline.
+    \begin{align*}
+        p'_0(x_0) = \text{given} \\
+        p'_{n-1}(x_n) = \text{given}
+    \end{align*}
+    \item Free/natural boundary conditions. This can be thought of as an infinite rod held at the end points, bent to pass through all data points.
+    \begin{align*}
+        p''_0(x_0) = 0 \\
+        p''_{n-1}(x_n) = 0
+    \end{align*}
+    \item Not-a-knot boundary conditions.
+\end{enumerate}
+
+\section{Polynomial Approximation}
 
 \end{document} 
