@@ -894,6 +894,37 @@ Since $k=3$ this gives us a piecewise cubic function for a cubic spline. \\
     \item Not-a-knot boundary conditions.
 \end{enumerate}
 
-\section{Polynomial Approximation}
+\subsection{Least-squares Polynomial}
+\begin{align*}
+    E(a,b) = \displaystyle\sum^m_{i=1}(y_i-(ax_i+b))^2
+\end{align*}
+We want an $a,b$ that minimizes this error. We can do this by finding the critical points.
+We want $\frac{\partial E}{\partial a} = 0$ and $\frac{\partial E}{\partial b} = 0$. \\ 
+
+This results in the following matrix form of the normal equations
+\begin{align*}
+    \begin{bmatrix}
+        \sum_{i=1}^m 1 & \sum_{i=1}^m x_i \\
+        \sum_{i=1}^m x_i & \sum_{i=1}^m x_i^2
+    \end{bmatrix}
+    \begin{bmatrix}
+        b \\
+        a  
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        \sum_{i=1}^m y_i  \\
+        \sum_{i=1}^m x_i y_i
+    \end{bmatrix}
+\end{align*}
+
+For a best fitting polynomial of degree $\le n$
+\begin{align*}
+    E(a_0,a_1,...,a_n)=\displaystyle\sum_{i=1}^m(y_i-(a_0+a_1x_i+a_2x_i^2+...+a_nx_i^n))^2
+\end{align*}
+
+\section{Numerical Differentiation and Integration}
+
+
 
 \end{document} 
