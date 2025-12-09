@@ -976,4 +976,92 @@ double contributions at junction points. Its error is $\mathcal{O}(h^2)$.
     \int_{a}^{b}f(x)dx \approx \frac{h}{3}(f(x_0)+4f(x_1)+2f(x_2)+4f(x_3)+2f(x_4)+...+4f(x_{n-1})+f(x_n))
 \end{align*}
 This is called the composite Simpson's rule. Only possible if $n$ is odd. Its error is $\mathcal{O}(h^4)$.
+
+\newpage
+\section{Numerical ODEs}
+\subsection{Euler's Method}
+\begin{align*}
+    w_{i+1} = w_i +hf(t_i,w_i)
+\end{align*}
+\subsection{Trapezoid Method}
+\begin{align*}
+    w_{i+1} = w_i + \frac{h}{2} (f(t_i,w_i) + f(t_{i+1},w_{i+1}))
+\end{align*}
+This is an implicit method since the approximation for $w_{i+1}$ involves $f(t_{i+1},w_{i+1})$. 
+This can be made explicit if $f$ is simple by rearranging the formula and solving for $w_{i+1}$. \\
+
+\noindent This can also be made explicit using the Predictor-Corrector method, where we start
+with a good initial guess from an explicit method (Euler's for example) then we iterate using the implicit method.
+
+\subsection{Simpson's Method}
+\begin{align*}
+    w_{i+1} = w_{i-1} + \frac h3 \big[ f(t_{i-1},w_{i-1}) + 4f(t_{i},w_{i}) + f(t_{i+1},w_{i+1})  \big]
+\end{align*}
+Previously, for Euler's and Trapezoid methods we only needed $y(t_0)=w_0$ to start. Simpson's method
+needs $w_1$ as well to start and solve for $w_2$.
+
+\subsection{2-Step Adams-Bashforth Method}
+\begin{align*}
+    w_{i+1} = w_i + \frac h2 \big[ 3f(t_i,w_i) -f(t_{i-1},w_{i-1}) \big]
+\end{align*}
+Note that 1-step Adams-Bashforth is Euler's method.
+
+\subsection{2-Step Adams-Moulton Method}
+\begin{align*}
+    w_{i+1} = w_i + \frac h{12} \big[ 5f(t_{i+1},w_{i+1})+8f(t_i,w_i)-f(t_{i-1},w_{i-1}) \big]
+\end{align*}
+Note that 1-step Adams-Moulton is Trapezoid method.
+
+\subsection{Accuracy \& Convergence of Methods}
+\subsubsection{Local Truncation Error}
+This is the one step error with exact information. The general formula is
+\begin{align*}
+    \text{LTE}_{i+1} = \frac{y(t_{i+1})-w_{i+1}}{h}
+\end{align*}
+We can Taylor expand all $y(t_{i+1})$ terms to be centered at $y(t_i)$, this will cancel out terms and we can find out what order the LTE is.
+
+\subsubsection{Theorem: Convergence}
+If a method is consistent and stable, then it is convergent. Furthermore, the order of accuracy is that of the LTE. \\
+
+\noindent \textbf{Def:} Consistent means the LTE $\rightarrow 0$ as $h \rightarrow 0$ \\
+\noindent \textbf{Def:} Stable means that if the given data is perturbed by a small amount, then solutions will have small changes.
+\begin{align*}
+    y' &= f(t,y) + \delta \\
+    y(t_0) &= y_0 + \epsilon
+\end{align*}
+
+\subsubsection{Theorem: Root Condition}
+Stability is equivalent to a root condition.\\
+
+\noindent Set $f = 0$ in the method and set $w_{i+1}$ and $w_i$ to $\lambda^{i+1}$ and $\lambda^{i}$, respectively. Then rearrange equation to equal zero.
+This gives our characteristic equation. solving for roots gives us the root condition. \\
+
+\noindent If roots in the characteristic equation satisfy $|r|\le 1$ then the root condition is met, and if $|r| = 1$ then it is a simple root, for all roots $r$.
+
+\subsubsection{Theorem: Order of Accuracy}
+If a method is both consistent and stable, which means it is convergent, then the order of accuracy is that of the LTE.
+
+\subsection{Runge-Kutta Methods}
+The Runge-Kutta is a family of explicit methods that can allow nested $f$-evaluations. \\
+
+\noindent Below is the Runge-Kutta midpoint method, where the predictor is Euler's and the corrector is the midpoint method.
+\begin{align*}
+    w_{i+1} = w_i +hf(ti+\frac{h}{2}, w_i + \frac{h}{2}f(t_i,w_i))
+\end{align*}
+Below is the Runge-Kutta modified Euler's method, where the predictor is Euler's and the corrector is the trapezoid method.
+\begin{align*}
+    K_1 &= hf(t_i,w_i) \\
+    K_2 &= hf(t_{i+1}, w_i + K_1) \\
+    w_{i+1} &= w_i + \frac 12 (K_1 + K_2)
+\end{align*}
+Below is the 4th order Runge-Kutta method.
+
+\begin{align*}
+    K_1 &= hf(t_i,w_i) \\
+    K_2 &= hf(t_i+\frac h2, w_i+ \frac{K_1}{2}) \\ 
+    K_3 &= hf(t_i+\frac h2, w_i+ \frac{K_2}{2}) \\ 
+    K_4 &= hf(t_{i+1},w_i+K_3) \\ 
+    w_{i+1} &= w_i + \frac 16 (K_1 + 2K_2 + 2K_3 + K_4)
+\end{align*}
+
 \end{document} 
