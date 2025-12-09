@@ -923,8 +923,57 @@ For a best fitting polynomial of degree $\le n$
     E(a_0,a_1,...,a_n)=\displaystyle\sum_{i=1}^m(y_i-(a_0+a_1x_i+a_2x_i^2+...+a_nx_i^n))^2
 \end{align*}
 
-\section{Numerical Differentiation and Integration}
+\section{Numerical Differentiation}
+\subsection{Differencing}
+Forward differencing (derivative from the right) is defined as 
+\begin{align*}
+    \frac{f(x+h)-f(x)}{h}
+\end{align*}
+Backward differencing (derivative from the left) is defined as 
+\begin{align*}
+    \frac{f(x)-f(x-h)}{h}
+\end{align*}
+Central differencing is defined as
+\begin{align*}
+    \frac{f(x+h)-f(x-h)}{h}
+\end{align*}
+Using Taylor series, we can find the error associated with each of these methods of 
+finding the derivative. This yields $\mathcal{O}(h)$ for both forward and backward 
+differencing and $\mathcal{O}(h^2)$ for central differencing. To optimize error, we
+want to use forward differencing on the first node, backward differencing on the last 
+node, and central differencing for all the ones in between.
 
+\subsection{Method of Undetermined Coefficients}
+Method of Undetermined Coefficients yield the following formula for nodes $x_0,x_1,x_2$.
+\begin{align*}
+    \frac{-3f(x_0)+4f(x_1)-f(x_2)}{2h}
+\end{align*}
 
-
+\newpage
+\section{Numerical Integration}
+\subsection{Piecewise Constant Interpolation}
+\subsubsection{Composite Left Endpoint Rule}
+\begin{align*}
+    \int_{a}^{b}f(x)dx \approx h(f(x_0)+f(x_1)+...+f(x_{n-1}))
+\end{align*}
+\subsubsection{Composite Right Endpoint Rule}
+\begin{align*}
+    \int_{a}^{b}f(x)dx \approx h(f(x_1)+f(x_2)+...+f(x_{n}))
+\end{align*}
+\subsubsection{Composite Midpoint Rule}
+\begin{align*}
+    \int_{a}^{b}f(x)dx \approx 2h(f(x_1)+f(x_3)+...+f(x_{n-1}))
+\end{align*}
+Only possible if $n$ is even. This is also as accurate as trapezoid rule, which is $\mathcal{O}(h^2)$.
+\subsection{Piecewise Linear Interpolation}
+\begin{align*}
+    \int_{a}^{b}f(x)dx \approx \frac{h}{2} (f(x_0)+2f(x_1)+...+2f(x_{n-1})+f(x_n))
+\end{align*}
+This is called the composite trapezoid rule. The coefficients of 2 are due to 
+double contributions at junction points. Its error is $\mathcal{O}(h^2)$.
+\subsection{Piecewise Quadratic Interpolation}
+\begin{align*}
+    \int_{a}^{b}f(x)dx \approx \frac{h}{3}(f(x_0)+4f(x_1)+2f(x_2)+4f(x_3)+2f(x_4)+...+4f(x_{n-1})+f(x_n))
+\end{align*}
+This is called the composite Simpson's rule. Only possible if $n$ is odd. Its error is $\mathcal{O}(h^4)$.
 \end{document} 
