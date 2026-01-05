@@ -1,0 +1,53 @@
+\documentclass[12pt, letterpaper]{article} 
+
+\usepackage{amsmath, amssymb, amsthm, enumerate}
+
+\title{MATH 114 - Computational Stochastics}
+\author{Dani Nguyen}
+\date{Winter 2025}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Overview}
+\subsection{Introduction}
+Stochastic models describe real life phenomena like motion of the cell, shape of polymers
+stock prices, and more. What can we compute \underline{analytically} and \underline{numerically} from these models? \\
+
+\noindent Key questions:
+\begin{enumerate}
+    \item What is the distribution of the system?
+    \item How can we sample from the distribution?
+    \item How can we compute mean, variance, and higher moments of these systems?
+\end{enumerate} 
+\noindent Main topics:
+\begin{enumerate}
+    \item Sampling RVs \\
+    \item Markov chain Monte Carlo (MCMC)
+    \item Stochastic differential equations (numerical \& computation)
+\end{enumerate}
+
+\subsection{Sampling}
+- Generating "hard" RVs from "easy" RVs. \\
+- Compute "hard" integrals. \\ \\
+\boxed{ex} Area of the unit circle, $A = \pi$ \\ 
+Let $U_1 \sim U(-1,1)$ and $U_2 \sim U(-1,1)$ \\
+Let $x = \begin{cases}
+    0 \text{ if } (u_1,u_2) \text{ outside circle} \\
+    1 \text{ if } (u_1,u_2) \text{ inside circle}
+\end{cases}$ \\ 
+$\implies  P(X = 1) = \frac{A}{4}, P(X = 0) = 1 - \frac{A}{4}$ \\ 
+$\mathbb{E}(X) = \frac{A}{4}$  \\ 
+After N trials we generate $X_1, X_2, ..., X_n$\quad iid \\
+By the strong law of large numbers
+\begin{align*}
+    \lim_{N\rightarrow\inf} \frac{1}{N} \sum_{i=1}^{N}X_i = \frac{A}{4} = \frac{\pi}{4}
+\end{align*}
+
+\subsection{MCMC}
+Construct Markov chains to generate target distribution. \\ 
+\boxed{ex} Ising model
+
+
+\end{document}
