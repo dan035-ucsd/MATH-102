@@ -10,8 +10,90 @@
 \maketitle
 \tableofcontents
 
-\section{}
-\subsection{}
+\section{Statistical Learning}
+\subsection{Terminology}
+"Supervised Leanring"  means we have both predictors and responses. \\
+"Predictors/input variables/features" are arranged in a vector.
+\begin{align*}
+    X = (X_1,X_2,...,X_n)
+\end{align*}
+"Output variables/responses" is a scalar where $y \in \mathbb{R}$ \\
+We think of data as coming from a model.
+\begin{align*}
+    y = f(x) + \epsilon
+\end{align*}
+$\begin{cases}
+    f(x) \text{ is fixed but unknown function} \\
+    \epsilon \text{ is the random error term with mean zero, independent of X}
+\end{cases}$ \\ \\
+Question: Why estimate $f$? \\
+Prediction: Given $X$, we want to predict $y$ with $\hat{y} = \hat{f}(x)$ \\ \\ 
+Mean square error is 
+\begin{align*}
+    \mathbb{E}(y-\hat{y})^2 &= \mathbb{E}(f(x)+\epsilon - \hat{f}(x)) \\
+    &= \mathbb{E}(f(x)-\hat{f}(x))^2 + 2\mathbb{E}((f(x) - \hat{f}(x))\epsilon) + \mathbb{E}(\epsilon^2)
+\end{align*}
+Examine the middle term in detail 
+\begin{align*}
+    2\mathbb{E}((f(x) - \hat{f}(x))\epsilon)
+    = \mathbb{E}(f(x)-\hat{f}(x))\cdot\mathbb{E}(\epsilon)=0
+\end{align*}
+We know that 
+\begin{align*}
+    \mathbb{E}(y-\hat{y})^2 = (f(x)-\hat{f}(x))^2 + \mathbb{E}(\epsilon^2)
+\end{align*}
+Where the left term is reducible error and the right term is irreducible error. \\ \\ 
+"Inference" - Sometimes we want to understand the association between $y$ and $X_1, ... ,X_p$ 
+\begin{enumerate}
+    \item Which predictors are associated with response?
+    \item Is the association positive or negative?
+    \item Is the relationship approximately linear?
+\end{enumerate}
 
+\subsection{Accuracy}
+\underline{Training data} 
+\begin{align*}
+    (x_1, y_1),(x_2, y_2),...(x_n, y_n) \\ 
+    \text{where } X_i = (X_{i1}, X_{i2}, ... , X_{ip})
+\end{align*}
+n = \# data points (e.g. $n=30$) \\
+p = \# predictors (e.g. $p=3$) \\ \\
+\noindent \underline{Mean Square Error (MSE)}
+\begin{align*}
+    \text{MSE} = \frac 1n \sum_{i=1}^{n} (y_i - \hat{f}(x_i))^2 \\
+    \text{Defined on training data} \\ 
+    \text{Test MSE} = \text{ Ave } (y_0 - \hat{f}(x_0))^2 \\ 
+    \text{Defined on previously unseen data point } (x_0, y_0)
+\end{align*}
+\underline{Linear / affine model}
+\begin{align*}
+    f(x) = \beta_0 + \beta_1x_1 + ... + \beta_px_p
+\end{align*}
+"Fit/train the model" usually means run an optimization on your computer
+that uses training data and outputs the parameters $\beta_0, \beta_1,...,\beta_p$ that make the 
+MSE and hopefully the test MSE small. \\
+
+\noindent \underline{Classification} \\ 
+Data set $(x_1,y_1),(x_2,y_2,),..., (x_n,y_n)$ where $X_i=(x_{i1},...,x_{ip})$ and $y_i$ is qualitative. \\ \\ 
+Error rate is the fraction of incorrect classifications. 
+\begin{align*}
+    \frac 1n \sum_{i=1}^{n} \mathbb{I} \{y_i \ne \hat{y}_i\}
+\end{align*}
+$\mathbb{I}\{ y_i \ne \hat{y}_i \} = \begin{cases}
+    1, & y_i \ne \hat y_i \\
+    0, & y_i = \hat y_i 
+\end{cases}$ \\ \\
+Test error rate 
+\begin{align*}
+    \text{Ave}(\mathbb{I} \{ y_0 \ne \hat y_0 \})
+\end{align*}
+Where $(x_0,y_0)$ is a previously unseen test data point. \\ \\
+\underline{K-nearest neighbors (KNN)} \\ 
+The KNN classifier is defined by letting $\eta_0$ = set of indices $i\in\{ 1,...,n \}$ for K nearest neighbors of $X_0$ among the input data. \\\\
+$\hat y_0 = j$ where $j$ maximizes 
+\begin{align*}
+    \sum_{i\in \eta_0}^{} \mathbb{I} \{y_i=j\}
+\end{align*}
+which is the number of nearest neighbors (out of K) assigned label $j$
 
 \end{document}
