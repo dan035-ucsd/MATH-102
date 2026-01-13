@@ -10,10 +10,46 @@
 \maketitle
 \graphicspath{ {./} }
 
-\noindent \textbf{Question 1} \\
+\noindent \textbf{Question 1} 
+\begin{lstlisting}
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+# add plot of unit circle
+    fig, ax = plt.subplots(figsize=(6, 6))
+    circle = patches.Circle((0, 0), 1, edgecolor='green', 
+    facecolor='none', linewidth=2)
+    ax.add_patch(circle)
+    ax.set_xlim(-1, 1)
+    ax.set_ylim(-1, 1)
+# generate random points and plot them
+    rng = np.random.default_rng(714)
+    N = 100
+    x = rng.uniform(-1, 1, N)
+    y = rng.uniform(-1, 1, N)
+    inside_circle = x**2 + y**2 <= 1
+    ax.scatter(x[inside_circle], y[inside_circle], color='green', s=1)
+    ax.scatter(x[~inside_circle], y[~inside_circle], color='red', s=1)
+# estimate pi
+    tau = inside_circle.sum()
+    pi_est = 4 * tau / N
+# error term
+    error = abs(np.pi - pi_est)
+    (pi_est, error)
+\end{lstlisting}
 
-    
-
+\newpage
+\begin{center}
+\begin{tabular}{ c|c|c }
+    N & $\pi_N$ & $e_N$ \\
+    \hline
+    100 & 3.28 & 0.1384\\
+    1,000 & 3.052 & 0.0895\\
+    10,000 & 3.118 & 0.0235\\
+    100,000 & 3.13876 & 0.0028\\
+\end{tabular}
+\end{center}
+\includegraphics{plotn100.png}
 
 \noindent \textbf{Question 2} 
 
