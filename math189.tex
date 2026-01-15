@@ -108,7 +108,7 @@ $\hat \beta_0, \hat \beta_1$ are estimates based on training data, where hat mea
 The residual sum of squares (RSS) 
 \begin{align*}
     \text{RSS} &= \sum_{i=1}^{n}(y_i-\hat y_i)^2 \\
-    &= \sum_{i=1}^{n}(y_i-\hat \beta_0 - \hat \beta_1X)^2 
+    &= \sum_{i=1}^{n}(y_i-\hat \beta_0 - \hat \beta_1x_i)^2 
 \end{align*}
 Choose $\hat \beta_0, \hat \beta_1$ to minimize RSS.
 \begin{align*}
@@ -146,4 +146,76 @@ From this we can get our optimal $\hat \beta_1$
     &= \frac{\frac 1n \sum_{i=1}^{n}(X_i-\bar x)(Y_i-\bar y)}{\frac 1n \sum_{i=1}^{n} (X_i-\bar x)^2}
 \end{align*}
 
+\subsection{Goodness of Fit \& Correlation}
+Assume an underlying statistical model
+\begin{align*}
+    y = \beta_0 + \beta_1X +\epsilon
+\end{align*}
+We use training data $(X_i, Y_i)^n_{i=1}$ to generate \underline{prediction model} $\hat y = \hat \beta_0 + \hat \beta_1 X$
+
+\noindent The formulas for $\hat \beta_0$ and $\hat \beta_1$ to minimize RSS:
+\begin{align*}
+    \text{RSS} = \sum_{i=1}^{n}(y_i-\hat y_i)^2 
+    \begin{cases}
+        \hat \beta_0 = \bar y - \hat \beta_1 \bar X \\ 
+        \hat \beta_1 = \frac{\text{Cov}(X_i,Y_i)^n_{i=1}}{\text{Var}(X_i)^n_{i=1}}
+    \end{cases}
+\end{align*}
+\underline{Goodness of fit}
+\begin{align*}
+    \text{RSS} &= \sum_{i=1}^{n}(y_i, \hat y_i)^2 \\
+    &= \sum_{i=1}^{n}(y_i-\hat \beta_0 - \hat \beta_1x_i)^2 \\
+    &= \sum_{i=1}^{n}\Big( (y_i-\bar y )-\hat \beta_1(x_i-\bar x)\Big)^2 \\
+    &= \sum_{i=1}^{n}(y_i - \bar y)^2 - 2\hat \beta_1 \sum_{i=1}^{n}(x_i - \bar x)(y_i - \bar y) + \hat \beta_1^2 \sum_{i=1}^{n}(x_i - \bar x)^2 \\
+    &= \sum_{i=1}^{n}(y_i - \bar y)^2 - \frac{\Big[ \sum_{i=1}^{n} (x_i - \bar x)(y_i - \bar y)\Big]^2}{\sum_{i=1}^{n} (x_i - \bar x)^2}
+\end{align*}
+RSS scales with the number of data points $n$ and also scales with $y^2$ units.
+$\rightarrow$ We can fix the scaling and get out a goodness-of-fit score ($R^2$) between 0 and 1.
+
+\begin{align*}
+    R^2 = 1 - \frac{\text{RSS}}{\text{TSS}}
+\end{align*}
+\begin{align*}
+    \text{RSS} = \sum_{i=1}^{n}(y_i - \hat y_i)^2 & & \text{TSS} = \sum_{i=1}^{n}(y_i - \bar y )^2
+\end{align*}
+\newpage
+\noindent So for simple linear regression,
+\begin{align*}
+    R^2 &= 1 - \frac{\text{RSS}}{\text{TSS}} \\
+    &= \frac{\text{TSS} - \text{RSS}}{\text{TSS}} \\ 
+    &= \frac{\Big[ \sum_{i=1}^{n}(x_i - \bar x) (y_i - \bar y) \Big]^2}{\sum_{i=1}^{n}(x_i - \bar x)^2 \sum_{i=1}^{n}(y_i - \bar y)^2} \\
+    R & = \frac{\text{Cov}((x_i),(y_i))}{\text{Var}(x_i)^{1/2}\text{Var}(y_i)^{1/2}}
+\end{align*}
+Long story short $R^2$ is the fraction of variance explained by the model. \\ \\
+\boxed{ex} \quad $\hat{\text{sales}} = 7.0 + 0.048 \cdot\text{TV}$ \\
+$R^2 = 0.61 = 61\%$ \qquad $r \approx 0.78$ pretty strong positive correlation
+
+\subsection{Regression Table}
+\boxed{ex} \\
+\begin{tabular}{c|c c c c}
+    & Coefficient & Std. error & t-statistic & p-value \\
+    \hline
+    Intercept ($\beta_0$) & 7.0 & 0.46 & 15 & $<$0.0001\\
+    TV ($\beta_1$)& 0.048 & 0.0027 & 18 & $<$0.0001
+\end{tabular} \\ \\
+Std error is the error bar on linear coefficients. \\ 
+
+We know that $\begin{cases}
+    \beta_0 \approx \hat \beta_0 \pm \text{SE}(\hat\beta_0) \\
+    \beta_1 \approx \hat \beta_1 \pm \text{SE}(\hat\beta_1) 
+\end{cases}$ \\ 
+
+\noindent Assume the underlying statistical model is true! 
+\begin{center}
+    $y_i = \beta_0 + \beta_1X_i + \epsilon_i$ \\
+    $\text{where } \epsilon_i \text{ are independent }\eta(0,\sigma^2) \text{ random variables}$
+\end{center}
+If we generate $N$ data points $(x_i, y_i)$ from the model, then \\
+$\begin{cases}
+    \text{Var}(\hat \beta_0)^{1/2} \approx \hat{\text{Std. error}} (\hat \beta_0) \\ 
+    \text{Var}(\hat \beta_1)^{1/2} \approx \hat{\text{Std. error}} (\hat \beta_1) \\ 
+    \mathbb{E}(\hat \beta_0) = \beta_0 \\
+    \mathbb{E}(\hat \beta_1) = \beta_1
+
+\end{cases}$
 \end{document}
