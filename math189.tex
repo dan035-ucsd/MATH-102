@@ -216,6 +216,68 @@ $\begin{cases}
     \text{Var}(\hat \beta_1)^{1/2} \approx \hat{\text{Std. error}} (\hat \beta_1) \\ 
     \mathbb{E}(\hat \beta_0) = \beta_0 \\
     \mathbb{E}(\hat \beta_1) = \beta_1
-
 \end{cases}$
+
+\subsection{Multiple Linear Regression}
+The underlying statistical model that we assume is true.
+\begin{align*}
+    y = \beta_0 + \beta_1x_1 + \beta_2x_2 + ... + \beta_px_p
+\end{align*}
+where $y$ is response, $\beta_0$ is the intercept, $\beta_1x_1,...,\beta_px_p$ are predictors, and $\epsilon$ is the mean zero noise. \\
+
+\noindent \boxed{ex} \quad $\text{sales} = \beta_0 + \beta_1 \text{TV} + \beta_2 \text{Radio} + \beta_3 \text{Newspaper} + \epsilon$
+
+\begin{align*}
+    \hat y = \hat \beta_0 + \hat \beta_1 x_1 + ... + \hat \beta_p x_p
+\end{align*}
+We want to find the best $\hat \beta$ to minimize RSS, where $\hat \beta$ are estimated quantities.
+\begin{align*}
+    RSS &= \sum_{i=1}^{n}(y_i - \hat y_i)^2 \\ 
+    &= \sum_{i=1}^{n} (y_i - \hat \beta_0 - \hat\beta_1x_{i1} - ... - \hat \beta x_{ip})^2 \\
+    &= \Bigg|\Bigg|\begin{bmatrix}
+        y_1 - \hat \beta_0 -\hat \beta_1 x_{i1} - ... - \hat \beta_p x_{ip}\\
+        \vdots \\
+        y_n - \hat \beta_0 - \hat \beta_1x_{n1} -... - \hat \beta_p x_{ip}
+    \end{bmatrix} \Bigg|\Bigg| ^2 \\ 
+    &= || Y - X\hat\beta ||^2
+\end{align*}
+where $y = \begin{bmatrix}
+    y_1 \\ y_2 \\ \vdots \\ y_n
+\end{bmatrix}$ \qquad 
+$\hat \beta = \begin{bmatrix}
+    \hat \beta_0 \\ \hat \beta_1 \\ \vdots \\ \hat \beta_p
+\end{bmatrix}$ \qquad
+$X = \begin{bmatrix}
+1 & x_{11} & \dots & x_{1p} \\
+1 & x_{21} & \dots & x_{1p} \\
+& & \vdots \\
+1 & x_{n1} & \dots & x_{np}
+\end{bmatrix}$
+
+\noindent The best $\hat \beta$ to minimize Euclidean norm$^2$ for $|| Y - X\hat\beta ||^2$ is $\hat \beta = X^+Y = (X^TX)^{-1}X^TY$
+
+\begin{tabular}{c | c c c c}
+    & Coefficient & Std. error & t-statistic & p-value\\
+    Intercept & $\hat \beta_0$ 2.939 & 0.3119 & 9.42 & $<$0.0001\\ 
+    TV & $\hat\beta_1$ 0.046 & 0.0014 & 32.81 & $<$0.0001\\ 
+    Radio & $\hat\beta_2$ 0.189 & 0.0086 & 32.89 & $<$0.0001\\
+    Newspaper & $\hat \beta_3$ -0.001 & 0.0059 & -0.18 & 0.8599
+\end{tabular} \\ \\ \\ 
+Note: the standard error is NOT $Var(\hat\beta_i)^2$ but rather $\hat{Var}(\hat\beta_i)^2$ \\
+
+\noindent \underline{Hypothesis testing} \\
+
+\noindent State a hypothesis, test it with data (testing the likelihood such data could possibly be generated if the hypothesis were true). \\
+
+$H_0$ - the null hypothesis: $y = \beta_0 + \beta_1x_1 + \beta_2x_2 + \beta_3x_3 + \epsilon$ for some coefficients $B_0, \beta_2, \beta_3$ with $\beta_1 = 0$ 
+with $\epsilon \sim N(0,\sigma^2)$ for some variance $\sigma^2 \ge 0$. Also, observations are independent.
+
+$H_1$ - the alternative hypothesis: $y = \beta_0 + \beta_1x_1 + \beta_2x_2 + \beta_3x_3+\epsilon$ where everything above holds except $\beta_1 \ne 0$ \\ 
+
+Assume $H_0$. Then \begin{align*}
+    \frac{\hat \beta_1}{\hat{SE}(\hat \beta_1)} = t \sim T_{n-p-1}
+\end{align*}
+
+
+
 \end{document}
