@@ -10,8 +10,40 @@
 \maketitle
 \graphicspath{ {./} }
 
-\noindent \textbf{Question 1} \\
+\noindent \textbf{Question 1}
+\begin{enumerate}[a.]
+    \item Since IQ and GPA is fixed, we will denote those values as a constant $C$
+    \begin{align*}
+        Y &= C + 35X_3 - 10X_5 \\
+        &= C + \mathbb{I}\{\text{has college}\} (35-10X_5)
+    \end{align*}
+    When fixing IQ and GPA, the model predicts that college graduates will earn less 
+    if their GPA is higher than 3.5. Therefore, option iii. is correct.
+    \item For a college graduate with IQ 110 and GPA 4.0,
+    \begin{align*}
+        Y &= 50 + 20(4.0) + 0.07(110) + 35(1) + 0.01(4.0 \cdot 110) - 10(4.0\cdot1) \\
+        &= 137.1 \text{ thousand dollars}
+    \end{align*}
+    \item False, because GPA and IQ are on average very large numbers, especially 
+        when multiplied, that even a low coefficient can lead to large effects in
+        salary. This does not mean that there is little evidence of an interaction 
+        effect, one would need to look at the $p$-values of the interaction term to 
+        know whether there exists an interaction effect. 
+\end{enumerate}
+\newpage
 \noindent \textbf{Question 2} \\
-\noindent \textbf{Question 3} \\
+\begin{align*}
+    \hat y_i &= x_i \hat \beta \\
+    &= x_i \frac{\sum_{i=1}^{n}x_iy_i}{\sum_{i'=1}^{n}x_{i'}^2} \\
+    &= \frac{\sum_{i=1}^{n}x_i^2 y_i}{\sum_{i'=1}^{n}x_{i'}^2} \\
+    &= \sum_{i=1}^{n} \frac{x_i^2}{\sum_{i'=1}^{n}x_{i'}^2} y_i
+\end{align*}
+Let $a_i = \frac{x_i^2}{\sum_{i'=1}^{n}x_{i'}^2}$
+\begin{align*}
+    \hat y_i = \sum_{i=1}^{n}a_iy_i
+\end{align*}
 
+\noindent \textbf{Question 3} \\
+Recall that $\beta_0 = \bar y + \beta_1 \bar x$. This means that the equation for 
+simple linear regression.
 \end{document}
