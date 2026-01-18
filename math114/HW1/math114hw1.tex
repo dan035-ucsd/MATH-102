@@ -1,6 +1,6 @@
 \documentclass[12pt, letterpaper]{article} 
 
-\usepackage{amsmath, amssymb, amsthm, enumerate, graphicx, listings}
+\usepackage{amsmath, amssymb, amsthm, enumerate, graphicx}
 
 \title{MATH  HW }
 \author{Dani Nguyen}
@@ -11,7 +11,7 @@
 \graphicspath{ {./} }
 
 \noindent \textbf{Question 1} 
-\begin{lstlisting}
+\begin{verbatim}
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -36,7 +36,7 @@ import matplotlib.patches as patches
 # error term
     error = abs(np.pi - pi_est)
     (pi_est, error)
-\end{lstlisting}
+\end{verbatim}
 
 \newpage
 \begin{center}
@@ -50,8 +50,40 @@ import matplotlib.patches as patches
 \end{tabular}
 \end{center}
 \includegraphics{plotn100.png}
+\newpage
+\noindent \textbf{Question 2} \\
+a. First we compute the CDF from the given PDF.
+\begin{align*}
+    F(x) &= 
+    \begin{cases}
+        0 & \text{if } x < 0\\
+        \int_{0}^{1}xdx & \text{if } 0\le x \le 1\\
+        \int_{0}^{1}xdx + \int_{1}^{2}(2-x)dx & \text{if } 1 < x \le 2\\
+        1 & \text{if } x > 2
+    \end{cases} \\
+    &= 
+    \begin{cases}
+        0 & \text{if } x < 0\\
+        \frac 12 x^2 & \text{if } 0\le x \le 1\\
+        -1 + 2x - \frac 12 x^2 & \text{if } 1 < x \le 2 \\
+        1 & \text{if } x > 2
+    \end{cases}
+\end{align*}
+Now solve $F(x) = u$
+\begin{align*}
+    X = \begin{cases}
+        \sqrt{2u} & \text{if } 0\le u \le \frac 12\\
+        2 - \sqrt{2-2u} & \text{if } \frac 12 < x \le 1
+    \end{cases}
+\end{align*}
 
-\noindent \textbf{Question 2} 
+\includegraphics[scale=0.89]{histplot.png}
+
+\noindent b. 
+
+
+
+
 
 \noindent \textbf{Question 3} 
 
