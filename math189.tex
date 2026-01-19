@@ -163,7 +163,7 @@ We use training data $(X_i, Y_i)^n_{i=1}$ to generate \underline{prediction mode
 \end{align*}
 \underline{Goodness of fit}
 \begin{align*}
-    \text{RSS} &= \sum_{i=1}^{n}(y_i, \hat y_i)^2 \\
+    \text{RSS} &= \sum_{i=1}^{n}(y_i - \hat y_i)^2 \\
     &= \sum_{i=1}^{n}(y_i-\hat \beta_0 - \hat \beta_1x_i)^2 \\
     &= \sum_{i=1}^{n}\Big( (y_i-\bar y )-\hat \beta_1(x_i-\bar x)\Big)^2 \\
     &= \sum_{i=1}^{n}(y_i - \bar y)^2 - 2\hat \beta_1 \sum_{i=1}^{n}(x_i - \bar x)(y_i - \bar y) + \hat \beta_1^2 \sum_{i=1}^{n}(x_i - \bar x)^2 \\
