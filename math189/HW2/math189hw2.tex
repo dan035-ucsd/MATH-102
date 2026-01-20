@@ -74,8 +74,39 @@ regression is centered at and will always pass through the point $(\bar x, \bar 
 \newpage
 \noindent \textbf{Question 6}
 \begin{enumerate}[a.]
-    \item None of the distributions seem to fit a linear regression model, but there does seem to be significant association with some of the data. For example, lstat has a 0.4556 correlation coefficient with crim and nox is 0.421. \\
+    \item None of the distributions seem to fit a linear regression model, but all of the predictors seems to have p-value below 0.05 when fitted with crime rate per capita data.\\
     \includegraphics[scale=0.5]{q6a.png}
-\end{enumerate}
+    \newpage
+    \item 
+\begin{table}[h]
+\centering
+\begin{tabular}{l r r r r}
+\hline
+& \textbf{coef} & \textbf{std err} & \textbf{t} & \textbf{P$>|$t$|$} \\
+\hline
+intercept & 13.7784 & 7.082 & 1.946 & 0.052 \\
+zn & 0.0457 & 0.019 & 2.433 & 0.015 \\
+indus & -0.0584 & 0.084 & -0.698 & 0.486 \\
+chas & -0.8254 & 1.183 & -0.697 & 0.486 \\
+nox & -9.9576 & 5.290 & -1.882 & 0.060 \\
+rm & 0.6289 & 0.607 & 1.036 & 0.301 \\
+age & -0.0008 & 0.018 & -0.047 & 0.962 \\
+dis & -1.0122 & 0.282 & -3.584 & 0.000 \\
+rad & 0.6125 & 0.088 & 6.997 & 0.000 \\
+tax & -0.0038 & 0.005 & -0.730 & 0.466 \\
+ptratio & -0.3041 & 0.186 & -1.632 & 0.103 \\
+lstat & 0.1388 & 0.076 & 1.833 & 0.067 \\
+medv & -0.2201 & 0.060 & -3.678 & 0.000 \\
+\hline
+\end{tabular}
+\caption{OLS Regression Results for Boston Crime Data}
+\label{tab:boston_regression}
+\end{table}
 
+We can reject the null hypothesis $H_0 = \beta_j =0$ 
+for zn, dis, rad, and medv as they have P $>$ $|t|$ less than 0.05.
+
+\item The $\beta_j$ values are mostly similar, aside from nox, which is wildly different between multivariate (-9.9576) and simple linear regression (31.2485) \\ \includegraphics[scale=0.5]{q6c.png}
+\item 
+\end{enumerate}
 \end{document}
