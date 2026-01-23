@@ -280,4 +280,84 @@ Assume $H_0$. Then \begin{align*}
 
 
 
+
+\subsection{Generative Models for Classification}
+\begin{align*}
+    &\text{Predictors} \\
+    &X \text{ or } X_1,X_2,...,X_n \\
+    &\text{Response} \\ 
+    &y \in \{0,1\} \text{ or } y \in \{1,2,...,k\} 
+\end{align*}
+
+\noindent \underline{Review} \\
+Simple logistic regression
+\begin{align*}
+    P = \text{prob}\{y=1\} = \frac{\exp(\beta_0+\beta_1X)}{1+\exp(\beta_0+\beta_1X)}
+\end{align*}
+Note: This doesn't make any assumptions about how predictors are distributed. \\ 
+
+\noindent For each $k = 1,2,...,K$: \\
+Our statistical model ('mixture of Gaussians') says $y=k$ with probability $\pi_k$ $(\sum_{k=1}^{K}\pi_k = 1)$
+
+\noindent Given $y=k$, $X \sim N(\mu_k, \Sigma_k)$ where $\Sigma$ is the covariance matrix symbol. Here is the general vector-valued format: 
+\begin{align*}
+    X = (X_1,...,X-p) & & \Sigma_k = \begin{bmatrix}
+    & &\\
+    & &
+    \end{bmatrix} \text{pxp matrix}
+\end{align*}
+Where $\mu_k$ has $Kp$ parameters and $\Sigma_k$ has $K\frac{p(p+1)}{2}$ parameters \\
+\noindent When $p=1$, we can write 
+\begin{align*}
+    X\sim N (\mu_k, \sigma^2_k)
+\end{align*}
+In approaches like Linear Discriminant Analysis (LDA), Quadratic Discriminant
+Analysis (QDA), and Naive Bayes (NB) use simple estimators for $\Pi_k, \mu_k, \Sigma_k$
+that we can calculate fast. \\
+
+\noindent \boxed{ex} Linear discriminant analysis (LDA) make assumptions of common covariance structure
+$\Sigma = \Sigma_1 = \Sigma_2 = ... = \Sigma_k$ which reduces a lot of complexity.
+
+\noindent Given observations $(X_i, y_i)_{1\le i \le n}$, we can estimate for $k = 1,...,K$
+\begin{align*}
+    \hat \Sigma &= \frac{n_k}{n}, \text{ where} \\
+    n &= \# \{i:y_i=k\}\\ 
+    &= \text{number of observations in class } k \\
+    \hat \mu_k &= \frac{1}{n_k}\sum_{i:y_i=k}X_i
+\end{align*}
+Last estimate common covariance by 
+\begin{align*}
+    \hat \Sigma = \frac{1}{n-k} \sum_{k=1}^{K} \sum_{i:y_i=k} (X_i-\mu_k)(X_i-\mu_k)^T \\ 
+    \mathbb{E} \hat \Sigma = \Sigma \text{ if the model is true}
+\end{align*}
+
+\noindent \boxed{ex} Quadratic discriminant analysis is pretty much the same except DIFFERENT covariances $\Sigma_1,...,\Sigma_k$
+for each class. \\
+$\implies \hat \Pi_k = \frac{n_k}{n}$, $\hat \mu_k = \frac{1}{n_k}\sum_{i:y_i=k} X_i$ \\
+$\implies \hat \Sigma_k = \frac{1}{n_k-1} \sum_{i:y_i=k}(X_i-\mu_k)(X_i-\mu_k)^T$ \\
+$\implies K\frac{p(p+1)}{2}$ covariance free parameters.
+
+\noindent \boxed{ex} Naive Bayes is pretty much the same except DIFFERENT covariances $\Sigma_1, ..., \Sigma_k$
+that are also diagonal matrices.\\
+$\implies Kp$ covariance free parameters with the same estimators as QDA.
+\begin{align*}
+    \text{diag}\left(\sum_{k}^{n}\right) = \frac{1}{n_k-1} \sum_{i:y_i=k} (X_i-\mu_k)\odot(X_i-\mu_k)
+\end{align*} \\
+
+\noindent Suppose you have the statistical model with probability $\Pi_k$, we set $y=k$ and draw
+$X\sim N(\mu_k,\Sigma_k)$. Suppose we have estimated the parameters well - see a new 
+predictor vector $X = (X_1,...,X_p)$ - How do you determine class probabilities $P\{y= k |X\}$ and make predictions?\\
+
+\noindent Prediction part is easy - just predict based on the highest probability class:
+$\hat y = k$ for $k= \text{argmax}_{1\le j\le k}\  P\{y=j |X\}$ \\ 
+
+\noindent So what is $P\{y=k |X\}$? Bayes' rule tells us 
+\begin{align*}
+    P\{y=k|X\} &= \frac{P\{x|y=k\}\ P\{y=k\}}{\sum_{j=1}^{k}P\{X|y=j\}P\{y=j\}} \\
+    &= P(X) \\ 
+    &= \frac{f_k(X)\Pi_k}{\sum_{j=1}^{K}f_j(X)\Pi_j} \\
+    \text{ where Gaussian density } \Pi_j(X) &= \frac{1}{(2\pi)^{p/2}(\det\Sigma)^{1/2}}\exp(\frac{-1}{2}(X-\mu_j)\Sigma_j(X-\mu_j))
+\end{align*}
+
+
 \end{document}
