@@ -12,7 +12,7 @@
 
 \section{Statistical Learning}
 \subsection{Terminology}
-"Supervised Leanring"  means we have both predictors and responses. \\
+"Supervised Learning"  means we have both predictors and responses. \\
 "Predictors/input variables/features" are arranged in a vector.
 \begin{align*}
     X = (X_1,X_2,...,X_n)
@@ -278,8 +278,51 @@ Assume $H_0$. Then \begin{align*}
     \frac{\hat \beta_1}{\hat{SE}(\hat \beta_1)} = t \sim T_{n-p-1}
 \end{align*}
 
+\section{Logistic Regression \& Generative Models}
+\subsection{Logistic Regression}
+We want to predict whether an event happens $(y=1)$ or not $(y=0)$, we 
+really want to model the probability $p\in(0,1)$ of occurrence $\implies$
+NOT LINEAR REGRESSION.\\
+\underline{Before}
+\begin{align*}
+    y= \beta_0 + \beta_1X_ \epsilon
+\end{align*}
+\underline{Now}
+\begin{align*}
+    p &= \frac{\exp(\beta_0 + \beta_1X)}{1+\exp(\beta_0+\beta_1X)} \\
+    1-p &= \frac{1}{1+\exp(\beta_0+\beta_1X)}\\
+    \frac{p}{1-p} &= \exp(\beta_0+\beta_1X)
+\end{align*} \\
+Where the term $\frac{p}{1-p}$ is called "odds". \\
+Note: $\log(\text{odds}) = \beta_0+\beta_1X$ \\
 
+\noindent \boxed{ex} Defaulting on bank loans
+\begin{align*}
+    p &= \text{probability of defaulting} \\
+    X &= \text{balance} \\ 
+    y_i &= \begin{cases}
+        0 & \text{default doesn't happen} \\
+        1 & \text{default does happen}
+    \end{cases} \\
+    \log(\frac{p}{1-p}) &= \beta_0 + \beta_1 \cdot \text{X} 
+\end{align*}
 
+How do we use data/observations $(x_i,y_i)_{1\le i \le n}$ to bestimate $\beta_0, \beta_1$.
+
+$\begin{cases}
+    \text{Linear regression} \implies \text{minimize RSS}\\
+    \text{Logistic regression} \implies \text{use max likelihood, do it on a computer} \\ 
+    \text{Generative models} \implies \text{simple formulas for } \hat \Pi_k, \hat \mu_k, \hat \Sigma_k
+\end{cases}$ \\
+
+\noindent We choose estimates $\hat \beta_0, \hat \beta_1$ to maximize likelihood of observations $(x_i,y_i)_{1\le i \le n}$
+if (a) the observations were independent and (b) they were generated exactly from the statistical model.
+
+\begin{align*}
+    \mathbb{P}\left((x_i,y_i)_{1\le i \le n}\right) &= \prod_{i=1}^{n} \mathbb{P}(x_i,y_i) \text{ where }y_i \in \{0,1\} \\
+    &= \prod_{i:y_i=1} \frac{\exp(\beta_0+\beta_1X_i)}{1+\exp(\beta_0+\beta_1X_i)}\prod_{i:y_i=0}\frac{1}{1+\exp{\beta_0+\beta_1X_i}}
+\end{align*}
+Know that $\hat\beta_0, \hat\beta_1$ are chosen to maximize this probability/likelihood above.
 
 \subsection{Generative Models for Classification}
 \begin{align*}
