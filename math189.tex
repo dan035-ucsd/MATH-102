@@ -322,7 +322,21 @@ if (a) the observations were independent and (b) they were generated exactly fro
     \mathbb{P}\left((x_i,y_i)_{1\le i \le n}\right) &= \prod_{i=1}^{n} \mathbb{P}(x_i,y_i) \text{ where }y_i \in \{0,1\} \\
     &= \prod_{i:y_i=1} \frac{\exp(\beta_0+\beta_1X_i)}{1+\exp(\beta_0+\beta_1X_i)}\prod_{i:y_i=0}\frac{1}{1+\exp{\beta_0+\beta_1X_i}}
 \end{align*}
-Know that $\hat\beta_0, \hat\beta_1$ are chosen to maximize this probability/likelihood above.
+Know that $\hat\beta_0, \hat\beta_1$ are chosen to maximize this probability/likelihood above. \\
+
+\noindent \boxed{ex} $P_{\text{defaulting}}$ \\ \\
+\begin{tabular}{l | c c c c}
+              &  Coefficient & Std. error & z-statistic & p-value \\
+              \hline
+    Intercept & -10.6513 & 0.3612 & -29.5 & $<$0.0001 \\
+    Balance   & .0055 & 0.0002 & 24.9 & $<$0.0001
+\end{tabular} \\ \\ 
+Assume \begin{enumerate}[a.]
+    \item The model is true 
+    \item Observations $(x_i,y_i)_{1\le i\le n}$ are independent draws from the model
+    \item Model is true with $\beta_0 = 0$ (null hypothesis)
+\end{enumerate}
+
 
 \subsection{Generative Models for Classification}
 \begin{align*}
