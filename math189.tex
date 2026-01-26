@@ -320,7 +320,8 @@ if (a) the observations were independent and (b) they were generated exactly fro
 
 \begin{align*}
     \mathbb{P}\left((x_i,y_i)_{1\le i \le n}\right) &= \prod_{i=1}^{n} \mathbb{P}(x_i,y_i) \text{ where }y_i \in \{0,1\} \\
-    &= \prod_{i:y_i=1} \frac{\exp(\beta_0+\beta_1X_i)}{1+\exp(\beta_0+\beta_1X_i)}\prod_{i:y_i=0}\frac{1}{1+\exp{\beta_0+\beta_1X_i}}
+    &= \prod_{y_i=1} \hat p (x_i) \prod_{y_i=0} (1- \hat p (x_i))\\
+    &= \prod_{i:y_i=1} \frac{\exp(\beta_0+\beta_1X_i)}{1+\exp(\beta_0+\beta_1X_i)}\prod_{i:y_i=0}\frac{1}{1+\exp(\beta_0+\beta_1X_i)}
 \end{align*}
 Know that $\hat\beta_0, \hat\beta_1$ are chosen to maximize this probability/likelihood above. \\
 
