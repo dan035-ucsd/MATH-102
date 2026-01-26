@@ -345,7 +345,6 @@ Assume \begin{enumerate}[a.]
     \item Model is true with $\beta_0 = 0$ (null hypothesis)
 \end{enumerate}
 
-
 \subsection{Generative Models for Classification}
 \begin{align*}
     &\text{Predictors} \\
@@ -424,5 +423,69 @@ $\hat y = k$ for $k= \text{argmax}_{1\le j\le k}\  P\{y=j |X\}$ \\
     \text{ where Gaussian density } \Pi_j(X) &= \frac{1}{(2\pi)^{p/2}(\det\Sigma)^{1/2}}\exp(\frac{-1}{2}(X-\mu_j)\Sigma_j(X-\mu_j))
 \end{align*}
 
+\subsection{Discriminant Analysis In Detail}
+Let's say we have a generative statistical model with probability $\frac 12, y = 1$. Otherwise, $y = 2$. \\
+Given $y=1$, $X \sim N(\mu_1,\sigma^2)$ \\
+Given $y=2$, $X \sim N(\mu_2, \sigma^2)$\\
+We think about probability of class membership using Bayes' rule.
+\begin{align*}
+    P\{Y=k | X\}
+\end{align*}
+Where $Y$ is response, $k$ is class, either 1 or 2, and $X$ is the predictor.
+\begin{align*}
+    &\ \frac {P\{X, Y = k\}}{P\{X\}} \\
+    &= \frac{P\{X, y = k\}}{\sum_{j=1}^{2}P\{X,y=j\}} \\
+    &= \frac{P\{y=k\}P\{X | y = k\}}{\sum_{j=1}^{2}P\{y=j\}P\{X | y = j\}}
+\end{align*}
+Plugging in the specific model for class 1,
+\begin{align*}
+    P\{y = 1 | X\} &= \frac{\frac 12 f_1(X)}{\frac 12 f_1(X) + \frac 12 f_2(X)} \\
+    \text{where } f_1(x) &= P\{X | y = 1\} \\
+    &= \frac{1}{\sqrt{2\pi \sigma^2}} \exp(-\frac{1}{2\sigma^2}(X-\mu_1)^2) \\
+    f_2(x) &= P\{X | y = 2\} \\
+    &= \frac{1}{\sqrt{2\pi \sigma^2}} \exp(-\frac{1}{2\sigma^2}(X-\mu_2)^2)
+\end{align*}
+Usually our task in this class is to predict y as well as possible $\hat y = 1$ or $\hat y = 2$. 
+The best we can do, the only normal strategy, is to predict the higher probability count. \\
+\begin{align*}
+    \hat y = 1 \text{ if } P\{y=1 | X\} > P\{y=2|X\}
+\end{align*}
+Which happens if and only if
+\begin{align*}
+    \frac{1}{\sqrt{2\pi \sigma^2}} \exp(-\frac{1}{2\sigma^2}(X-\mu_1)^2) &> \frac{1}{\sqrt{2\pi \sigma^2}} \exp(-\frac{1}{2\sigma^2}(X-\mu_2)^2) \\
+    \exp(-\frac{1}{2\sigma^2}(X-\mu_1)^2) &> \exp(-\frac{1}{2\sigma^2}(X-\mu_2)^2) \\
+    -\frac{1}{2\sigma^2}(X-\mu_1)^2 &> -\frac{1}{2\sigma^2}(X-\mu_2)^2 \\
+    (X-\mu_2)^2 &> (X-\mu_1)^2
+\end{align*}
+So we make the prediction, 
+$\begin{cases}
+    \hat y = 1 &\text{if }|X-\mu_1| < |X-\mu_2| \\
+    \hat y = 2 &\text{if }|X-\mu_2| < |X-\mu_1|
+\end{cases}$ \\ \\
+We want to move from 1 predictor $X$ to two predictors $X_1$ and $X_2$\\ \\
+\underline{Before} \\
+$P\{y=1\} = P\{y=2\} = \frac 12$ \\
+Given $y = 1$, $X \sim N(\mu_1, \sigma^2)$ \\ 
+Given $y = 2$, $X \sim N(\mu_2, \sigma^2)$ \\ \\ 
+\underline{After} \\
+$P\{y=1\} = P\{y=2\} = \frac 12$ \\
+Given $y = 1$, $X \sim N(\mu_1, \sigma^2)$ \\ 
+Given $y = 2$, $X \sim N(\mu_2, \sigma^2)$ \\
+Where $\mathbf{X} = \begin{bmatrix}
+    X_1 \\ X_2
+\end{bmatrix}$
+and $\vec \mu_1 = \begin{bmatrix}
+    \mu_{11} \\ \mu_{12}
+\end{bmatrix}$
+and $\vec \mu_2 = \begin{bmatrix}
+    \mu_{21} \\ \mu_{22}
+\end{bmatrix}$ \\ \\ 
+Making it bold to turn scalars into vectors works except with variance.
+\begin{align*}
+    \Sigma = \begin{bmatrix}
+        \Sigma_{11} & \Sigma_{12} \\
+        \Sigma_{21} & \Sigma_{22}
+    \end{bmatrix}
+\end{align*}
 
 \end{document}
