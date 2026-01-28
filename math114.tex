@@ -51,6 +51,7 @@ Construct Markov chains to generate target distribution. \\
 
 
 \section{Markov Chains}
+\subsection{Lecture 9}
 \underline{Def:} A stochastic process is a family of RVs, $X_\epsilon \in S$, 
 indexed by $t$, where $S \subseteq \mathbb{R}^d$ is a state space. Typically, 
 $t \in [0,\infty)$, or $t \ in [a,b]$, or $t\in\{0,1,2,3,...\}$, etc.
@@ -109,5 +110,90 @@ Two basic questions:
     &= P(X_0 = i_0) P(X_1 = i_1 | X_0 = i_0) P(X_2 = i_2 | X_1 = i_1, X_0 = i_0) \\
     &\ ...\ P(X_n = i_n | X_{n-1} = i_{n-1},..., X_0 = i_0)\qquad [\text{conditional probability}]
 \end{align*}
+
+\noindent \boxed{ex} \ Let $X_0, X_1,...,X_n \in S$\ iid. Then $\{X_n\}^\infty_{n=0}$ 
+is a time homogeneous MC. \\
+Let $S = \{1,2,...,N\}$. Then $p(i,j)=\mathbb{P}(X_1 = j | X_0 = i) = \mathbb{P}(X_1=j)=p_j$ \\
+$\implies p = \begin{bmatrix}
+    p_1 & \dots & p_n \\
+    \vdots & \ddots & \vdots \\
+    p_1 & \dots & p_n
+\end{bmatrix}$, $\displaystyle\sum_{i=1}^{n} p_i = 1$
+
+\subsection{Lecture 10}
+Recap: \begin{itemize}
+    \item Discrete time/state, time homogeneous
+    \item MC: $\{X_n\}^\infty_{n=0} \in S$
+    \item $\mathbb{P}(X_{n+1}=i_{n+1}|X_0=i_0,...,X_n=i_n)=\mathbb{P}(X_{n+1}=i_{n+1} | X_n=i_n)$ \\
+    $= p (i_n, i_{n+1})$
+    \item Transition probability $\mathbb{P}(X_1=j | X_0 = i)$ \\
+    $=p(i,j) = p_{ij} \quad \forall i,j \in S$
+    \item Transition matrix $\mathbb{P}[p(i,j)]$
+\end{itemize}
+\boxed{ex} Two-state MC, e.g. state of phone $X_n \in S = \{0,1\}$ \\
+$\begin{cases}
+    X_n = 0 & \text{phone free at time n} \\
+    X_n = 1 & \text{phone busy at time n} 
+\end{cases}$ \\ \\
+$\mathbb{P}(\text{free} \rightarrow \text{busy in time step}) = p$ \\
+$\mathbb{P}(\text{busy} \rightarrow \text{free in time step}) = q$ \\
+$\mathbb{P}(\text{free} \rightarrow \text{free in time step}) = 1-p$ \\
+$\mathbb{P}(\text{busy} \rightarrow \text{busy in time step}) = 1-q$ \\
+
+\noindent Transition matrix:
+\begin{align*}
+    P = \begin{bmatrix}
+        1-p & p \\
+        q & 1-q
+    \end{bmatrix}
+\end{align*}
+e.g. $p = \frac 12, q = \frac 13$
+\begin{align*}
+    P = \begin{bmatrix}
+        \frac 12 & \frac 12 \\
+        \frac 13 & \frac 23
+    \end{bmatrix}
+\end{align*}
+Let $\mathbb{P}(X_0 = 0) = \frac 15, \mathbb{P}(X_0 = 1) = \frac 45$ \\
+Then $\mathbb{P}(X_0 = 0, X_1 = 1, X_2 = 0)$ \\
+$= \mathbb{P}(X_0 = 0) \cdot p(0,1) \cdot p(1,0)$ \\
+$= \frac 15 \cdot \frac 12 \cdot \frac 13 = \frac 1{30}$ \\ 
+And $\mathbb{P}(X_0 = 0, X_2 = 0) = \sum_{i=0}^{1}\mathbb{P}(X_0 = 0, X_1 = i, X_2 = 0)$ \\
+
+\noindent \boxed{ex} $P_0 = I$, $p_0(i,j) = \delta_{ij} = \begin{cases}
+    1 & i = j \\
+    0 & i \ne j
+\end{cases}$ \\ 
+$P_1 =P$, $p_1(i,j) = p(i,j)$ \\
+
+\noindent The distribution vector $\pi_n$ for $X_n$ is 
+\begin{align*}
+    \pi_n &= (\pi_n(0), \pi_n(1), ...) \\ 
+    \text{where } \pi_n(i) &= \mathbb{P}(X_n = i), i \in S \\
+    \text{Note that } \pi_n \text{ is a} & \text{ probability vector}
+\end{align*}
+
+\noindent \underline{Property:} Let $X_n \in S = \{1,2,3,...\}, n \ge 0$ be the time 
+homogeneous Markov Chain with transition matrix $P$. Then 
+\begin{itemize}
+    \item $P$ is a stochastic matrix
+    \item $P \cdot \mathbb{I} = \mathbb{I}$ where $\mathbb{I} = \begin{bmatrix}
+    1 \\ 1 \\ \vdots \\ 1
+    \end{bmatrix}$
+    \item 1 is an eigenvalue of $P$ with eigenvector $\mathbb{I}$
+    \item $P_{m+n} = P_m \cdot P_n$ (Chapman-Kolmogorov equation)
+    \item $P_n = P^n$
+    \item $\pi_n = \pi_0 P_n = \pi_0 P^n$
+    \item $\pi_{n+1} = \pi_n P,\ \forall n \ge 0$
+\end{itemize}
+
+\noindent \underline{Proof:} direct verification \\
+e.g. $\mathbb{P}(X_1 = j) = \sum_{i \in S} \mathbb{P}(X_0 = i) \mathbb{P}(X_1 = j | X_0 = i)$ \\
+$\pi_1(j) = \sum \pi_0 (j)P_{ij}$
+
+Long-run behavior, invariant distribution\\\\
+\underline{Def:} Let $P = [p(i,j)]$ be the transition matrix for Markov Chain $\{X_n\}_{n=0}^\infty$ with $S = \{1,2,..., N\}$.
+A probability vector $\pi \in \mathbb{R}^n$ is a stationary or invariant distribution if $\pi^p = \pi$
+
 
 \end{document}
