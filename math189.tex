@@ -12,7 +12,7 @@
 
 \section{Statistical Learning}
 \subsection{Terminology}
-"Supervised Leanring"  means we have both predictors and responses. \\
+"Supervised Learning"  means we have both predictors and responses. \\
 "Predictors/input variables/features" are arranged in a vector.
 \begin{align*}
     X = (X_1,X_2,...,X_n)
@@ -278,6 +278,214 @@ Assume $H_0$. Then \begin{align*}
     \frac{\hat \beta_1}{\hat{SE}(\hat \beta_1)} = t \sim T_{n-p-1}
 \end{align*}
 
+\section{Logistic Regression \& Generative Models}
+\subsection{Logistic Regression}
+We want to predict whether an event happens $(y=1)$ or not $(y=0)$, we 
+really want to model the probability $p\in(0,1)$ of occurrence $\implies$
+NOT LINEAR REGRESSION.\\
+\underline{Before}
+\begin{align*}
+    y= \beta_0 + \beta_1X_ \epsilon
+\end{align*}
+\underline{Now}
+\begin{align*}
+    p &= \frac{\exp(\beta_0 + \beta_1X)}{1+\exp(\beta_0+\beta_1X)} \\
+    1-p &= \frac{1}{1+\exp(\beta_0+\beta_1X)}\\
+    \frac{p}{1-p} &= \exp(\beta_0+\beta_1X)
+\end{align*} \\
+Where the term $\frac{p}{1-p}$ is called "odds". \\
+Note: $\log(\text{odds}) = \beta_0+\beta_1X$ \\
 
+\noindent \boxed{ex} Defaulting on bank loans
+\begin{align*}
+    p &= \text{probability of defaulting} \\
+    X &= \text{balance} \\ 
+    y_i &= \begin{cases}
+        0 & \text{default doesn't happen} \\
+        1 & \text{default does happen}
+    \end{cases} \\
+    \log(\frac{p}{1-p}) &= \beta_0 + \beta_1 \cdot \text{X} 
+\end{align*}
+
+How do we use data/observations $(x_i,y_i)_{1\le i \le n}$ to bestimate $\beta_0, \beta_1$.
+
+$\begin{cases}
+    \text{Linear regression} \implies \text{minimize RSS}\\
+    \text{Logistic regression} \implies \text{use max likelihood, do it on a computer} \\ 
+    \text{Generative models} \implies \text{simple formulas for } \hat \Pi_k, \hat \mu_k, \hat \Sigma_k
+\end{cases}$ \\
+
+\noindent We choose estimates $\hat \beta_0, \hat \beta_1$ to maximize likelihood of observations $(x_i,y_i)_{1\le i \le n}$
+if (a) the observations were independent and (b) they were generated exactly from the statistical model.
+
+\begin{align*}
+    \mathbb{P}\left((x_i,y_i)_{1\le i \le n}\right) &= \prod_{i=1}^{n} \mathbb{P}(x_i,y_i) \text{ where }y_i \in \{0,1\} \\
+    &= \prod_{y_i=1} \hat p (x_i) \prod_{y_i=0} (1- \hat p (x_i))\\
+    &= \prod_{i:y_i=1} \frac{\exp(\beta_0+\beta_1X_i)}{1+\exp(\beta_0+\beta_1X_i)}\prod_{i:y_i=0}\frac{1}{1+\exp(\beta_0+\beta_1X_i)}
+\end{align*}
+Know that $\hat\beta_0, \hat\beta_1$ are chosen to maximize this probability/likelihood above. \\
+
+\noindent \boxed{ex} $P_{\text{defaulting}}$ \\ \\
+\begin{tabular}{l | c c c c}
+              &  Coefficient & Std. error & z-statistic & p-value \\
+              \hline
+    Intercept & -10.6513 & 0.3612 & -29.5 & $<$0.0001 \\
+    Balance   & .0055 & 0.0002 & 24.9 & $<$0.0001
+\end{tabular} \\ \\ 
+
+We want $\hat \beta_0 + \hat \beta_1X = 0$
+\begin{align*}
+    -10.6513 + 0.0055X &= 0 \\
+    X &= \frac{10.6513}{0.0055} \\ 
+    &= 1936.6
+\end{align*}
+Assume \begin{enumerate}[a.]
+    \item The model is true 
+    \item Observations $(x_i,y_i)_{1\le i\le n}$ are independent draws from the model
+    \item Model is true with $\beta_0 = 0$ (null hypothesis)
+\end{enumerate}
+
+\subsection{Generative Models for Classification}
+\begin{align*}
+    &\text{Predictors} \\
+    &X \text{ or } X_1,X_2,...,X_n \\
+    &\text{Response} \\ 
+    &y \in \{0,1\} \text{ or } y \in \{1,2,...,k\} 
+\end{align*}
+
+\noindent \underline{Review} \\
+Simple logistic regression
+\begin{align*}
+    P = \text{prob}\{y=1\} = \frac{\exp(\beta_0+\beta_1X)}{1+\exp(\beta_0+\beta_1X)}
+\end{align*}
+Note: This doesn't make any assumptions about how predictors are distributed. \\ 
+
+\noindent For each $k = 1,2,...,K$: \\
+Our statistical model ('mixture of Gaussians') says $y=k$ with probability $\pi_k$ $(\sum_{k=1}^{K}\pi_k = 1)$
+
+\noindent Given $y=k$, $X \sim N(\mu_k, \Sigma_k)$ where $\Sigma$ is the covariance matrix symbol. Here is the general vector-valued format: 
+\begin{align*}
+    X = (X_1,...,X-p) & & \Sigma_k = \begin{bmatrix}
+    & &\\
+    & &
+    \end{bmatrix} \text{pxp matrix}
+\end{align*}
+Where $\mu_k$ has $Kp$ parameters and $\Sigma_k$ has $K\frac{p(p+1)}{2}$ parameters \\
+\noindent When $p=1$, we can write 
+\begin{align*}
+    X\sim N (\mu_k, \sigma^2_k)
+\end{align*}
+In approaches like Linear Discriminant Analysis (LDA), Quadratic Discriminant
+Analysis (QDA), and Naive Bayes (NB) use simple estimators for $\Pi_k, \mu_k, \Sigma_k$
+that we can calculate fast. \\
+
+\noindent \boxed{ex} Linear discriminant analysis (LDA) make assumptions of common covariance structure
+$\Sigma = \Sigma_1 = \Sigma_2 = ... = \Sigma_k$ which reduces a lot of complexity.
+
+\noindent Given observations $(X_i, y_i)_{1\le i \le n}$, we can estimate for $k = 1,...,K$
+\begin{align*}
+    \hat \Sigma &= \frac{n_k}{n}, \text{ where} \\
+    n &= \# \{i:y_i=k\}\\ 
+    &= \text{number of observations in class } k \\
+    \hat \mu_k &= \frac{1}{n_k}\sum_{i:y_i=k}X_i
+\end{align*}
+Last estimate common covariance by 
+\begin{align*}
+    \hat \Sigma = \frac{1}{n-k} \sum_{k=1}^{K} \sum_{i:y_i=k} (X_i-\mu_k)(X_i-\mu_k)^T \\ 
+    \mathbb{E} \hat \Sigma = \Sigma \text{ if the model is true}
+\end{align*}
+
+\noindent \boxed{ex} Quadratic discriminant analysis is pretty much the same except DIFFERENT covariances $\Sigma_1,...,\Sigma_k$
+for each class. \\
+$\implies \hat \Pi_k = \frac{n_k}{n}$, $\hat \mu_k = \frac{1}{n_k}\sum_{i:y_i=k} X_i$ \\
+$\implies \hat \Sigma_k = \frac{1}{n_k-1} \sum_{i:y_i=k}(X_i-\mu_k)(X_i-\mu_k)^T$ \\
+$\implies K\frac{p(p+1)}{2}$ covariance free parameters.
+
+\noindent \boxed{ex} Naive Bayes is pretty much the same except DIFFERENT covariances $\Sigma_1, ..., \Sigma_k$
+that are also diagonal matrices.\\
+$\implies Kp$ covariance free parameters with the same estimators as QDA.
+\begin{align*}
+    \text{diag}\left(\sum_{k}^{n}\right) = \frac{1}{n_k-1} \sum_{i:y_i=k} (X_i-\mu_k)\odot(X_i-\mu_k)
+\end{align*} \\
+
+\noindent Suppose you have the statistical model with probability $\Pi_k$, we set $y=k$ and draw
+$X\sim N(\mu_k,\Sigma_k)$. Suppose we have estimated the parameters well - see a new 
+predictor vector $X = (X_1,...,X_p)$ - How do you determine class probabilities $P\{y= k |X\}$ and make predictions?\\
+
+\noindent Prediction part is easy - just predict based on the highest probability class:
+$\hat y = k$ for $k= \text{argmax}_{1\le j\le k}\  P\{y=j |X\}$ \\ 
+
+\noindent So what is $P\{y=k |X\}$? Bayes' rule tells us 
+\begin{align*}
+    P\{y=k|X\} &= \frac{P\{x|y=k\}\ P\{y=k\}}{\sum_{j=1}^{k}P\{X|y=j\}P\{y=j\}} \\
+    &= P(X) \\ 
+    &= \frac{f_k(X)\Pi_k}{\sum_{j=1}^{K}f_j(X)\Pi_j} \\
+    \text{ where Gaussian density } \Pi_j(X) &= \frac{1}{(2\pi)^{p/2}(\det\Sigma)^{1/2}}\exp(\frac{-1}{2}(X-\mu_j)\Sigma_j(X-\mu_j))
+\end{align*}
+
+\subsection{Discriminant Analysis In Detail}
+Let's say we have a generative statistical model with probability $\frac 12, y = 1$. Otherwise, $y = 2$. \\
+Given $y=1$, $X \sim N(\mu_1,\sigma^2)$ \\
+Given $y=2$, $X \sim N(\mu_2, \sigma^2)$\\
+We think about probability of class membership using Bayes' rule.
+\begin{align*}
+    P\{Y=k | X\}
+\end{align*}
+Where $Y$ is response, $k$ is class, either 1 or 2, and $X$ is the predictor.
+\begin{align*}
+    &\ \frac {P\{X, Y = k\}}{P\{X\}} \\
+    &= \frac{P\{X, y = k\}}{\sum_{j=1}^{2}P\{X,y=j\}} \\
+    &= \frac{P\{y=k\}P\{X | y = k\}}{\sum_{j=1}^{2}P\{y=j\}P\{X | y = j\}}
+\end{align*}
+Plugging in the specific model for class 1,
+\begin{align*}
+    P\{y = 1 | X\} &= \frac{\frac 12 f_1(X)}{\frac 12 f_1(X) + \frac 12 f_2(X)} \\
+    \text{where } f_1(x) &= P\{X | y = 1\} \\
+    &= \frac{1}{\sqrt{2\pi \sigma^2}} \exp(-\frac{1}{2\sigma^2}(X-\mu_1)^2) \\
+    f_2(x) &= P\{X | y = 2\} \\
+    &= \frac{1}{\sqrt{2\pi \sigma^2}} \exp(-\frac{1}{2\sigma^2}(X-\mu_2)^2)
+\end{align*}
+Usually our task in this class is to predict y as well as possible $\hat y = 1$ or $\hat y = 2$. 
+The best we can do, the only normal strategy, is to predict the higher probability count. \\
+\begin{align*}
+    \hat y = 1 \text{ if } P\{y=1 | X\} > P\{y=2|X\}
+\end{align*}
+Which happens if and only if
+\begin{align*}
+    \frac{1}{\sqrt{2\pi \sigma^2}} \exp(-\frac{1}{2\sigma^2}(X-\mu_1)^2) &> \frac{1}{\sqrt{2\pi \sigma^2}} \exp(-\frac{1}{2\sigma^2}(X-\mu_2)^2) \\
+    \exp(-\frac{1}{2\sigma^2}(X-\mu_1)^2) &> \exp(-\frac{1}{2\sigma^2}(X-\mu_2)^2) \\
+    -\frac{1}{2\sigma^2}(X-\mu_1)^2 &> -\frac{1}{2\sigma^2}(X-\mu_2)^2 \\
+    (X-\mu_2)^2 &> (X-\mu_1)^2
+\end{align*}
+So we make the prediction, 
+$\begin{cases}
+    \hat y = 1 &\text{if }|X-\mu_1| < |X-\mu_2| \\
+    \hat y = 2 &\text{if }|X-\mu_2| < |X-\mu_1|
+\end{cases}$ \\ \\
+We want to move from 1 predictor $X$ to two predictors $X_1$ and $X_2$\\ \\
+\underline{Before} \\
+$P\{y=1\} = P\{y=2\} = \frac 12$ \\
+Given $y = 1$, $X \sim N(\mu_1, \sigma^2)$ \\ 
+Given $y = 2$, $X \sim N(\mu_2, \sigma^2)$ \\ \\ 
+\underline{After} \\
+$P\{y=1\} = P\{y=2\} = \frac 12$ \\
+Given $y = 1$, $X \sim N(\mu_1, \sigma^2)$ \\ 
+Given $y = 2$, $X \sim N(\mu_2, \sigma^2)$ \\
+Where $\mathbf{X} = \begin{bmatrix}
+    X_1 \\ X_2
+\end{bmatrix}$
+and $\vec \mu_1 = \begin{bmatrix}
+    \mu_{11} \\ \mu_{12}
+\end{bmatrix}$
+and $\vec \mu_2 = \begin{bmatrix}
+    \mu_{21} \\ \mu_{22}
+\end{bmatrix}$ \\ \\ 
+Making it bold to turn scalars into vectors works except with variance.
+\begin{align*}
+    \Sigma = \begin{bmatrix}
+        \Sigma_{11} & \Sigma_{12} \\
+        \Sigma_{21} & \Sigma_{22}
+    \end{bmatrix}
+\end{align*}
 
 \end{document}
