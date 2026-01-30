@@ -489,4 +489,63 @@ Making it bold to turn scalars into vectors works except with variance.
     \end{bmatrix}
 \end{align*}
 
+\section{Model Selection}
+\underline{Quantitative response} - "train" different multiple linear regression models
+with different predictors. \\ 
+\underline{Qualitative response} - LDA / QDA / NB multiple logistic regression models 
+with different predictors. \\ \\
+To get the best model, consider:
+\begin{enumerate}
+    \item Set aside validation data set
+    \begin{center}
+        $(X_i, y_i)_{1\le i \le n}$ \\
+        $\swarrow \qquad \searrow$ \\
+        $(X_i,y_i)_{i\in T} \qquad (X_i,y_i)_{i \in T^C}$
+    \end{center}
+    Where $T$ is a set of training data point indices, e.g. $T=\{1,...,100\}$ and 
+    $T^C$ is the "test/validation" data points, e.g. $T^C=\{101,...,110\}$. 
+    $\hat y_i$ is the prediction for input $X_i$ often using \underline{training data} 
+    $(X_i,y_i)_{i \in T}$ to train the model. We can 
+    measure MSE$_{\text{test}} = $ \\
+    $\Rightarrow$ Choose the model with the best (lowest) MSE$_\text{test}$
+    \item Leave-one-out cross-validation (LOOCV)\\
+    Idea: use all possible train-test splits.
+    \begin{align*}
+        (X_j,y_j)_{j\ne i}
+    \end{align*}
+    \item K-fold cross validation \\
+    Split your data according to $k$ index sets $\{1,...,n\} = S_1 \cup S_2 \cup ... \cup S_k$
+    \item Bootstrap \\
+    \boxed{ex} you invest $\begin{cases}
+        \alpha & \text{fraction of your money in asset with return value }X \\
+        1- \alpha & \text{fraction in asset with return value } y
+    \end{cases}$ \\
+    You want to minimize variance of your return. \\
+    Choose $\alpha$ to minimize 
+    \begin{align*}
+        \text{Var}\left[ \alpha X + (1-\alpha)y \right] = \text{Cov}[\alpha X + (1-\alpha)y, \alpha X + (1-\alpha)y] 
+    \end{align*}
+    To optimize, set $\alpha$ derivative equal to zero.
+    \begin{align*}
+        \alpha &= \frac{\text{Cov[y-x,\ y]}}{\text{Var[y-x]}} \\
+        &= \frac{\sigma^2_y - \sigma_{xy}}{\sigma_x^2 + \sigma_y^2 -2\sigma_{xy}}
+    \end{align*}
+    In practice, we use data $(x_i, y_i)_{1\le i \le n}$ to estimate 
+    \begin{align*}
+        &\hat \alpha = \frac{\hat \sigma_y^2 - \hat \sigma_{xy}}{\hat \sigma_x^2+\hat \sigma_y^2-2\hat\sigma_{xy}} \\
+        & \text{where} \begin{cases}
+            \hat \sigma_x^2  = \frac 1{n-1} \sum_{i=1}^{n}(x_i-\bar x)^2\\
+            \hat \sigma_y^2  = \frac 1{n-1} \sum_{i=1}^{n}(y_i-\bar y)^2\\
+            \hat \sigma_{xy} = \frac 1{n-1} \sum_{i=1}^{n}(x_i-\bar x)(y_i-\bar y)
+        \end{cases}
+    \end{align*}
+    Q: What is a good error bar for $\hat \alpha$? \\
+    Q: what is SE$[\hat \alpha]$ = Var$[\hat \alpha]^\frac12$? \\
+    Bootstrap answers this. \\ \\
+    \underline{Bootstrap with $B (\approx 10^2 - 10^9)$ samples}\\
+    For $j = 1,...,B$: \\
+    Make fake data set $(\tilde x_i, \tilde y_i)_{1\le i \le n}$ that comes from real
+    observations $(x_i, y_i)_{1 \le i \le n}$ by uniformly sub-sampling \underline{with replacement}.
+\end{enumerate}
+
 \end{document}
