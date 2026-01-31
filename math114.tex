@@ -195,5 +195,98 @@ Long-run behavior, invariant distribution\\\\
 \underline{Def:} Let $P = [p(i,j)]$ be the transition matrix for Markov Chain $\{X_n\}_{n=0}^\infty$ with $S = \{1,2,..., N\}$.
 A probability vector $\pi \in \mathbb{R}^n$ is a stationary or invariant distribution if $\pi^p = \pi$
 
+\subsection{Lecture 11}
+\begin{itemize}
+    \item Recap: Discrete time/state, time homogeneous Markov Chains. Transition matrix $P = [p(i,j)],\ p(i,j) = \mathbb{P}(X_1 = j | X_j = i),\ p_n(i,j) = \mathbb{P}(X_n=j | X_0 = i)$
+    \item Markov Chains $\rightarrow$ MCMC 
+\end{itemize}
+\boxed{ex}\ 3 state MC
+\begin{align*}
+    &P = \begin{bmatrix}
+        \frac 34 & \frac 14 & 0 \\
+        \frac 18 & \frac 23 & \frac 5{24} \\
+        0 & \frac 56 & \frac 16
+    &\end{bmatrix} \\
+    &S = \{1,2,3\} \\
+    &\mathbb{P}(X_1=1|X_0=1) = \frac 34, \text{etc.} \\
+    &\lim_{n\rightarrow \infty}P^n = \begin{bmatrix}
+        \pi \\ \pi \\ \pi
+    \end{bmatrix},\ \pi = (\frac 2{11}, \frac 4{11}, \frac 5{11}) \\
+    & \text{Set } \pi_0 = (\mathbb{P}(X_0 =1), \mathbb{P}(X_0 =2), \mathbb{P}(X_0 =3)) \\
+    & = \mathbb{P}(X_0 = i)
+\end{align*}
+Then 
+\begin{align*}
+    \pi_n &= \pi_0 p^n \\
+    \lim_{n\rightarrow\infty} \pi_n &= \pi_0 \lim_{n\rightarrow \infty}p^n \\
+    &= \pi_0 \begin{bmatrix}
+        \pi \\ \pi \\ \pi
+    \end{bmatrix} \\
+    &= \Big(\pi(1) \cdot \sum_{i} \pi_0 (i),\ \pi(2) \cdot \sum_{i} \pi_0 (i), ... \Big) \\
+    &= \pi
+\end{align*}
+\underline{Remarks}
+\begin{itemize}
+    \item $\lim_{n\rightarrow \infty} \mathbb{P} (X_n = j) - \pi(j) \forall j$
+    \item \begin{align*}
+        \pi_n &= \pi_{n-1}P \\
+        \lim_{n\rightarrow\infty} \pi_n &= \lim_{n\rightarrow\infty}\pi_{n-1}P \\
+        \pi &= \pi P
+    \end{align*}
+    \item $\pi$ is a left eigenvector of P with eigenvalue 1.
+\end{itemize}
+\underline{Def:} Let $P = [p(i,j)]$ be the transition matrix for MC $\{X_n\}^\infty_{n=0}$ with 
+$S = \{1,...,N\}$. A probability vector $\pi \in \mathbb{R}^n$ is a stationary or 
+invariant distribution for $X_n$ (or P) if: $\pi = \pi P$ \\ \\
+\underline{Remarks} \\
+Above example shows $\lim_{n\rightarrow\infty} \pi_n = $ invariant distribution 
+(with some conditions). \\ 
+
+\noindent Questions: invariant distribution.
+\begin{itemize}
+    \item When do they exist?
+    \item Are they unique?
+    \item Roughly: typically have unique invariant distribution unless reducible or periodic.
+\end{itemize}
+\noindent \underline{Def:} A finite state time-homogeneous MC $X_n (n \ge 0$ with transition matrix $P$ is
+regular if there exists an integer $k\ge 1$, such that $P^k > 0$, i.e. all entries of $P^k$ are 
+strictly $>0$.  \\ \\
+\underline{Thm} \\
+Let $X_n (n\ge 0)$ be a regular N-state Markov Chain with transition matrix P. Then:
+\begin{enumerate}
+    \item $\{X_n\}_{n=0}^\infty$ has a unique stat dist $\pi,\ \pi > 0$
+    \item $\lim_{n \rightarrow\infty} P^n = \begin{bmatrix}
+        \pi \\ \vdots \\ \pi
+    \end{bmatrix}$, i.e. $\lim_{n\rightarrow\infty}p_n(i,j) = \pi(j)$
+    \item For any initial distribution $\pi_0, \lim_{n\rightarrow\infty} \pi_0 P^n = \pi$
+    i.e. $\lim_{n\rightarrow\infty} \mathbb{P}(X_n=j)= \pi(j)\ \forall j$
+\end{enumerate}
+\underline{Remarks}
+\begin{itemize}
+    \item 2. $\implies \displaystyle\lim_{n\rightarrow\infty} \mathbb{P}(X_n = j | X_0 = i)=\pi(j)$ independent of $i$
+    \item From 2.:
+    \begin{align*}
+        \lim_{n\rightarrow\infty} \frac 1n \sum_{k=0}^{n-1}p_k(i,j) &= \lim_{n\rightarrow\infty} p_n(i,j) = \pi(j)\\
+        \text{And } \frac 1n \sum_{k=0}^{n-1} p_k(i,j) &= \frac 1n \sum_{k=0}^{n-1}\mathbb{P}(X_k = j | X_0 = i) \\
+        &= \frac 1n \sum_{k=0}^{n-1}\mathbb{E}[\mathbb{I}[X_k=j]|X_0 =i] \\
+        &= \mathbb{E} \Big[\frac 1n \sum_{k=0}^{n-1} \mathbb{I}(X_k = j) | X_0 = i\Big] \\
+        &\rightarrow \pi(j) \text{ as } n \rightarrow \infty 
+    \end{align*}
+    \begin{center}
+        Which means the mean fraction of time spent in $J \rightarrow \pi (j)$
+    \end{center}
+\end{itemize}  
+How do we find $\pi$?
+\begin{itemize}
+    \item Solve $\pi P = \pi$
+    \item Diagonalize $P = U\Lambda U^{-1}$
+    \begin{align*}
+        \Rightarrow \lim_{n\rightarrow\infty} P^n &= \lim_{n\rightarrow\infty}(U\LambdaU^{-1})^n \\
+        &= U(\lim_{n\rightarrow\infty\Lambda ^n})U^{-1} \\
+        &= \begin{bmatrix}
+            \pi \\ \vdots \\ \pi
+        \end{bmatrix}
+    \end{align*}
+\end{itemize}
 
 \end{document}
