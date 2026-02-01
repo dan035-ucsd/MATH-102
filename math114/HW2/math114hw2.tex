@@ -2,7 +2,7 @@
 
 \usepackage{amsmath, amssymb, amsthm, enumerate, graphicx}
 
-\title{MATH  HW }
+\title{MATH 114 HW 2}
 \author{Dani Nguyen}
 \date{Winter 2025}
 
@@ -11,7 +11,94 @@
 \graphicspath{ {./} }
 
 \noindent \textbf{Question 1} \\
+Define the sample mean $\bar X_n$ and sample variance $S_n^2$ as 
+\begin{align*}
+    \bar X_n = \frac 1n \sum_{k=1}^{n}X_k & & S_n^2 = \frac{1}{n-1}\sum_{k=1}^{n}(X_k-\bar X_n)^2
+\end{align*}
+Recall $\sigma^2 = \mathbb{E}(X^2)-\mu^2 \Rightarrow \sigma^2 - \mu^2 = \mathbb{E}(X^2)$
+\begin{align*}
+    S_n^2 &= \frac{1}{n-1} \sum_{k=1}^{n}(X_k-\bar X_n)^2 \\
+    &= \frac{1}{n-1} \left(\sum_{k=1}^{n} X_k^2 - n\bar X_n^2\right) \\
+    \mathbb{E}(S_n^2 )&= \frac{1}{n-1} \left(\sum_{k=1}^{n} \mathbb{E}(X_k^2)-n\mathbb{E}(\bar X^2)\right) \\
+    &= \frac{1}{n-1} \left(\sum_{k=1}^{n}(\mu^2 - \sigma^2) - n((\mathbb{E}(\bar X))^2 + \text{Var} \bar X) \right) \\
+    &= \frac{1}{n-1} \left(n\mu^2 + n\sigma^2 - n (\mathbb{E}(\frac 1n \sum_{k=1}^{n}X_k)^2 + \text{Var}(\frac 1n \sum_{k=1}^n X_k)) \right)\\
+    &= \frac{1}{n-1} \left(n\mu^2 + n\sigma^2 - n ((\frac 1n \sum_{k=1}^{n}\mathbb{E}(X_k))^2 + (\frac 1{n^2} \sum_{k=1}^n \text{Var}(X_k))) \right)\\
+    &= \frac{1}{n-1} \left(n\mu^2 + n\sigma^2 - n ((\frac 1n\cdot n \mu)^2 + \frac 1{n^2}\cdot n\sigma^2) \right)
+\end{align*}
+\begin{align*}
+    &= \frac{1}{n-1} \left(n\mu^2 + n\sigma^2 - n\mu^2 -\sigma^2 \right) \\
+    &= \frac{1}{n-1} (n-1)(\sigma^2) \\
+    &= \sigma^2
+\end{align*}
+
 \noindent \textbf{Question 2} \\
+Define $I = \mathbb{E}(g(X))$ and 
+\begin{align*}
+    I = \int_{D} g(x)f(x)dx & & I_n = \frac 1n \sum_{k=1}^{n} g(X_k)
+\end{align*}
+We have
+\begin{align*}
+    \text{Var}(I_n) &= \text{Var}(\frac 1n \sum_{k=1}^{n}g(X_k)) \\
+    &= \frac 1{n^2} \sum_{k=1}^{n}\text{Var}(g(X_k)) \\
+    &= \frac 1n \text{Var}(g(X)) \\
+    &= \frac 1n (\mathbb{E}(g(X)^2) - \mathbb{E}(g(X))^2) \\
+    &= \frac 1n \left(\int_D g(x)^2f(x)dx - I^2\right)
+\end{align*}
+
 \noindent \textbf{Question 3} \\
+    \begin{tabular}{c | c c | c c}
+        N & $I_N$ & Var($I_N$) & $J_N$ & Var($J_N$) \\
+        \hline 
+        100 & 0.8107 & 0.0026 & 0.8276 & 0.0017 \\
+        400 & 0.8177 & 0.00086 & 0.8527 & 0.00036 \\
+        900 & 0.8423 & 0.00029 & 0.8266 & 0.00020 \\
+        1600 & 0.8174 & 0.00017 & 0.8397 & 0.000079 \\
+    \end{tabular} \\ \\
+Code for the simulation is included below.
+    \begin{verbatim}
+import numpy as np
+
+N = 100
+
+def crude_monte_carlo_integration():
+    X_n = np.random.uniform(0, 4, N)
+    sum = 0
+    for x in X_n:
+        sum += 4 * (np.sqrt(x) * np.exp(-x))
+    I = 1 / N * sum
+    return I
+
+def importance_sampling_integration():
+    U = np.random.uniform(0, 1, N)
+    Y_n = -np.log(1 - U * (1 - np.exp(-4)))
+
+    sum = 0
+    for y in Y_n:
+        sum += (np.sqrt(y) * np.exp(-y)) / (np.exp(-y) / (1 - np.exp(-4)))
+    I = 1 / N * sum
+    return I
+
+def samp_var(X):
+    sum = 0
+    for i in range(len(X)):
+        sum += (X[i] - np.mean(X)) ** 2
+    return sum / (len(X) - 1)
+
+results_mc = []
+for i in range(1, 101):
+    results_mc.append(crude_monte_carlo_integration())
+var_mc = samp_var(results_mc)
+crude_monte_carlo_integration(), var_mc
+
+results_is = []
+for i in range(1, 101):
+    results_is.append(importance_sampling_integration())
+var_is = samp_var(results_is)
+importance_sampling_integration(), var_is
+    \end{verbatim}
+
+\newpage
+\noindent \textbf{Question 4} \\
+
 
 \end{document}
