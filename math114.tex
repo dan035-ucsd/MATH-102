@@ -254,7 +254,7 @@ strictly $>0$.  \\ \\
 \underline{Thm} \\
 Let $X_n (n\ge 0)$ be a regular N-state Markov Chain with transition matrix P. Then:
 \begin{enumerate}
-    \item $\{X_n\}_{n=0}^\infty$ has a unique stat dist $\pi,\ \pi > 0$
+    \item $\{X_n\}_{n=0}^\infty$ has a unique stationary distribution $\pi,\ \pi > 0$
     \item $\lim_{n \rightarrow\infty} P^n = \begin{bmatrix}
         \pi \\ \vdots \\ \pi
     \end{bmatrix}$, i.e. $\lim_{n\rightarrow\infty}p_n(i,j) = \pi(j)$
@@ -288,5 +288,105 @@ How do we find $\pi$?
         \end{bmatrix}
     \end{align*}
 \end{itemize}
+
+\subsection{Lecture 12}
+Recap:
+\begin{itemize}
+    \item Discrete time/space MC $\{X_n\}_{n=0}^\infty, X_n \in S$
+    \item $P = [p(i,j)], p(i,j) = \mathbb{P}(X_1 = j | X_0 = i)$
+    \item $\pi_0 = \mathbb{P}(X_0 = i),\ \pi_n = \mathbb{P}(X_n=i)\quad (\text{pmf }X_n)$
+    \item Stationary distribution $\pi$ s.t. $\pi P = \pi$ 
+    \item Regular: $\exists k\ge 1 $ s.t. $P^k > 0 \Rightarrow$ unique stationary distribution $\pi >0$ \\
+        And $\lim_{n\rightarrow \infty} P^n = \begin{bmatrix}
+            \pi \\ \vdots \\ \pi
+        \end{bmatrix}$, $\lim_{n\rightarrow\infty} \pi_n = \pi$
+    \item Detailed balance: probability vector $\lambda$ s.t. $\lambda_i p(i,j)=\lambda_j p(j,i) \forall i,j \in S$\\
+    $\Rightarrow \lambda P = \lambda \Rightarrow \lambda $ stationary with respect to $P$.
+\end{itemize}
+
+\noindent\underline{Remarks}
+\begin{enumerate}
+    \item Can view MC as evolution of probability vectors (pmfs): $\pi_0, \pi_1, ...$ with $\pi_{n+1} = \pi_n P$.
+    This is hard to compute for $|S|$ large.
+    \item MC is a random sequence of states $X_0,X_1,... \in S$ which is often easier to compute.
+\end{enumerate}
+
+\noindent Recall: Discrete Inversion (Lecture 6) \\
+e.g.: Generate discrete RV X  
+\begin{align*}
+    &P(X=i) = p_i,\ i=1,2,3 \\
+    &p_1 + p_2 +p_3 = 1
+\end{align*}
+\begin{enumerate}
+    \item $U \sim U[0,1]$
+    \item $k = min\{m | \sum_{i=1}^{m} p_i \ge U\}$
+    \item Set $X \leftarrow k$
+\end{enumerate}
+
+\noindent \underline{Algorithm:} Generate / simulate MC \\
+Input: transition matrix $P$, initial distribution $\pi_0$ \\
+Output: MC $X_0, X_1,... \in S, X_n \sim \pi_k = \pi_0P^k$
+\begin{enumerate}
+    \item Generate $X_0 \sim \pi_0$
+    \item For $k=1,...,n$, generate $X_{n+1}$ from $p(X_k)$. i.e. pmf over $S$, given by the $X_k$'th row of P.
+    \item Repeat $n$ times to get samples from $\pi_k$
+\end{enumerate}
+
+\noindent\underline{MCMC:} (R$\&$K ch.6)
+\begin{itemize}
+    \item Key idea: generate distribution $\pi$ by simulating MC with stationary distribution $\pi$
+    \item Often $\pi$ is known up to a normalizing constant.
+    \item $\lim_{n\rightarrow\infty} \frac 1n \sum_{k=1}^{n} \mathbb{I}\{X_k=i\} = \pi(i)\ \forall i \in S$
+    \item $\lim_{n\rightarrow\infty} \frac 1n \sum_{k=1}^{n} g(X_k) = \mathbb{E}_\pi (g(x))$
+\end{itemize}
+We assume that 
+\begin{itemize}
+    \item RV $X\in S$ is finite, e.g. $S = \{1,2,...,N\}$
+    \item Target pmf of X is $\pi = (\pi(1), ...,\pi_N), \pi(i) = \mathbb{P}(X=i)\ \forall i\in S$
+    \item $\pi$ has special form $\pi (i) = \frac 1z b(i) > 0 \ \forall i \in S$. \\
+    Where $b(i)>0$ are known and $z > 0$ is unknown norm.
+    \begin{align*}
+        \sum_{i\in S} \pi(i) = 1 \iff \sum_{i \in S} b(i) = z
+    \end{align*}
+\end{itemize}
+
+\noindent\underline{Remarks}
+\begin{itemize}
+    \item $z$ is hard to compute, (sum of $N  = |S|$ terms)
+    \item $z$ is called a partition function 
+\end{itemize}
+
+\noindent\underline{Algorithm:} Metropolis 
+\begin{itemize}
+    \item First construct proposal transition matrix $Q = [q(i,j)]$, where $Q$ is symmetric.
+    \item Choose initial state $X_0 \in S$ (e.g. randomly).
+\end{itemize}
+Given $X_k = i \in S$
+\begin{enumerate}
+    \item Sample $Y\in S$ from $q(i,\cdot)$, i.e. $\mathbb{P}(Y=y | X_k =i) = q(i,y)\ \forall y \in S$ \\
+    Assume $Y = j$ is observed.
+    \item Let $\alpha = \alpha_{ij} = \min\left(1, \frac{\pi(j)}{\pi(i)}\right) \in [0,1]$ and generate $U \sim U[0,1]$. \\
+    If $U\le \alpha$, accept $Y$, $X_{k+1} \leftarrow Y$ \\
+    If $U > \alpha$, reject $Y$, $X_{k+1} \leftarrow X_k$ \\
+    (Accept $Y$ with probability $\alpha$) \\
+    Output: $X_0, X_1, X_2, ...$
+\end{enumerate}
+
+\noindent\underline{Remarks}
+\begin{itemize}
+    \item $\{X_n\}_{n=0}^\infty$ is MC with $\lim_{n\rightarrow\infty}X_n \sim \pi$
+    \item Can choose $Q = [q(i,j)]$ to be simple, e.g. uniform jumps, $q(i,j) = \frac 1N$
+    \item Only need the ratios $\frac{\pi(j)}{\pi(i)}$, so we don't need $z$.
+    \item Call $Y$ a proposed state.
+    \item Call $\alpha$ the acceptance probability.
+    \item In practice, $\alpha = a_{ij}$ is easy to compute.
+    \item Can be extended to non-symmetric $Q$
+\end{itemize}
+\boxed{ex} Id Ising model
+\begin{align*}
+    S &= \{\sigma = (\sigma_1, ... , \sigma_m) | \sigma_i = -1 \text{ or } +1,\ 1\le i \le m\} \\
+    &= \{-1,+1\}^m \\
+    |S| &= 2^m \text{ states}
+\end{align*}
 
 \end{document}
