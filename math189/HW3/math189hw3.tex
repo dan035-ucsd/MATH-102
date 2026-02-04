@@ -1,0 +1,61 @@
+\documentclass[12pt, letterpaper]{article} 
+
+\usepackage{amsmath, amssymb, amsthm, enumerate, graphicx}
+
+\title{MATH 189 HW 3}
+\author{Dani Nguyen}
+\date{Winter 2025}
+
+\begin{document}
+\maketitle
+\graphicspath{ {./} }
+
+\noindent \textbf{Question 1} \\
+Let $k = 1$ be the class of companies that issue dividends and $k=2$ be the class 
+of companies that didn't. \\
+Let $X_1$ be the percent profit of $k=1$ and $X_2$ be the percent profit of $k=2$ \\
+We have
+\begin{align*}
+    X_1 \sim N(10,36) && X_2 \sim N(0,36)
+\end{align*}
+\begin{align*}
+    P(k=1) = .8
+\end{align*}
+\begin{align*}
+    P(k=1 | X) &= \frac{P( y = 1 ) P(X | y = 1)}{P( y = 1 ) P(X | y = 1) + P( y = 2 ) P(X | y = 2)} \\
+    &= \frac{.8 f_1(X)}{.8 f_1(X) + .2 f_2(X)} \\
+    &= \frac{.8 \frac{1}{\sqrt{2\pi\sigma^2}} \exp (-\frac{1}{2\sigma^2}(X-\mu_1)^2)}{.8 \frac{1}{\sqrt{2\pi\sigma^2}} \exp (-\frac{1}{2\sigma^2}(X-\mu_1)^2) + .2 \frac{1}{\sqrt{2\pi\sigma^2}} \exp (-\frac{1}{2\sigma^2}(X-\mu_2)^2)} \\
+    &= \frac{.8 \exp (-\frac{1}{2\cdot 36}(4-10)^2)}{.8 \exp (-\frac{1}{2\cdot 36}(4-10)^2) + .2 \exp (-\frac{1}{2\cdot 36}(4-0)^2)} \\
+    &= \frac{.8 \exp (-\frac{1}{72}(-6)^2)}{.8 \exp (-\frac{1}{72}(-6)^2) + .2 \exp (-\frac{1}{72}(4)^2)} \\
+    &= \frac{.8 \exp (-1/2)}{.8 \exp (-1/2) + .2 \exp (-2/9)} \\
+    &= 0.7519
+\end{align*}
+\noindent \textbf{Question 2} \\
+When K=1, KNN fit perfectly interpolates the training observation which gives 
+zero error on the training data set. This means the test error rate is 36\%. 
+Therefore, logistic regression is better. \\
+
+\noindent \textbf{Question 3} 
+\begin{enumerate}[a.]
+    \item We split our data according to $k$ subsets, and then we save each 
+    $k$'th set for testing, and training on the remaining $k-1$ sets combined.
+    \item A drawback of the validation set approach is that it is very sensitive 
+    to which data is included in the training, it is however less computationally 
+    expensive because we only have to fit one model. For the LOOCV, we set $k=n$
+    and use most of the data for training, saving one observation for validation.
+    This is very computationally expensive compared to validation sets, but has
+    far less bias.
+\end{enumerate}
+
+\noindent \textbf{Question 4} 
+
+\noindent \textbf{Question 5} 
+\begin{enumerate}[a.]
+    \item $\hat \mu = 22.5328$
+    \item SE$[\hat \mu] = 0.40886$
+    \item Bootstrap estimate of SE$[\hat \mu] = 0.40813$. This is very 
+        close to the actual standard error of $\hat \mu$.
+    \item 
+\end{enumerate}
+
+\end{document}
