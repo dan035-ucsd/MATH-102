@@ -382,11 +382,51 @@ Given $X_k = i \in S$
     \item In practice, $\alpha = a_{ij}$ is easy to compute.
     \item Can be extended to non-symmetric $Q$
 \end{itemize}
-\boxed{ex} Id Ising model
+\boxed{ex} 1D Ising model
 \begin{align*}
     S &= \{\sigma = (\sigma_1, ... , \sigma_m) | \sigma_i = -1 \text{ or } +1,\ 1\le i \le m\} \\
     &= \{-1,+1\}^m \\
     |S| &= 2^m \text{ states}
 \end{align*}
+
+\subsection{Lecture 13}
+\underline{Metropolis Algorithm} 
+\begin{align*}
+    S = \{1,2,...,N\}
+\end{align*}
+Goal: Sample random variable $X$ from some target distribution $\Pi(i) = \mathbb{P}(X=i)\implies$
+$\Pi_i (i) = \frac 1z b(i)$ \\ \\
+We have $Q = [q(i,j)]$ which is our transition matrix (symmetric).
+\begin{enumerate}
+    \item Choose $X_0 \in S$. Given $X_n \in S$, sample $Y \in S$ from $q(X_n, i)$, i.e. $\mathbb{P}(Y=y | X_n = i)$
+    \item Set $\alpha = \min(1, \frac{\pi(y)}{\pi(X_n)}) \in [0,1]$. \\
+    Generate $U \sim U[0,1]$ \\
+    If $U\le \alpha$, accept $Y:X_{n+1} \leftarrow Y$ \\
+    Otherwise, $U > \alpha$, reject $Y$, $X_{n+1}\leftarrow X_n$
+\end{enumerate}
+
+\noindent \underline{1D Ising Model} \\
+$S = \{\sigma = \{\sigma_1, \sigma_2, ... , \sigma_n\} : \sigma_j = \pm 1\}$ \\
+$\Rightarrow 2^m$ states.
+\begin{align*}
+    &\Pi (\sigma) = \frac 1z e^{-\beta \mathcal{H}(\sigma)} \\
+    &\mathcal{H} = - J \sum_{j=1}^{m-1} \sigma_j \sigma_{j+1} - h\sum_{j=1}^{m}\sigma_j \\
+    & J, h > 0 
+\end{align*}
+
+Large $\Pi (\sigma) \longleftrightarrow $ Low energy states.
+
+\noindent \underline{Calculate physical quantities.} \\
+\begin{align*}
+    m(\sigma) &= <\sigma> = \frac 1m (N_{+} - N_{-}) \\ 
+    &= \frac 1m \sum (N_+ - N_-) \Pi_p (\sigma)
+\end{align*}
+\begin{align*}
+    \frac{\Pi_\beta (y)}{\Pi_\beta (X_n)} = e^{-\beta ( \Delta \mathcal{H})}
+\end{align*}
+\begin{enumerate}[a.]
+    \item $1 < i < m$ \\
+        $\Delta \mathcal{H} = 2J \sigma_i(\sigma_{i+1} + \sigma_{i-1}) + 2h\sigma_i$
+\end{enumerate}
 
 \end{document}
