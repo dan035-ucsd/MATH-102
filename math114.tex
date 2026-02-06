@@ -300,7 +300,7 @@ Recap:
         And $\lim_{n\rightarrow \infty} P^n = \begin{bmatrix}
             \pi \\ \vdots \\ \pi
         \end{bmatrix}$, $\lim_{n\rightarrow\infty} \pi_n = \pi$
-    \item Detailed balance: probability vector $\lambda$ s.t. $\lambda_i p(i,j)=\lambda_j p(j,i) \forall i,j \in S$\\
+    \item Detailed balance: probability vector $\lambda$ s.t. $\lambda_i p(i,j)=\lambda_j p(j,i)\ \forall i,j \in S$\\
     $\Rightarrow \lambda P = \lambda \Rightarrow \lambda $ stationary with respect to $P$.
 \end{itemize}
 
@@ -428,5 +428,130 @@ Large $\Pi (\sigma) \longleftrightarrow $ Low energy states.
     \item $1 < i < m$ \\
         $\Delta \mathcal{H} = 2J \sigma_i(\sigma_{i+1} + \sigma_{i-1}) + 2h\sigma_i$
 \end{enumerate}
+
+\subsection{Lecture 14}
+\underline{Recap: Metropolis Chain} \\
+We have 
+\begin{itemize}
+    \item State space $S = \{1,2,...,N\}$
+    \item Proposed transition matrix $Q = [q(i,j)]$ which is symmetric
+    \item Target distribution $\pi > 0 $
+\end{itemize}
+Metropolis summary
+\begin{itemize}
+    \item Given $X_k \in S$, choose $y$ sampled from $q(X_k, \cdot)$, i.e. $X_k$'th 
+    row of $Q$
+    \item Accept $Y$ with probability $\min(1, \frac{\pi(y)}{\pi(X_k)})$
+    \item Output: MC $X_0, X_1, ..., \in S$ with $X_n \sim \pi$ as $n \rightarrow \infty$
+\end{itemize}
+
+\noindent \underline{Convergence}
+\begin{itemize}
+    \item How big should $n$ be to get $X_n \sim \pi$ 'roughly'?
+    \item Hard to compute!
+    \item Heuristic: Consider $R(n) = \text{Cov}(X_n, X_0)$
+\end{itemize}
+
+\noindent \underline{Thm}
+\begin{enumerate}
+    \item The transition matrix $P = [p(i,j)]$ of the Metropolis chain is 
+    \begin{align*}
+        p(i,j) = \begin{cases}
+            q(i,j) \min(1, \frac{\pi(j)}{\pi(i)}) & i \ne j \\
+            1 - \sum_{k\in S, k\ne i} q(i,k) \min(\frac{\pi(k)}{\pi(i)}) & i = j
+        \end{cases}
+        \forall i,j \in S
+    \end{align*}
+    \item $\pi$ and $P$ satisfy detailed balance (DB)
+    \begin{align*}
+        &\pi(i)p(i,j) = \pi(j)p(j,i)\ \forall i,j \in S \\
+        &\text{Hence } \pi \text{ is stationary}
+    \end{align*}
+    \item If $q(i,j) > 0 \forall i,j \in S$ and $p(i,i) > 0\ \forall i \in S$
+    Then $\pi$ is a unique stationary distribution and $\lim_{n\rightarrow\infty}
+    \pi_0 P^n = \pi$
+\end{enumerate}
+\underline{Proof}
+\begin{enumerate}
+    \item For $i \ne j$
+    \begin{align*}
+        p(i,j) = \mathbb{P}(\text{propose } j|i)\cdot \mathbb{P}(\text{accept } j) \\
+        q(i,j) \min(1, \frac{\pi(j)}{\pi(i)})
+    \end{align*}
+    Then 
+    \begin{align*}
+        &\sum_{j \in S} p(i,j) = 1\ \forall i \in S \\
+        &\Rightarrow p (i,j) = 1 - \sum_{k \in S, k\ne i} q(i,k) \min(1, \frac{\pi(k)}{\pi(i)})
+    \end{align*}
+    \item Want to show: $\pi(i)p(i,j) = \pi(j)p(j,i)\ \forall i,j \in S$. \\
+    This is always true for $i = j$ \\
+    For $i \ne j$:
+    \begin{align*}
+        \pi(i)p(i,j) &= \pi(i) q(i,j) \min(1, \frac{\pi(j)}{\pi(i)}) \\
+        &= q(i,j) \min(\pi(i), \pi(j)) \\
+        &= q(j,i) \min(\pi(j), \pi(i)) \\
+        &= \pi(j) p(j,i) \Rightarrow DB \checkmark \\
+        & \pi \text{ is stationary (Lecture 11)}
+    \end{align*}
+    \item Conditions $\Rightarrow p(i,j) > 0\ \forall i,j \in S$ 
+    $\Rightarrow P $ is regular \\
+    $\Rightarrow \pi$ is unique and $\lim_{n\rightarrow\infty} \pi_0P^n = \pi$
+\end{enumerate}
+
+\underline{Remarks}
+\begin{itemize}
+    \item For Metropolis Algorithm applied to Ising model, we had: 
+    \begin{align*}
+        S = \{\underline{\sigma} = (\sigma_1, ..., \sigma_n), \sigma_j = \pm 1\}
+    \end{align*}
+    Spin flips $(\sigma_1,..., \sigma_j, ..., \sigma_n)\mapsto (\sigma_1,..., \sigma_j, ..., \sigma_n)$ \\
+    $\Rightarrow q(\sigma, \sigma ') = \begin{cases}
+        \frac 1m & \text{if } \sigma \mapsto \sigma' \text{ is 1 flip} \\ 
+        0 & \text{otherwise}
+    \end{cases}$ \\
+    \item WE can show that this $q$ gives a Metropolis chain which is regular
+    (Hint: any 2 states in S are at most $m$ flips apart, $P^m > 0$)
+\end{itemize}
+
+\noindent\underline{The Gibbs Sampler} \\
+ex: Ising model (Glauber dynamics) \\
+\begin{align*}
+    \text{States} &: S = \{\sigma = (\sigma_1,..., \sigma_m), \sigma_j = \pm 1\}\\
+    \text{Target dist} &: \pi, \pi(\sigma) = \frac{b(\sigma)}{z}>0 \ \forall \sigma \in S \\
+    \text{Notation} &: \sigma^{j, +1} = (\sigma_1, \sigma_2, ... , \sigma_{j-1}, +1, \sigma_{j+1},..., \sigma_m) \\
+    &\quad \sigma^{j, -1} = (\sigma_1, \sigma_2, ... , \sigma_{j-1}, -1, \sigma_{j+1},..., \sigma_m)
+\end{align*}
+
+\noindent\underline{Glauber dynamics} \\
+(Random-scan Gibbs sampler for Ising model)\\
+Goal: Construct MC, $X_0, X_1,... \in S$ s.t. $X_n \sim \pi$ as $n\rightarrow \infty$ \\
+Assume $X_k = \sigma \in S$
+\begin{enumerate}
+    \item Choose $J$ uniformly at random from 1,2,..., m 
+    \item Set $\alpha_+ = \frac{\pi(\sigma^{J, +1})}{\pi(\sigma^{J, -1}+ \sigma^{J, +1})}$
+    and $\alpha_- = \frac{\pi(\sigma^{J, -1})}{\pi(\sigma^{J, -1}+ \sigma^{J, +1})}$
+\end{enumerate}
+Note that $\alpha_+ + \alpha_-  = 1$ \\
+Set $X_{k+1} \leftarrow \sigma^{J, +1}$, with probability $\alpha_+$ \\
+$X_{k+1} \leftarrow \sigma^{J, -1}$, with probability $\alpha_-$ \\
+
+\noindent\underline{Remarks}
+\begin{itemize}
+    \item Each 'spin' is in $\{-1, +1\}$
+    \item $\{\alpha_+, \alpha_-\}$ is pmf over $\{-1,+1\}$
+    \item Set $J$'th spin conditional on the value of every other spin.
+\end{itemize}
+
+\noindent\boxed{ex} $m = 2$ spins
+\begin{align*}
+    \text{States}: &\ S = \{(-1, -1),(-1, +1),(+1, -1),(+1, +1), \} \\
+    \text{Set}: & \ \pi(-1,-1) = \frac 1z, \pi(-1,+1) = \frac 2z \\
+    & \pi(+1, -1) = \frac 3z, \pi(+1, +1) = \frac 5z \\
+    (\text{Here } z = 11)
+\end{align*}
+Suppose $X_k = (-1,-1), J=2$ (Glauber dynamics) \\
+Then $\sigma^{J, +1} = (-1,+1)$, $\sigma^{J, -1}=(-1,-1)$ \\
+$\alpha_+ = \frac{\frac 3z}{ \frac 1z + \frac 3z} = \frac 34$, $\alpha_- = \frac{1}{1+3} = \frac 14$ \\
+Then
 
 \end{document}
