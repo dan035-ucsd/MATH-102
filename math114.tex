@@ -289,7 +289,7 @@ How do we find $\pi$?
     \end{align*}
 \end{itemize}
 
-\subsection{Lecture 12}
+\subsection{Lecture 12 - MCMC}
 Recap:
 \begin{itemize}
     \item Discrete time/space MC $\{X_n\}_{n=0}^\infty, X_n \in S$
@@ -389,7 +389,7 @@ Given $X_k = i \in S$
     |S| &= 2^m \text{ states}
 \end{align*}
 
-\subsection{Lecture 13}
+\subsection{Lecture 13 - Metropolis}
 \underline{Metropolis Algorithm} 
 \begin{align*}
     S = \{1,2,...,N\}
@@ -552,6 +552,6 @@ $X_{k+1} \leftarrow \sigma^{J, -1}$, with probability $\alpha_-$ \\
 Suppose $X_k = (-1,-1), J=2$ (Glauber dynamics) \\
 Then $\sigma^{J, +1} = (-1,+1)$, $\sigma^{J, -1}=(-1,-1)$ \\
 $\alpha_+ = \frac{\frac 3z}{ \frac 1z + \frac 3z} = \frac 34$, $\alpha_- = \frac{1}{1+3} = \frac 14$ \\
-Then
-
+Then $\mathbb{P}(X_{k+1}=(-1,+1)\ |\ X_k = (-1,-1))$
+$= \frac 34 \cdot \frac 12 = \alpha_+ \cdot \mathbb{P}(J=2)$
 \end{document}
