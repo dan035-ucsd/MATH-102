@@ -490,6 +490,7 @@ Making it bold to turn scalars into vectors works except with variance.
 \end{align*}
 
 \section{Model Selection}
+\subsection{Bootstrap}
 \underline{Quantitative response} - "train" different multiple linear regression models
 with different predictors. \\ 
 \underline{Qualitative response} - LDA / QDA / NB multiple logistic regression models 
@@ -546,6 +547,33 @@ To get the best model, consider:
     For $j = 1,...,B$: \\
     Make fake data set $(\tilde x_i, \tilde y_i)_{1\le i \le n}$ that comes from real
     observations $(x_i, y_i)_{1 \le i \le n}$ by uniformly sub-sampling \underline{with replacement}.
+\end{enumerate}
+
+\subsection{Linear Model Selection}
+Goal: Choose best linear regression model based on predictor selection and modification of predictors.\\ \\
+
+\noindent Question: Given a data set with $p$ predictors and a quantitative response variable, which subset of 
+predictors leads to the best multiple linear regression model?
+\begin{enumerate}
+    \item \underline{Best subset selection}
+    \begin{itemize}
+        \item Try all $2^p$ models and evaluate the MSE on a validation data set.
+        \item Choose the best one.
+    \end{itemize}
+    \item \underline{Forward selection}
+    \begin{itemize}
+        \item Start with an empty set of variables.
+        \item Try adding each of the remaining variables and calculate the MSE on a validation set.
+        \item Choose the best variable and add it to the model if it improves the MSE.
+        \item Repeat until convergence.
+    \end{itemize}
+    \item \underline{Backward selection}
+    \begin{itemize}
+        \item Start with all $p$ variables.
+        \item Try kicking out each of the variables and calculate MSE on a validation set.
+        \item If it improves MSE, make the best alteration to the model.
+        \item Repeat until convergence.
+    \end{itemize}
 \end{enumerate}
 
 \end{document}
