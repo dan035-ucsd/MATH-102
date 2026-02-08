@@ -575,5 +575,46 @@ predictors leads to the best multiple linear regression model?
         \item Repeat until convergence.
     \end{itemize}
 \end{enumerate}
+\textbf{Computational cost.} The main advantage of forward and backward selection is computational cost.
+They require at most $p+(p-1)+...+1 = p(p+1)/2$ models, and 
+\begin{align*}
+    p(p+1)/2 \ll 2^p
+\end{align*}
+\textbf{Accuracy.} There are no guarantees that forward or backward selection find the best model,
+but sometimes we get lucky. The models discovered by different methods can be slightly different. \\ \\
+\textbf{Ridge regression.} One way to improve the coefficients $\hat \beta_0,..., \hat \beta_p$ that
+arise in a linear model is by changing the fitting procedure. Instead of minimizing the residual sum
+of squares 
+\begin{align*}
+    \text{RSS} = \sum_{i=1}^{n} (y_i-\hat y_i)^2
+\end{align*}
+over the data set $(x_i,y_i)_{1\le i \le n}$, we choose $\hat \beta_0, ...,\hat \beta_p$ to minimize
+\begin{align*}
+    \text{RSS} + \underbrace{\lambda \sum_{j=1}^{p}\hat \beta^2_j}_\text{shrinkage penalty}
+\end{align*}
+The shrinkage penalty keeps the coefficients $\hat \beta_1,..., \hat \beta_p$ small in magnitude, note 
+that we don't penalize the intercept $\hat \beta_0$. A couple limits are worth considering.
+\begin{itemize}
+    \item When $\lambda = 0$, we get multiple linear regression.
+    \item When $\lambda \rightarrow$, all coefficients except the intercept approach zero.
+\end{itemize}
+It is best to apply ridge regression (or lasso) after standardizing each predictor by subtracting the mean 
+and dividing by the standard deviation.
+\begin{align*}
+    x_{ij}\rightarrow \tilde{x}_{ij} = \frac{x_{ij}-\bar x_j}{\sqrt{\frac 1n \sum_{i=1}^{n}(x_{ij}-\bar x_j)^2}}\ 
+    \text{where } \bar{x}_j = \frac 1n \sum_{i=1}^{n}x_{ij} \text{ is mean of predictor }j.
+\end{align*}
+\textbf{Lasso.} Instead of minimizing RSS $= \sum_{i=1}^{n}(y_i-\hat y_i)^2$, the lasso chooses $\hat \beta_1, ..., \hat \beta_p$ to minimize
+\begin{align*}
+    \text{RSS } + \underbrace{\lambda\sum_{j=1}^{p}|\hat \beta_j|}_{\text{lasso penalty}}
+\end{align*}
+Note that the lasso penalty uses the $\mathcal{l}_1$ norm $||\hat \beta||_1 = \sum_{j=1}^{p}|\hat \beta_j|$,
+whereas ridge regression uses the square $\mathcal{l}_2$ norm $||\hat \beta||_2^2= \sum_{j=1}^{p} \beta^2_j$.
+
+\textbf{Principal component regression.} \textit{Principal component analysis} finds the directions in 
+a data set $x_1, ..., x_n \in \mathbb{R}^p$ that have the most variance. Equivalently, principal component 
+analysis finds a low-dimensional subspace that reconstructs the data as well as possible. After performing 
+principal component analysis, we can try \textit{principal component regression} (PCR), where we use a
+small number of principal components (e.g. 1-20) as predictors.
 
 \end{document}
