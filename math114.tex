@@ -195,7 +195,7 @@ Long-run behavior, invariant distribution\\\\
 \underline{Def:} Let $P = [p(i,j)]$ be the transition matrix for Markov Chain $\{X_n\}_{n=0}^\infty$ with $S = \{1,2,..., N\}$.
 A probability vector $\pi \in \mathbb{R}^n$ is a stationary or invariant distribution if $\pi^p = \pi$
 
-\subsection{Lecture 11}
+\subsection{Lecture 11 - Invariant Distribution}
 \begin{itemize}
     \item Recap: Discrete time/state, time homogeneous Markov Chains. Transition matrix $P = [p(i,j)],\ p(i,j) = \mathbb{P}(X_1 = j | X_j = i),\ p_n(i,j) = \mathbb{P}(X_n=j | X_0 = i)$
     \item Markov Chains $\rightarrow$ MCMC 
@@ -248,9 +248,9 @@ Above example shows $\lim_{n\rightarrow\infty} \pi_n = $ invariant distribution
     \item Are they unique?
     \item Roughly: typically have unique invariant distribution unless reducible or periodic.
 \end{itemize}
-\noindent \underline{Def:} A finite state time-homogeneous MC $X_n (n \ge 0$ with transition matrix $P$ is
-regular if there exists an integer $k\ge 1$, such that $P^k > 0$, i.e. all entries of $P^k$ are 
-strictly $>0$.  \\ \\
+\noindent \underline{Def:} A finite state time-homogeneous MC $X_n (n \ge 0)$ with transition matrix $P$ is
+regular if there exists an integer $k\ge 1$, such that $P^k > 0$, (i.e. all entries of $P^k$ are 
+strictly $>0$).  \\ \\
 \underline{Thm} \\
 Let $X_n (n\ge 0)$ be a regular N-state Markov Chain with transition matrix P. Then:
 \begin{enumerate}
@@ -554,4 +554,116 @@ Then $\sigma^{J, +1} = (-1,+1)$, $\sigma^{J, -1}=(-1,-1)$ \\
 $\alpha_+ = \frac{\frac 3z}{ \frac 1z + \frac 3z} = \frac 34$, $\alpha_- = \frac{1}{1+3} = \frac 14$ \\
 Then $\mathbb{P}(X_{k+1}=(-1,+1)\ |\ X_k = (-1,-1))$
 $= \frac 34 \cdot \frac 12 = \alpha_+ \cdot \mathbb{P}(J=2)$
+
+\subsection{Lecture 15 - Midterm Review}
+\underline{Recap:}
+\begin{itemize}
+    \item Inversion, transformation
+    \item Acceptance-rejection method
+    \item MC integration, crude and importance sampling.
+    \item Variance reduction.
+    \item Markov chains (not MCMC)
+\end{itemize}
+\textbf{MC Integration} \\
+\underline{Goal:} Calculate 
+\begin{align*}
+    I = \int_D g(x)f(x)dx \quad D \subseteq \mathbb{R}^d
+\end{align*}
+\begin{align*}
+    \text{where } &D \text{ is bounded} \\
+    &f,g: D \rightarrow \mathbb{R} \\
+    &f \text{ is a pdf on } D
+\end{align*}
+For $X \sim f$: 
+\begin{align*}
+    I &= \mathbb{E}_f(g(x)) \\
+    \text{Var}_f(g(x)) &= \mathbb{E}_f(g(x)^2) - [\mathbb{E}_f(g(x))]^2 \\
+    &= \int_D g(x)^2 f(x) dx - I^2
+\end{align*}
+\underline{Crude MC estimator:} \\
+\begin{align*}
+    I_N = \frac 1N \sum_{i=1}^{N}g(x_i) && X_1, ...,X_N \sim f, iid
+\end{align*}
+Then (check):
+\begin{itemize}
+    \item $\mathbb{E}(I_N) = I$ (unbiased)
+    \item Var$I_N = \frac 1N $Var$_f (g(x_i))$
+    \item $I_N \rightarrow I$ with probability 1
+\end{itemize}
+\underline{Importance sampling:} \\
+The importance function $\phi$ is a pdf on $D$. \\
+Then 
+\begin{align*}
+    I &= \int_D \frac{g(x)f(x)}{\phi(x)}\phi(x)dx \\
+    &= \mathbb{E}_\phi \left[\frac{g(y)f(y)}{\phi(y)}\right], \quad y \sim \phi
+\end{align*}
+and we have our estimator 
+\begin{align*}
+    J_N = \frac 1N \sum_{i=1}^{N} \frac{g(y_i)f(y_i)}{\phi(y_i)} && y_1, ..., y_N \sim \phi iid
+\end{align*}
+Then (check):
+\begin{itemize}
+    \item $\mathbb{E}(J_N) = I$ (unbiased)
+    \item Var$J_N - \frac 1N \left[\int_D \frac{g(x)^2f(x)^2}{\phi(x)}dx - I^2\right]$
+    \item Choose $\phi$ to be easy to compute and to give small Var$J_N$
+\end{itemize}
+\textbf{Variance Reduction} \\
+Let $U, V \sim U[0,1],\ \alpha, \beta: \mathbb{R} \rightarrow \mathbb{R}$ \\
+Set $W = \alpha(U) + \beta(V),\ W$ is an estimator for $\mu = \mathbb{E}(\alpha(U)+\beta(V)) = \mathbb{E} W$\\
+\underline{Goal:} Find relationship between $U,V$ to reduce Var $W$  \\
+Note: Var $W$ = Var$(\alpha(U))$ + Var$\beta(V)$ + 2Cov$(\alpha(U),\beta(V))$ \\
+Note: Cov$(X,Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y)$ which $= 0 $ if $X,Y$ are independent.
+\begin{enumerate}
+    \item $\alpha, \beta$ increasing \\
+    $\rightarrow$ Use antithetic RVs: $V = 1-U$ \\
+    Cov$(\alpha(U),\beta(1-U)) \le 0, \quad \alpha, \beta \uparrow$
+    \item $\alpha \uparrow, \beta \downarrow$ \\
+    $\rightarrow$ Use common RVs: $V = U$ \\
+    Cov$(\alpha(U), \beta(U)) \le 0, \quad \alpha \uparrow, \beta \downarrow$ \\
+    See practice midterm Q4, HW2 Q4.
+\end{enumerate}
+\textbf{Markov Chain}
+\begin{itemize}
+    \item Discrete time/state, time homogeneous MC \\
+    $X_0, X_1, ... \in S = \{1,2,3,...,N\}$
+    \item Transition matrix \\
+    $P = [p(i,j)],\ p(i,j) = \mathbb{P}(X_1 = j | X_0 = i)\ \forall i,j \in S$
+    \item Distribution vectors:
+    $\pi_n = [\mathbb{P}(X_n = i)]\ \forall i \in S, $ pmf $X_n$
+    \item $\pi_{n+1} = \pi_n P$ (HW3)
+    \item Stationary/invariant distribution \\
+    $\pi $ s.t. $\pi P = \pi$
+    \item Regular MC or transition matrix means that $\exists\ k \ge 1$ s.t. $P^k > 0$ (Lecture 10, 11) \\
+    Regular $\Rightarrow$ unique stationary distribution $\pi > 0$ and $\pi_n \rightarrow \pi$ as $n \rightarrow\infty$
+\end{itemize}
+\boxed{ex} $P = \begin{bmatrix}
+    \frac 12 & \frac 12 \\ \frac 13 & \frac 23
+\end{bmatrix}$
+Note that this matrix is regular, with a unique stationary distribution $\Rightarrow \pi_0 P^n \rightarrow\pi$ 
+for any $\pi_0$. \\
+Solve $\pi P = \pi$, let $\pi = (a,b)$ (HW3, practice midterm)
+\begin{align*}
+    \Rightarrow \frac 12 a+ \frac 13 b &= a \\
+    \frac 12 a + \frac 23 b &= b \\
+    a+b &= 1
+\end{align*}
+Solving this yields $a = \frac 25, b = \frac 35$ \\ \\
+\textbf{Acceptance-Rejection} \\
+We have 
+\begin{align*}
+    f &: \text{target pdf of } Z \in \mathbb{R}^d \\
+    \alpha g &: \text{proposed pdf},\ \alpha > 0 \text{ s.t. } f(x) \le \alpha g(x)\ \forall x
+\end{align*}
+\underline{Algorithm:} sampling $Z \sim f$
+\begin{enumerate}
+    \item Generate $X \sim g$ 
+    \item Generate $U \sim U[0,1]$
+    \item Set $Y = \alpha g(x) \cdot U$
+    \item If $U \le \frac{f(x)}{\alpha g(x)}$, then accept $X$
+    \item Return $Z \leftarrow X$
+\end{enumerate}
+\underline{Efficiency:} $\frac 1\alpha = \frac{\text{vol B}}{\text{Vol A}} = \text{acceptance rate}$
+
+
+
 \end{document}
