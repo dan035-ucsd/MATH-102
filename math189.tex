@@ -609,12 +609,67 @@ and dividing by the standard deviation.
     \text{RSS } + \underbrace{\lambda\sum_{j=1}^{p}|\hat \beta_j|}_{\text{lasso penalty}}
 \end{align*}
 Note that the lasso penalty uses the $\mathcal{l}_1$ norm $||\hat \beta||_1 = \sum_{j=1}^{p}|\hat \beta_j|$,
-whereas ridge regression uses the square $\mathcal{l}_2$ norm $||\hat \beta||_2^2= \sum_{j=1}^{p} \beta^2_j$.
-
+whereas ridge regression uses the square $\mathcal{l}_2$ norm $||\hat \beta||_2^2= \sum_{j=1}^{p} \beta^2_j$. \\ \\
 \textbf{Principal component regression.} \textit{Principal component analysis} finds the directions in 
 a data set $x_1, ..., x_n \in \mathbb{R}^p$ that have the most variance. Equivalently, principal component 
 analysis finds a low-dimensional subspace that reconstructs the data as well as possible. After performing 
 principal component analysis, we can try \textit{principal component regression} (PCR), where we use a
 small number of principal components (e.g. 1-20) as predictors.
+
+\section{Nonlinearity}
+\subsection{Polynomial Regression}
+\underline{Idea \#1} Replace simple linear regression.
+\begin{align*}
+    y_i = \beta_0 + \beta_1X_i + \epsilon_i
+\end{align*}
+with polynomial regression
+\begin{align*}
+    y_i = \beta_0 + \beta_1X_i + \beta_2X_i^2 + ... + \beta_\alpha X_i^d + \epsilon_i
+\end{align*}
+\boxed{ex} Wage vs age \\
+We can separate out "high earners" and run logistic polynomial regression.
+\begin{align*}
+    \mathbb{P}\{y_i > 250 | X_i\} = \frac{\exp(\beta_0+\beta_1X_i+...+\beta_\alpha X_i^d)}{1+ \exp(\beta_0+\beta_1X_i+...+\beta_\alpha X_i^d)}
+\end{align*}
+\underline{Idea \#2} Split a quantitative variable into an ordered categorical variable. \\
+We have new predictors:
+\begin{align*}
+    C_0(X) =&\ \mathbb{I} \{X < C_1\} \\
+    C_1(X) =&\ \mathbb{I} \{c_1 \le X < c_2\} \\
+    &\vdots \\ 
+    C_{k-1}(X) =&\ \mathbb{I} \{C_{k-1} \le X < C_k\} \\
+    C_k(X) =&\ \mathbb{I} \{C_k \le X\}
+\end{align*}
+where $C_1, C_2, ..., C_k$ are cutpoints. Our book uses cutpoints $C_1 = 35, C_2 = 50, C_3 = 85$. \\ \\
+We can then run linear regression with 
+\begin{align*}
+    y_i = \beta_0 + \beta_1C_1(X_i) + \beta_2C_2(X_i) + ... + \beta_{k}C_k(X_i) + \epsilon_i
+\end{align*}
+in this model, there are $k$ degrees of freedom in this model. \\ \\
+\underline{Idea \#3} Use piecewise polynomials (typically $d = 3$)
+\begin{align*}
+    y_i - \begin{cases}
+        \beta_{01} + \beta_{11}X_i + \beta_{21}X_i^2 + \beta_{31}X_i^3 + \epsilon_i & X_i < C \\
+        \beta_{02} + \beta_{12}X_i + \beta_{22}X_i^2 + \beta_{32}X_i^3 + \epsilon_i & X_i \ge C \\
+    \end{cases}
+\end{align*}
+This usually results in discontinuities within the data. \\ \\
+\underline{Idea \#4} Use cubic splines \\
+A cubic spline is a piecewise cubic model that imposes the continuity of 
+\begin{enumerate}
+    \item Prediction function 
+    \item Its first derivative
+    \item Its second derivative
+\end{enumerate}
+To find the number of free coefficients with $k$ cutpoints / "knots" $\xi_1, \xi_2,..., \xi_k$, we
+introduce a new predictor \begin{align*}
+    h(X_i \xi_i) &= (X-\xi_i)^3 \\
+    &= \begin{cases}
+        (X- \xi_i)^3 & X > \xi_i \\
+        0 & x \le \xi_i
+    \end{cases}
+\end{align*}
+To fit cubic splines with $k$ knots, we run multiple linear regression with an intercept and 
+predictors $X, X^2, X^3, h(X_i\xi_1), ..., h(X_i \xi_k)$ with $k+4$ free variables $\beta$s.
 
 \end{document}
