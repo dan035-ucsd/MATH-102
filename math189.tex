@@ -672,4 +672,60 @@ introduce a new predictor \begin{align*}
 To fit cubic splines with $k$ knots, we run multiple linear regression with an intercept and 
 predictors $X, X^2, X^3, h(X_i\xi_1), ..., h(X_i \xi_k)$ with $k+4$ free variables $\beta$s.
 
+\subsection{Cubic Splines}
+\begin{enumerate}
+    \item Choose knots $\xi_1, ..., \xi_k$. \\
+    ex: $\xi_1 = 20,\ \xi_2 = 25,\ \xi_3 = 30,$ etc.
+    \item Run linear regression with \begin{itemize}
+        \item Intercept
+        \item Predictors $X,\ X^2,\ X^3$
+        \item Predictors $h(X, \xi_i) = (X-\xi)^3_+ = \begin{cases}
+            (X-\xi)^3 & X > \xi \\ 0 & \text{otherwise}
+        \end{cases}$ \\
+        for $i = 1,...,k$
+    \end{itemize}
+    \item Resulting function is
+    \begin{align*}
+        y(X) &= \beta_0 + \beta_1X + \beta_2X^2+\beta_3X^3+\sum_{i=1}^{k}\beta_{k+3}(X-\xi)^3_+ \\
+        y'(X) &= \beta_1 + 2\beta_2X+ 3\beta_3X^2 + \sum_{i=1}^{k}3\beta_{k+3}(X-\xi)^2_+ \\
+        y''(X) &= 2\beta_2 + 6\beta_3X + \sum_{i=1}^{k}6\beta_{k+3}(X-\xi)_+ \\
+        y'''(X) &= 6\beta_3 + \sum_{i=1}^{k}6\beta_{k+3}\mathbb{I}\{X>\xi\}
+    \end{align*}
+\end{enumerate}
+\textbf{Terminology.} These are sometimes called "regression splines" because they are fit 
+with multiple linear regression.
+\begin{itemize}
+    \item There is also "natural splines" which is "regression splines" plus a restriction 
+    that the prediction is linear (not cubic) for $X<\xi_1,\ X>\xi_k$. This one has a special
+    basis with an intercept and $k+3$ predictors.
+    \item Last we study "smoothing splines" which find a function $g$ that minimizes
+    \begin{align*}
+        \sum_{i=1}^{n}(y_i-g(X_i))^2 + \underbrace{\lambda\int_{-\infty}^{\infty}g''(t)^2dt}_{\text{tuning/regularization parameter}} 
+    \end{align*}
+    for a data set $(X_i,\ Y_i)_{1\le i\le n}$
+\end{itemize}
+\textbf{Smoothing splines.} $\lambda = 0 \Rightarrow$ penalty has no effect so we fit the 
+data perfectly.\\
+$\lambda \rightarrow \infty \Rightarrow g''(t) = 0 $ everywhere $\Rightarrow g(t) = at+b \Rightarrow g$
+is the simple linear regression predictor.\\
+$\lambda \in (0,\infty) \Rightarrow g$ is a natural cubic spline with knots at $X_1, ..., X_n$ \\
+In practice, $\lambda$ controls the level of smoothness vs. wiggliness $\Rightarrow$ tune $\lambda$ with 
+a validation set or cross-validation. \\ \\
+\textbf{Generalized additive model.} We replace multiple linear regression
+\begin{align*}
+    Y_i = \beta_0 + \beta_1X_{i1} + \beta_2X_{i2}+...+\beta_pX_{ip} + \epsilon_i
+\end{align*}
+with
+\begin{align*}
+    y_i = \beta_0 + \underbrace{f_1(X_{i1})}_{\text{nonlinear function}} + f_2(X_{i2}) + ... + f_p(X_{ip}) + \epsilon_i
+\end{align*}
+There's a cool approach called "backfitting" where we learn each function $f_i$ by predicting the "partial residual." \\ \\
+\boxed{ex} $p = 3 \quad \hat y_i = \beta_0 +f_1(X_{i1}) + f_2(X_{i2}) + f_3(X_{i3})$ \\
+Set $\beta_0 = \bar y.$. Set $f_1,\ f_2,\ f_3 = 0$ \\
+Repeat until convergence:
+\begin{enumerate}
+    \item Train $f_1$ to predict $y_i-\beta_0 - f_2(X_{i2}) - f_3(X_{i3})$
+    \item Train $f_2$ to predict $y_i-\beta_0 - f_1(X_{i1}) - f_3(X_{i3})$
+    \item Train $f_3$ to predict $y_i-\beta_0 - f_1(X_{i1}) - f_2(X_{i2})$
+\end{enumerate}
 \end{document}
