@@ -1,0 +1,123 @@
+\documentclass[12pt, letterpaper]{article} 
+
+\usepackage{amsmath, amssymb, amsthm, enumerate, graphicx}
+
+\title{MATH 114 HW 3}
+\author{Dani Nguyen}
+\date{Winter 2025}
+
+\begin{document}
+\maketitle
+\graphicspath{ {./} }
+
+\noindent \textbf{Question 1}
+\begin{enumerate}[a.]
+    \item \begin{align*}
+    \mathbb{P}(X_0 = 0,\ X_1 = 1,\ X_2 = 0) &= \frac 12 \cdot \frac 12 \cdot \frac 13 = \frac 1{12} \\
+    \mathbb{P}(X_0 = 0,\ X_2 = 0) &= \mathbb{P}(X_0 = 0, \ X_1 = 0, \ X_2 = 0) \\
+    &+ \mathbb{P}(X_0 = 0,\ X_1 = 1,\ X_2 = 0) \\
+    &+ \mathbb{P}(X_0 = 0,\ X_1 = 2,\ X_2 = 0) \\
+    &= \frac 12 \cdot \frac 12 \cdot \frac 12 + \frac 1{12} + 0 \\
+    &= \frac 5{24}
+    \end{align*}
+    \item \begin{align*}
+        \begin{bmatrix}
+        a & b & c
+    \end{bmatrix}
+    \begin{bmatrix}
+        \frac 12 & \frac 12 & 0 \\
+        \frac 13 & \frac 12 & \frac 16 \\
+        0 & \frac 14 & \frac 34
+    \end{bmatrix} &= 
+    \begin{bmatrix}
+        a \\ b \\ c
+    \end{bmatrix} \\
+    \frac 12 a + \frac 13 b &= a \\
+    \frac 12 a + \frac 12 b + \frac 14 c &= b \\
+    \frac 16 b + \frac 34 c &= c \\
+    \frac 13 b &= \frac 12 a \\
+    \frac 23 b &= a \\
+    \frac 16 b &= \frac 14 c \\
+    \frac 23 b &= c \\
+    a + b + c &= 1 \\
+    \frac 23 b + b + \frac 23 b &= 1 \\
+    \frac 73 b &= 1 \\
+    b &= \frac 37 \\
+    a = c &= \frac 27 \\
+    \pi &= \begin{bmatrix}
+        \frac 27 & \frac 37 & \frac 27
+    \end{bmatrix}
+    \end{align*}
+    \item \begin{align*}
+        \lim_{n\rightarrow\infty}\pi_0P^n &= \pi_0 \lim_{n\rightarrow\infty} P^n \\
+        &= \pi_0 \begin{bmatrix}
+            \pi \\ \vdots \\ \pi
+        \end{bmatrix} \\
+        &= \left(\pi(1)\cdot \sum_{i} \pi_0(i), \pi(2)\cdot \sum_{i}\pi_0(i),...\right) \\
+        &= \pi
+    \end{align*}
+\end{enumerate}
+
+\noindent \textbf{Question 2} \\
+Let $S = \{(0,0),(0,1),(1,0),(1,1)\}$ be $\{1,2,3,4\}$ \\
+Then we have 
+\begin{align*}
+    p_{1,1} = \mathbb{P}(Y_2=(0,0) | Y_1=(0,0)) = \mathbb{P}(X_2 = 0 | X_1 = 0) = \alpha 
+\end{align*}
+Continuing this, we have
+\begin{align*}
+    \begin{bmatrix}
+        \alpha & 1-\alpha & 0 & 0 \\
+        0 & 0 & 1-\beta & \beta \\
+        \alpha & 1-\alpha & 0 & 0\\
+        0 & 0 & 1-\beta & \beta
+    \end{bmatrix}
+\end{align*}
+
+\noindent \textbf{Question 3} \\
+Since only coordinate can change at a time uniformly at random,
+\begin{align*}
+    p(\mathbf{y},\mathbf{z}) = \begin{cases}
+        \frac 1m & \text{if y and z differ in exactly one coordinate} \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{align*}
+
+\noindent \textbf{Question 4}
+\begin{enumerate}[a.]
+    \item $p(i,j) = $ probability of moving from $i$ to $j$, since it's a probability, it must be non-negative.\\
+    $\sum_{j=1}^{N}p(i,j) = $ sum of probabilities of each destination = 1, therefore each row of $P$ sums to 1.
+    \item $P\cdot \begin{bmatrix}
+        1 \\ \vdots \\ 1
+    \end{bmatrix} = \begin{bmatrix}
+        p_{11} + \dots + p_{1N} \\
+        \vdots \\
+        p_{N1} + \dots + p_{NN}
+    \end{bmatrix} = 1\cdot \begin{bmatrix}
+        1 \\ \vdots \\ 1
+    \end{bmatrix}$
+    \item \begin{align*}
+        \mathbb{P}((A\cap B) \cap C) &= \mathbb{P}(A\cap B | C)\cdot \mathbb{P}(C) \\
+        \mathbb{P}(A\cap (B \cap C)) &= \mathbb{P}(A | B\cap C)\cdot \mathbb{P}(B \cap C) \\
+        &=\mathbb{P}(A | B\cap C)\cdot \mathbb{P}(B | C) \cdot \mathbb{P}(C)\\
+        \text{Setting these equal yields} & \\
+        \mathbb{P}(A\cap B | C) &= \mathbb{P}(A | B\cap C)\cdot \mathbb{P}(B | C)
+    \end{align*}
+    \begin{align*}
+        p_{n+1}(i,j) = \mathbb{P}(X_{n+1} = j | X_0 = i) &= \sum_{k\in S} \mathbb{P}(X_{n+1}=j, X_n = k | X_0 =i) \\
+        &= \sum_{k\in S} \mathbb{P}(X_{n+1}=j | X_n =k, X_0 = i) \cdot \mathbb{P}(X_n =k | X_0 = i) \\
+        &= \sum_{k\in S} \mathbb{P}(X_{n+1}=j | X_n =k) \cdot \mathbb{P}(X_n =k | X_0 = i) \\
+        &= \sum_{k\in S} p(k,j) \cdot p_n(i,k) \\
+        &= \sum_{k\in S} p_n(i,k) \cdot p(k,j) \\
+        &= [P_nP]_{i,j}
+    \end{align*}
+    \item \begin{align*}
+        \pi_n &= \pi_0P^n \\
+        \pi_0P^n &= \pi_0 P \cdot P^{n-1} \\
+        &= \pi_1P^{n-1} \\
+        &= \pi_2P^{n-2} \\
+        & \vdots \\
+        &= \pi_n
+    \end{align*}
+\end{enumerate}
+\end{document}
