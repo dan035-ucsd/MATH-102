@@ -728,4 +728,44 @@ Repeat until convergence:
     \item Train $f_2$ to predict $y_i-\beta_0 - f_1(X_{i1}) - f_3(X_{i3})$
     \item Train $f_3$ to predict $y_i-\beta_0 - f_1(X_{i1}) - f_2(X_{i2})$
 \end{enumerate}
+
+\subsection{Regression Trees}
+\boxed{ex} Hitters data. Predict salary by
+\begin{enumerate}
+    \item Log transform data
+    \item Build tree
+\end{enumerate}
+\textbf{Recursive binary splitting.}\\
+Split each cell by finding the predictor $X_j$ and cutpoint $s$ that minimizes
+\begin{align*}
+    \sum_{i:X_{ij}<S} (Y_i - \hat Y_{R_1})^2 + \sum_{i:X_{ij}\ge S} (Y_i - \hat Y_{R_2})^2
+\end{align*}
+where $\hat Y_{R_1}$ is mean response for predictors $X_{ij}<S$ and $\hat Y_{R_2}$ is mean response for 
+predictors $X_{ij} \ge S$ \\
+\textbf{Weakest link pruning.} \\
+Given a big tree $T_0$, find a subtree $T \subseteq T_0$ that minimizes
+\begin{align*}
+    \sum_{m=1}^{|T|} \sum_{i:X_i \in R_m} (y_i - \hat y_{R_m})^2 + \alpha|T|
+\end{align*}
+where $R_m$ is a rectangle corresponding to a leaf and $|T|$ is the number of leaves. \\
+As we increase $\alpha$ from 0 to $\infty$ branches get pruned in a nested manner. \\ \\
+\textbf{Classification tree.} \\
+Compare 
+\begin{align*}
+    f(x) &= \beta_0 + \sum_{j=1}^{p} \beta_j X_j \\
+    &\text{vs.} \\
+    f(x) &= \sum_{m=1}^{M} c_m \mathbb{I}\{X \in R_m\}
+\end{align*}
+\textbf{Bagging.} \\
+Create $B$ bootstrap data sets. Train decision trees. Average predictions.
+\begin{align*}
+    \hat f_{\text{bag}}(X) = \frac 1B \sum_{b=1}^{B}\hat f^{(b)}(X)
+\end{align*}
+\textbf{Random Forest.} \\
+Create $B$ bootstrap data sets. For each data set, randomly choose $\approx \sqrt{p}$ predictors 
+and train a decision tree. Average predictions as before
+\begin{align*}
+    \hat f(X) = \frac{1}{B} \sum_{b=1}^{B} \hat f^{(b)}(X)
+\end{align*}
+Works a little better than bagging.
 \end{document}
