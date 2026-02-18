@@ -664,6 +664,98 @@ We have
 \end{enumerate}
 \underline{Efficiency:} $\frac 1\alpha = \frac{\text{vol B}}{\text{Vol A}} = \text{acceptance rate}$
 
-
+\subsection{Lecture 17 - MCMC \& SDEs}
+\underline{Recap} - MCMC
+\begin{itemize}
+    \item Goal: sample from target distribution $f$ on a state space $S$, by constructing
+    MC $X_0, X_1,... \in S$ with $X_n \sim f$ as $n \rightarrow \infty$
+    \item Output: $X_0, X_1, X_2, ... \in S$
+    \item For large enough $n$, $X_n, X_{n+1}, X_{n+2}, ...$ is approximately a sample 
+    from $f$, but $X_n, X_{n+1}, X_{n+2}, ...$ are dependent, not iid.
+    \item For independent sample, we would need to run MCMC many times.
+    \item Estimator: Suppose $X\sim f$ and $Y = g(X)$, we can use MCMC to estimate $\mathbb{E}Y$
+    \begin{align*}
+        \text{Let }\ Y_n = \frac 1n \sum_{i=1}^{n}g(X_i)
+    \end{align*}
+    Typically, $Y_n \rightarrow \mathbb{E}Y$ (HW4)
+    \item $Y_n$ can be used to assess convergence (often)
+    \item Can also assess convergence with sample autocovariance. (HW4)
+\end{itemize}
+\textbf{Gibbs Sampler}
+\begin{itemize}
+    \item Goal: sample a target pdf
+    \begin{align*}
+        f(x),\ x \in \mathbb{R}^n
+    \end{align*}
+    \item Conditional distribution:
+    \begin{align*}
+        f_j (y | x_1, ..., x_n) = \frac{f(x_1,...,x_{j-1},y,x_{j},...,x_{m+1})}{\int dy f(x_1,...,x_{j-1},y,x_{j},...,x_{m+1})}
+    \end{align*}
+    for $1 \le j \le m$
+\end{itemize}
+So $f_j (\ \cdot\ |\ x_1,..., x_{m-1})$ is a pdf on $\mathbb{R}$ \\ \\
+\underline{Algorithm:} Random-scan Gibbs Sampler \\
+Given $X_k = (X_{k,1},..., X_{k,m}) \in \mathbb{R}^m$
+\begin{enumerate}
+    \item Choose $J$ in $\{1,...,m\}$ randomly (e.g. from unique distribution on $\{1,...,m\}$)
+    \item Sample $Y$ from distribution: 
+    \begin{align*}
+        f_J (\ \cdot\ |\ \underbrace{X_{k,1},..., X_{k,J-1}, X_{k,J+1}, ..., X_{k,m}}_{\in \mathbb{R}^{m-1}})
+    \end{align*}
+    Set: 
+    \begin{align*}
+        X_{k+1} \leftarrow (\underbrace{X_{k,1},..., X_{k,J-1}, Y, X_{k,J+1},..., X_{k,m}}_{\in \mathbb{R}^m})
+    \end{align*}
+\end{enumerate}
+\boxed{ex} \\
+Target: $f(x,y) = c\exp(-(x^2+1)(y^2+1)),\ (x,y) \in \mathbb{R}^2$ \\
+$c$ is normalization so
+\begin{align*}
+    \int_{\mathbb{R}^2} c \exp (-(x^2+1)(y^2+1)) dxdy = 1
+\end{align*}
+What are the conditional distributions?
+\begin{align*}
+    f_1(x | y) &= \frac{1}{\int_\mathbb{R}f(x,y)dx} \cdot c \exp(-(x^2+1)(y^2+1)) \\
+    &= c_1(y)\cdot \exp (-(y^2+1)x^2)
+\end{align*}
+where $\int_\mathbb{R}f(x,y)dx$ is a function of $y$ and $c_1(y)$ is such that 
+\begin{align*}
+    \int_{-\infty}^{+\infty} c_1(y) \exp(-(y^2+1)x^2)dx=1
+\end{align*}
+i.e.: $c_1(y)$ is the normalization of the pdf 
+\begin{align*}
+    f_1(x|y) \propto \exp(-(y^2+1)x^2)
+\end{align*}
+Recall that $W \sim N(0, \sigma^2)$ has pdf $f_w(w) \propto \exp(\frac{-1}{2\sigma^2}w^2)$
+\begin{align*}
+    \Rightarrow f_1 (x|y) \text{ is the pdf of } N\left(0,\frac{1}{2(y^2+1)}\right)
+\end{align*}
+Similarly, $f_2 (y|x)$ is pdf of $N(0, \frac{1}{2(x^2+1)})$\\
+\underline{Algorithm} (Random-scan Gibbs) \\
+Given $(x_k, y_k) \in \mathbb{R}^2$
+\begin{enumerate}
+    \item Choose $J$ uniformly at random from $\{1,2\}$
+    \item Generate $Z \sim N(0,1)$ \\
+    If $J = 1$  \\
+    Set $W = \frac{1}{\sqrt{2(y_k^2+1)}}z \quad (\text{i.e. } W \sim  f_1(\ \cdot\ |\ y_k))$ \\
+    Set $(x_{k+1}, y_{k+1}) \leftarrow (w, y_k)$ \\
+    If $J = 2$
+    Set $W = \frac{1}{\sqrt{2(x_k^2+1)}}z \quad (\text{i.e. } W \sim  f_2(\ \cdot\ |\ x_k))$ \\
+    Set $(x_{k+1}, y_{k+1}) \leftarrow (x_k, w)$
+    \item Output: $(x_1, y_1), (x_2, y_2), ...$
+\end{enumerate}
+\underline{Systemic-scan Gibbs Sampler}
+\begin{itemize}
+    \item Given: $X_k = (X_{k,1}, ..., X_{k,m}) \in \mathbb{R}^m$
+    \item Input: target pdf $f(x),\ x \in \mathbb{R}^m$
+\end{itemize}
+\begin{enumerate}
+    \item Sample $Y_1$ from $f_1 (\ \cdot\ |\ X_{k,2}, ..., X_{k,m})$ \\
+    For $i = 2$ to $m$ \\
+    Sample $Y_i$ from 
+    \begin{align*}
+        f_i(\ \cdot\ |\ y_1,..., y_{i-1}, x_k)
+    \end{align*}
+\end{enumerate}
 
 \end{document}
