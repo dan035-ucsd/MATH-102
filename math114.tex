@@ -664,7 +664,7 @@ We have
 \end{enumerate}
 \underline{Efficiency:} $\frac 1\alpha = \frac{\text{vol B}}{\text{Vol A}} = \text{acceptance rate}$
 
-\subsection{Lecture 17 - MCMC \& SDEs}
+\subsection{Lecture 17 - MCMC \& Gibbs}
 \underline{Recap} - MCMC
 \begin{itemize}
     \item Goal: sample from target distribution $f$ on a state space $S$, by constructing
@@ -757,5 +757,121 @@ Given $(x_k, y_k) \in \mathbb{R}^2$
         f_i(\ \cdot\ |\ y_1,..., y_{i-1}, x_k)
     \end{align*}
 \end{enumerate}
+
+\section{Stochastic Differential Equation}
+\subsection{Lecture 18 - Intro to SDEs}
+\begin{itemize}
+    \item Continuous-time, continuous state space.
+    \item Markov processes, e.g. $X(t) \in \mathbb{R},\ t \in \mathbb{R}$
+    \item Key example: Brownian motion
+    \item Goals: Simulate $X(t)$, sample from the distribution $X(t)$, find 
+    distribution of $X(t)$, compute e.g. moments, $\mathbb{E}(X(t)), \mathbb{E}(X(t)^2)$
+    \item Learn numerical \& analytical approaches for these computations.
+\end{itemize}
+\underline{Preliminaries}: Non-stochastic processes \\
+ODE example:
+\begin{align*}
+    \text{Let } x(t) \in \mathbb{R},\ t \in [0,\infty) \\
+    \text{Consider } \frac{dx}{dt} = x,\ x(0) = 1 \\
+    \Rightarrow \text{Solution: } x(t) = Ae^t \\
+    \text{Initial condition } \Rightarrow x(t) = e^t
+\end{align*}
+\underline{Discretization} \\
+We can simulate/solve the ODE by discretizing it. \\
+\begin{align*}
+    &\text{Let } \delta t > 0 \text{ be small and } \\
+    &\text{Let } t_n = n\cdot \delta t,\ n = 0,1,2,...
+\end{align*}
+How are $x(t_n), x(t_{n+1})$ related?
+\begin{align*}
+    &\text{We have } x(t_n) = \frac{dx}{dt} \Big|_{t=t_n} \approx \frac{x(t_{n+1})-x(t_n)}{\delta t} \\
+    &\Rightarrow x(t_{n+1}) \approx x(t_n) + x(t_n) \cdot \delta t
+\end{align*}
+Consider the difference equation:
+\begin{align*}
+    &x_{n+1} = x_n + x_n \cdot \delta t,\ x_0 = 1,\ n = 0,1,2,... \\
+    &x_1 = 1 + \delta t,\ x_2 = (1+\delta t)^2,\ ...\ ,\ x_n = (1+\delta t)^n = (1+\frac{t_n}{n})^n 
+\end{align*}
+\begin{itemize}
+    \item Does the discrete solution $x_n$ approach the continuous solution $x(t)$?
+\end{itemize}
+Let $t' = t_n = n\delta t$ and consider $\lim_{n\rightarrow \infty} \delta t \rightarrow 0 $ with $t'$ fixed. \\
+Then $x_n = (1 + \frac{t'}{n})^n \rightarrow e^{t'} = x(t')$ as $n\rightarrow \infty,\ \delta t \rightarrow 0,\ t' = n\delta t$ fixed. \\ \\
+\underline{Remark}:
+\begin{itemize}
+    \item We can think of an ODE $\frac{dx}{dt} = x$ as a difference equation 
+    $x_{n+1} = x_n + x_n \delta t$ in the limit $\delta \rightarrow 0$
+\end{itemize}
+\underline{Continuous limit of difference equation} \\
+Consider difference equation $x_n \in \mathbb{R}$ 
+\begin{align*}
+    x_{n+1} = x_n + \delta t \cdot u,\ x_0 = 0,\ n = 1,2,...
+\end{align*}
+Is there a continuum limit as $\delta t \rightarrow 0$? $\Leftrightarrow$ Is there an $x(t)$ such that
+\begin{align*}
+    x_n \rightarrow x(t) \text{ as } n &\rightarrow \infty \\
+    \delta t &\rightarrow 0 \\
+    \text{with } n\delta t &= t \text{ fixed}
+\end{align*}
+Check:
+\begin{align*}
+    x_1 = \delta t u,\ ...\ ,\ x_n &= n \delta t u \\  
+    &= tu \rightarrow t\cdot u \\
+    \Rightarrow \text{Continuum limit} x(t) &= tu,\ \frac{dx}{dt} = u
+\end{align*}
+\underline{Remark}:
+Suppose we took
+\begin{align*}
+    x_{n+1} = x_n + \delta t^\alpha u 
+\end{align*}
+Then $x_n = n \cdot \delta t^\alpha \cdot u = t \cdot \delta t^{\alpha -1}\cdot u$ 
+\begin{align*}
+    x_n \rightarrow \begin{cases}
+        0 & \text{if } \alpha > 1 \\
+        u\cdot t & \text{if } \alpha = 1 \\
+        \infty & \text{if } \alpha < 1
+    \end{cases} \text{ as } 
+    \begin{cases}
+        \delta  t \rightarrow 0 \\
+        n \rightarrow \infty \\
+        n \delta t = t \text{ fixed}
+    \end{cases}
+\end{align*}
+Sensible continuum limit only for $\alpha = 1$ \\ \\
+\underline{Stochastic processes} \\
+\begin{align*}
+    \begin{matrix}
+        \text{Discrete time} \\ \text{Continuous space} 
+    \end{matrix} \rightarrow\ 
+    \begin{matrix}
+        \text{Continuous time} \\ \text{Continuous space}
+    \end{matrix}
+\end{align*}
+\begin{itemize}
+    \item Random walk on $\mathbb{R}$ \\
+    Let $Z_0, Z_1, ..., Z_n \sim N(0,1)\ iid$ and consider 
+    $X_{n+1} = X_n+ \delta t^\alpha Z_n,\ n = 0,1,2,...$ with $X_0 = 0$
+    \item $X_1 = \delta t^\alpha \cdot Z_0,\ X_2 = \delta t^\alpha (Z_0 + Z_1)$
+    \begin{align*}
+        X_n = \sum_{i=0}^{n-1} \delta t^\alpha Z_i
+    \end{align*}
+    \item Sum of normals is normals \\
+    $\Rightarrow \mathbb{E}X_n = 0,\ \text{Var}X_n = n \cdot \delta t^{2\alpha}$ \\
+    $\Rightarrow X_n \sim N(0, n \delta t^{2\alpha})$
+    \item Continuum limit: is there $X(t)$ such that $X_n \rightarrow X(t)$ as 
+    $n \rightarrow \infty$, $\delta t \rightarrow 0$, with $n\delta t = t$ fixed. \\
+    We have: 
+    \begin{align*}
+        \text{Var}X_n = n\delta t^{2\alpha} = t\cdot \delta t^{2\alpha -1} \rightarrow 
+        \begin{cases}
+            0 & \alpha > \frac12 \\
+            \infty & \alpha < \frac 12 \\
+            t & \alpha = \frac 12
+        \end{cases} \\
+        \text{as } 
+    n \rightarrow \infty, \delta t \rightarrow 0, \text{ with } n\delta t = t \text{fixed}.
+    \end{align*}
+    Sensible continuum limit only for $\alpha = \frac 12$
+\end{itemize}
 
 \end{document}
