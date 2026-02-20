@@ -767,4 +767,91 @@ and train a decision tree. Average predictions as before
     \hat f(X) = \frac{1}{B} \sum_{b=1}^{B} \hat f^{(b)}(X)
 \end{align*}
 Works a little better than bagging.
+
+\subsection{Maximum Margin Classifiers}
+\underline{Question}: what is a hyperplane? \\
+In 2D, it is a line, a set of vectors $X = \begin{bmatrix}
+    x_1 \\ x_2
+\end{bmatrix}$ such that $\beta_0 + \beta_1X_1 + \beta_2X_2 = 0$. 
+Technically, this is an "affine" hyperplane since it doesn't necessarily pass through (0,0). \\
+In $p$ dimensions, a hyperplane is a set of vectors $X = \begin{bmatrix}
+    x_1 \\ x_2 \\ \vdots \\ x_p
+\end{bmatrix}$ such that $\beta_0 + \beta_1X_1 + \beta_2X_2+...+\beta_pX_p$. \\
+
+\noindent \underline{Question}: how far away is the origin from the hyperplane? \\
+Divide through by $(\sum_{j=1}^{p}\beta_j^2)^\frac12 = \left|\left|\begin{bmatrix}
+    \beta_1 \\ \vdots \\ \beta_p
+\end{bmatrix}\right|\right|$ \\
+\boxed{ex}\ $1 + 2X_1 + 3X_2 = 0$ \\
+Divide through by $\sqrt{13}$, we get the following hyperplane equation
+\begin{align*}
+    \frac{1}{\sqrt{13}} + \frac{2}{\sqrt{13}} X_1 + \frac{3}{\sqrt{13}} X_2 = 0
+\end{align*}
+For any point $X = \begin{bmatrix}
+    x_1 \\ x_2
+\end{bmatrix}$, $\frac{1}{\sqrt{13}} + \frac{2}{\sqrt{13}} X_1 + \frac{3}{\sqrt{13}} X_2$ 
+is the "signed distance" to the hyperplane. \\
+\underline{Question}: what is the distance from $X = \begin{bmatrix}
+    -1 \\ -1
+\end{bmatrix}$ to the hyperplane?\\
+Signed distance $ = \frac{-4}{\sqrt{13}}$, which means distance $ = \frac{4}{\sqrt{13}}$ 
+
+\begin{itemize}
+    \item If $\beta_0 + \beta_1X_1 + ... + \beta_pX_p > 0$ you lie on one side of the hyperplane.
+    \item If $\beta_0 + \beta_1X_1 + ... + \beta_pX_p < 0$ you lie on the opposite side of the hyperplane.
+    \item If it works perfectly to separate data, this is called a "separating hyperplane."
+\end{itemize}
+
+\noindent We are given observations $(X_i, y_i)_{1\le i \le n}$ where $y_i \in \{-1,+1\}$ (any binary outcome).
+We want a separating hyperplane.
+\begin{align*}
+    \begin{cases}
+        \beta_0 + \beta_1 X_{i1} + \beta_2X_{i2} + ...+\beta_pX_{ip} >0 & \text{ if } y_i = +1 \\
+        \beta_0 + \beta_1 X_{i1} + \beta_2X_{i2} + ...+\beta_pX_{ip} <0 & \text{ if } y_i = -1
+    \end{cases}
+\end{align*}
+Equivalently, 
+\begin{align*}
+    y_i(\beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2} + ... + \beta_p X_{ip}) > 0 \\
+    \text{for each } i = 1,2,...,n
+\end{align*}
+This could be used for out-of-sample predictions
+\begin{align*}
+    \hat y_i = \text{sign}(\beta_0 + \beta_1 X_{i1} + ... + \beta_p X_{ip}) \\
+    \text{for } i = n+1, n+2, ...
+\end{align*}
+Let's write the optimization problem "maximum margin" solves. \\
+Maximize the Euclidean distance from the nearest data points to the hyperplane $m$ such that 
+\begin{align*}
+    \begin{cases}
+        \sum_{j=1}^{p} \beta^2_j = 1 \\
+        y_i (\beta_0 + \beta_1X_{i1} + ... + \beta_p X_{ip}) \ge m
+    \end{cases} \\
+    \text{for each } i = 1, ..., n
+\end{align*}
+For data in "general position" (ex. with tiny jitter added to data points), there are 
+exactly $p+1$ support vectors that lie a distance $m$ from the hyperplane with at least 
+one on both sides of the hyperplane. \\ \\
+\begin{enumerate}
+    \item Program the optimization and solve it on a computer (no closed form solution).
+    \item This results in the mathematical properties above.
+\end{enumerate}
+
+\subsection{Support Vector Classifiers}
+\begin{enumerate}
+    \item Solve the related optimization problem on your computer.
+    \item Maximize $m$ such that 
+    \begin{align*}
+        \begin{cases}
+            \sum_{j=1}^{p} \beta^2_j = 1 \\
+            y_i ( \beta_0 + \beta_1 X_{i1} + ... + \beta_p X_{ip}) \ge m(1-\epsilon_i) \\
+            \epsilon_i \ge 0,\quad \sum_{i=1}^{n} \epsilon_i \le C \leftarrow \text{tuning parameter}
+        \end{cases}
+    \end{align*}
+    \begin{itemize}
+    \item $\epsilon_i > 0$: Observation $i$ violates the margin.
+    \item $\epsilon i > 1$: Observation $i$ lies on the wrong side of the hyperplane.
+\end{itemize}
+\end{enumerate}
+
 \end{document}
