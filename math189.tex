@@ -737,16 +737,22 @@ Repeat until convergence:
 \textbf{Recursive binary splitting.}\\
 Split each cell by finding the predictor $X_j$ and cutpoint $s$ that minimizes
 \begin{align*}
-    \sum_{i:X_{ij}<S} (Y_i - \hat Y_{R_1})^2 + \sum_{i:X_{ij}\ge S} (Y_i - \hat Y_{R_2})^2
+    \sum_{i:X_{ij}<s} (Y_i - \hat Y_{R_1})^2 + \sum_{i:X_{ij}\ge s} (Y_i - \hat Y_{R_2})^2
 \end{align*}
 where $\hat Y_{R_1}$ is mean response for predictors $X_{ij}<S$ and $\hat Y_{R_2}$ is mean response for 
-predictors $X_{ij} \ge S$ \\
+predictors $X_{ij} \ge S$ \\ \\
+\underline{Rectangles}
+\begin{align*}
+    R_1 = \{X = \begin{bmatrix}
+    x_1 \\ \vdots \\ x_p
+    \end{bmatrix}|\ x_j < s\} 
+\end{align*}
 \textbf{Weakest link pruning.} \\
-Given a big tree $T_0$, find a subtree $T \subseteq T_0$ that minimizes
+Given a big tree $T_0$, find a subtree ($T_0$ with some branches removed) $T \subseteq T_0$ that minimizes
 \begin{align*}
     \sum_{m=1}^{|T|} \sum_{i:X_i \in R_m} (y_i - \hat y_{R_m})^2 + \alpha|T|
 \end{align*}
-where $R_m$ is a rectangle corresponding to a leaf and $|T|$ is the number of leaves. \\
+where $R_m$ is a rectangle corresponding to a leaf, $\alpha$ is the penalty term, and $|T|$ is the number of leaves. \\
 As we increase $\alpha$ from 0 to $\infty$ branches get pruned in a nested manner. \\ \\
 \textbf{Classification tree.} \\
 Compare 
@@ -761,8 +767,8 @@ Create $B$ bootstrap data sets. Train decision trees. Average predictions.
     \hat f_{\text{bag}}(X) = \frac 1B \sum_{b=1}^{B}\hat f^{(b)}(X)
 \end{align*}
 \textbf{Random Forest.} \\
-Create $B$ bootstrap data sets. For each data set, randomly choose $\approx \sqrt{p}$ predictors 
-and train a decision tree. Average predictions as before
+Create $B$ bootstrap data sets. For each data set, uniformly randomly choose $\approx \sqrt{p}$ predictors 
+and train a decision tree using only chosen predictors + bootstrap data. Average predictions as before
 \begin{align*}
     \hat f(X) = \frac{1}{B} \sum_{b=1}^{B} \hat f^{(b)}(X)
 \end{align*}
