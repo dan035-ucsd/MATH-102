@@ -837,7 +837,7 @@ Maximize the Euclidean distance from the nearest data points to the hyperplane $
 \end{align*}
 For data in "general position" (ex. with tiny jitter added to data points), there are 
 exactly $p+1$ support vectors that lie a distance $m$ from the hyperplane with at least 
-one on both sides of the hyperplane. \\ \\
+one on both sides of the hyperplane.
 \begin{enumerate}
     \item Program the optimization and solve it on a computer (no closed form solution).
     \item This results in the mathematical properties above.
@@ -850,7 +850,7 @@ one on both sides of the hyperplane. \\ \\
     \begin{align*}
         \begin{cases}
             \sum_{j=1}^{p} \beta^2_j = 1 \\
-            y_i ( \beta_0 + \beta_1 X_{i1} + ... + \beta_p X_{ip}) \ge m(1-\epsilon_i) \\
+            y_i ( \beta_0 + \beta_1 X_{i1} + ... + \beta_p X_{ip}) \ge m(1-\epsilon_i) \quad \text{for } i = 1,...,n\\
             \epsilon_i \ge 0,\quad \sum_{i=1}^{n} \epsilon_i \le C \leftarrow \text{tuning parameter}
         \end{cases}
     \end{align*}
@@ -859,5 +859,34 @@ one on both sides of the hyperplane. \\ \\
     \item $\epsilon i > 1$: Observation $i$ lies on the wrong side of the hyperplane.
 \end{itemize}
 \end{enumerate}
+\subsubsection{Support Vector Machines}
+This method is a flexible non-linear classifier. \\
+\underline{Question}: How do we do non-linear machine learning? \\
+\underline{Idea \#1}: Add quadratics, cubics, etc.
+\begin{align*}
+    &f(x) = \beta_0 + \sum_{j=1}^{p}\beta_{j1}X_j + \sum_{j=1}^{p}\beta_{j2}X^2_j \quad X = \begin{bmatrix}
+        X_1 \\ \vdots \\ X_p
+    \end{bmatrix} \\
+    &\begin{cases}
+        \text{if } f(x)>0, \text{ guess } \hat y = +1 \\
+        \text{if } f(x)<0, \text{ guess } \hat y = -1 
+    \end{cases}
+\end{align*}
+\underline{Idea \#2}: Use the "kernel trick," where we replace every inner product $<x,y> = \sum_{j=1}^{p}x_jy_j$ 
+with a different nonlinear inner product 
+\begin{align*}
+    K(x,y) = \exp(-\gamma \sum_{j=1}^{p}(x_j-y_j)^2) \\
+    \text{for } \gamma > 0
+\end{align*}
+\boxed{ex}\ $K(x,y) = (1 + \sum_{j=1}^{p}x_jy_j)^d$ \\
+Then we use the prediction function 
+\begin{align*}
+    f(x) &= \beta_0 + \sum_{i=1}^{n} \alpha_i \exp(-\gamma \sum_{j=1}^{p}(x_j - x_{ij})^2) \\
+    &\text{or} \\ 
+    f(x) &= \beta_0 + \sum_{i=1}^{n} \alpha_i (1+\sum_{j=1}^{p} x_j, x_{ij})^d  \\
+    &\text{or} \\
+    f(x) &= \beta_0 + \sum_{i\in S} \alpha_i \exp(-\gamma \sum_{j=1}^{p} |x_j-x_{ij}|)
+\end{align*}
+
 
 \end{document}
