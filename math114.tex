@@ -697,7 +697,7 @@ So $f_j (\ \cdot\ |\ x_1,..., x_{m-1})$ is a pdf on $\mathbb{R}$ \\ \\
 \underline{Algorithm:} Random-scan Gibbs Sampler \\
 Given $X_k = (X_{k,1},..., X_{k,m}) \in \mathbb{R}^m$
 \begin{enumerate}
-    \item Choose $J$ in $\{1,...,m\}$ randomly (e.g. from unique distribution on $\{1,...,m\}$)
+    \item Choose $J$ in $\{1,...,m\}$ randomly (e.g. from uniform distribution on $\{1,...,m\}$)
     \item Sample $Y$ from distribution: 
     \begin{align*}
         f_J (\ \cdot\ |\ \underbrace{X_{k,1},..., X_{k,J-1}, X_{k,J+1}, ..., X_{k,m}}_{\in \mathbb{R}^{m-1}})
@@ -873,5 +873,107 @@ Sensible continuum limit only for $\alpha = 1$ \\ \\
     \end{align*}
     Sensible continuum limit only for $\alpha = \frac 12$
 \end{itemize}
+\subsection{Lecture 19 - Brownian Motion}
+\textbf{Goals}:
+\begin{itemize}
+    \item Define Brownian motion
+    \item SDEs
+    \item Simulation
+\end{itemize}
+\underline{Recap}:
+\begin{itemize}
+    \item Discrete-time, random walk on $\mathbb{R}$ \\
+    Let $Z_0, Z_1,..., \sim N(0,1)\ iid$ \\
+    and consider 
+    \begin{align*}
+        &X_{n+1} = X_n + \delta t^\alpha Z_n,\ n = 0,1,2,\dots \\
+        &X_0 = 0,\ \delta t > 0 \\
+        &\Rightarrow X_n = \delta t \sum_{i=0}^{n-1} Z_i \sim N(0,n\cdot \delta t^{2\alpha})
+    \end{align*}
+    Take limit $n \rightarrow \infty,\ \delta t \rightarrow \infty,\ n\cdot \delta t = t\ $fixed. \\
+    \begin{align*}
+        \text{Var}X_n &= n \cdot \delta t^{2\alpha} \\
+        &= t \cdot \delta t ^{2\alpha -1} \begin{cases}
+            0 & \alpha > \frac 12 \\
+            \infty & \alpha < \frac 12 \\
+            t & \alpha = \frac 12
+        \end{cases}
+    \end{align*}
+    \item For $\alpha = \frac 12$, there is finite, non-zero $X(t)$ s.t. $X_n \rightarrow X(t)$
+    as $n \rightarrow \infty,\ \delta t \rightarrow \infty,\ n\cdot \delta t = t\ $fixed.
+\end{itemize}
+\underline{Remarks}:
+\begin{itemize}
+    \item Above discussion is non-rigorous
+    \item Continuum limit $X(t)$ is called Brownian motion (BM) / Wiener process.
+    \item Discretized BM
+    \begin{align*}
+        &X_{n+1} = X_n + \sqrt{\delta t} \cdot Z_n,\ X_0 = 0 \\ 
+        & \text{for } Z_0, Z_1, \dots, \sim N(0,1)\ iid,\ \delta t > 0
+    \end{align*}
+    \item SDE notation for $X(t) \in \mathbb{R}$
+    \begin{align*}
+        dx &= dB \\
+        \text{Infinitesimal increment of X} &= \text{Infinitesimal increment of BM} \\
+        &(\text{Here } X(t) \text{ is a BM})
+    \end{align*}
+    \item We can think of SDEs in terms of the discrete equation, with $\delta t \rightarrow 0$ (informal)
+\end{itemize}
+\textbf{Brownian Motion (BM)}. \\
+\underline{Def}: A stochastic process $B(t) \in \mathbb{R},\ t \ge 0$ is a BM if:
+\begin{enumerate}
+    \item $B(0) = 0$ with probability 1.
+    \item $B(t) - B(s) \sim N(0,t-s)\ \forall\ t \ge s \ge 0$ \\
+    $[B(t) \cdot B(s) = \sqrt{t-s} \cdot Z$ for $Z\sim N(0,1)]$ \\
+    $[i.e.\ B(t) \sim N(0,t)]$
+    \item For any $0 \le t_0 \le t_1 \le ... \le t_n$, \\ the RVs $B(t_1) - B(t_0),...\ , B(t_n) - B(t_{n-1})$
+    are independent (independent increments).
+    \item $B(t)$ is a continuous function of $t\ge 0$
+\end{enumerate}
+\underline{Remarks}: 
+\begin{itemize}
+    \item From 2. $B(t+\delta t) - B(t) \sim N(0,\delta t),\ \delta t > 0$ \\
+    $\Rightarrow$ Have $B(t+\delta t) - B(1) = \sqrt{\delta t} \cdot Z$ for $Z\sim N(0,1)$
+    \item BM is continuous, but nowhere differentiable \\
+    From above:
+    \begin{align*}
+        \frac{B(t+ \delta t) - B(t)}{\delta t} &= \frac{\sqrt{\delta t} \cdot Z}{\delta t},\ \text{for } Z \sim N(0,1) \\
+        &= \frac 1{\sqrt{\delta t}} Z
+    \end{align*}
+\end{itemize}
+\underline{Properties of BM} \\
+$B(t),\ t \ge 0$ is a Markov process. \\
+For $0 \le t_1 \le ... \le t_n \le t$, we have
+\begin{align*}
+    \mathbb{P}(B(t) \le b\ |\  B(t_1), \dots, B(t_n)) = \mathbb{P}(B(t) \le b\ |\ B(t_n))
+\end{align*}
+\boxed{ex}\ The following processes are BMs:
+\begin{itemize}
+    \item $\tilde B(t) = -B(t), t \ge 0$ 
+    \item $\tilde B(t) = B(t + t_0) - B(t_0), t \ge 0$ 
+    \item $\tilde B(t) = \frac{1}{\sqrt \lambda}B(\lambda t), \lambda > 0$  
+    \item (e.g. check $\tilde B(t)$ satisfies 4 properties if $B(t)$ does)
+\end{itemize}
+\underline{Transition probability density}: $p(y,t\ |\ x,s)$ for $s \le t$
+\begin{align*}
+    \int_{a}^{b} p(y,t\ |\ x,s)dy &= \mathbb{P}(a < B(t) < b\ |\ B(s) = x) \\
+    &= \mathbb{P}(a-x < B(t) - B(s) < b-x) \\
+    &= \mathbb{P}(a < \sqrt{t\cdot s} \cdot Z + x < b) \text{ for } Z\sim N(0,1) \\
+    \Rightarrow p(y,t\ |\ x,s) = \frac{1}{\sqrt{2\pi(t\cdot s)}} \exp(-\frac{(y-x)^2}{2(t-s)^2})
+\end{align*}
+$B(t), B(s)$ are not independent. 
+\begin{align*}
+    \text{Cov}(B(t), B(s)) &= \mathbb{E}(B(t)\cdot B(s)) - \mathbb{E}(B(t))\mathbb{E}(B(s)) \\
+    &= \mathbb{E}(B(t)\cdot B(s)) - 0 \text{ because } B(t) \sim N(0,t) \\
+    &= \mathbb{E}(B(t)B(s))
+\end{align*}
+Assume $t \ge s$, then 
+\begin{align*}
+    B(t)B(s) &= [B(t)-B(s)][B(s)-B(0)]+ B(s)^2 \\
+    \mathbb{E}(B(t)B(s)) &= \mathbb{E}(B(t) - B(s)) \mathbb{E}(B(s)B(0)) + \mathbb{E}(B(s)^2) \\
+    &= s  \\
+    \Rightarrow \mathbb{E}(B(s)B(t)) = \min(s,t)
+\end{align*}
+
 
 \end{document}
