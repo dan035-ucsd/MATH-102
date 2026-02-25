@@ -975,5 +975,115 @@ Assume $t \ge s$, then
     \Rightarrow \mathbb{E}(B(s)B(t)) = \min(s,t)
 \end{align*}
 
+\subsection{Lecture 20 - SDEs}
+\underline{Recap}: \\
+Definition of Brownian motion, $B(t) \in \mathbb{R}, t \ge 0$
+\begin{enumerate}
+    \item $B(0) = 0$, with probability 1
+    \item $B(t) - B(s) \sim N(0,t-s)$ for $t \ge s$
+    \item Independent increments  \\
+    $\forall\ 0 \le s_1 < t_1 \le s_2 < t_2$ \\
+    RVs $B(t_1)-B(s_1), B(t_2)-B(s_2)$ are independent.
+    \item $B(t)$ is a continuous function of $t$ (but not differentiable).
+\end{enumerate}
+1. and 2. $\Rightarrow B(t) \sim N(0,t)$ \\
+Discrete picture: $X_0,X_1,\dots \in \mathbb{R}, \delta t >0$
+\begin{align*}
+    X_{n+1} = X_n + \sqrt{\delta t}\cdot Z_n,\ n=0,1,2,\dots \\
+    Z_0, Z_1, \dots \sim N(0,1)\ \text{iid}, X_0 = 0
+\end{align*}
+Continuum limit: $n\rightarrow\infty,\ \delta t \rightarrow 0, n\cdot \delta t = t$ fixed.
+\begin{align*}
+    X_n \rightarrow X(t),\ X(t) \text{ is a BM}
+\end{align*}
+\textbf{Simulating BM} (Euler-Maruyama)\\
+Let $\delta t > 0$, $n \in \mathbb{Z}$, $T = n\delta t$ \\
+Let $t_k = k\delta t,\ k = 0,1,2,\dots,n,\ t_n = T = n \delta t$ \\
+\underline{Idea}: Find a discrete time process on $[0,T]$
+\begin{align*}
+    X(t_k) = X_k \text{ with } X_k \approx B(t_k),\ \text{for BM } B(t)
+\end{align*}
+\underline{Algorithm}: (Euler)
+\begin{enumerate}
+    \item Set $X_0 = 0$ 
+    \item For $i = 0$ to $n-1$
+    \item Generate $Z \sim N(0,1)$
+    \item Set $X_{i+1} = X_i + \sqrt{\delta t} \cdot Z$
+    \item Output: $X_0, X_1, \dots, X_n = X(0), X(t_1), \dots, X(t_n)$
+\end{enumerate}
+\underline{Remarks}:
+\begin{itemize}
+    \item Can interpolate to connect $(t_k, X(t_k))$ to get approximate sample path $X(t)$
+    on $[0,T]$ with $X(t) \approx B(t)$, BM
+    \item Return to convergence later.
+\end{itemize}
+\textbf{BM with Drift} \\
+\begin{align*}
+    X(t) = ut + \sqrt{2D} B(t)
+\end{align*}
+$\text{where } u,D \in \mathbb{R},\ D > 0$ where $B(t) \text{ is a BM}$
+\begin{itemize}
+    \item Distribution of $X(t)$ \\
+    $X(t) \sim $ normal (constant + normal)
+    \item $\mathbb{E}X(t) = ut$
+    \item Var$X(t) = \mathbb{E}((X(t)-ut)^2)$ \\
+    $= \mathbb{E}(2D)B(t)^2$ \\
+    $= 2Dt(\mathbb{E}(B(t)^2) = t)$
+    \item $\Rightarrow X(t) \sim N(ut, 2Dt)$
+\end{itemize}
+\underline{SDE notation}:
+SDE whose solution is BM with drift \\
+\begin{align*}
+    \underbrace{dx}_{\text{change in X(t)}} = \underbrace{udt}_{\text{change in t}} + \sqrt{2D} \cdot \underbrace{dB}_{\text{infinitesimal Brownian increment}},\ X(0) = 0
+\end{align*}
+Here you can 'integrate' and get the original equation $X(t) = ut + \sqrt{2D} B(t)$. However,
+stochastic integration is different in general. \\ \\
+\underline{Euler's method}: \\
+Let $\delta t > 0,\ n \in \mathbb{Z},\ t_k = k\delta t,\ k = 0,1,\dots, n$ \\
+Set $X_0 = 0$\\
+For $i = 0$ to $n-1$ 
+
+Generate $Z\sim N(0,1)$
+
+Set $X_{i+1} = X_i+u\delta t + \sqrt{2D} \sqrt{\delta t}Z$\\
+End \\ \\ 
+\underline{Output}: $X_0, X_1,\dots, X_n$ \\
+$X_i$ approximate true solution $X(t_i)$ \\ \\ 
+\underline{Remarks}:
+\begin{itemize}
+    \item SDE: $dx = udt + \sqrt{2D} dB$
+    \item EM: $X_{i+1} =X_i + u\delta t + \sqrt{2D\delta t} Z_i$\\
+    $Z_0, Z_1, \dots \sim N(0,1)\ $iid
+    \item Can think of SDE solution $X(t)$ as 'continuum limit' of solution to discrete equation.
+    \item Intuitively, $dB$ is like a $\sqrt{dt} Z$ \\
+    $dB(t) = B(t+dt) - B(t) \sim N(0,dt)$ \\
+    $\mathbb{E}(dB) = 0,\ \mathbb{E}(dB^2) = dt$
+    \item Langevin notation (physics) \\
+    If we divide by dt
+    \begin{align*}
+        \frac{dx}{dt} = u + \sqrt{2D} \underbrace{\xi(t)}_{\text{white noise } \frac{dB}{dt}}
+    \end{align*}
+    Note that $\xi(t)$ is not a function! \\
+    From above $\frac{dB}{dt}\sim \frac1{\sqrt{dt}}z$
+\end{itemize}
+\boxed{\text{ex}} Moments of BM with drift
+\begin{align*}
+    dX &= udt + \sqrt{2D}dB \\
+    \mathbb{E}(dX) &= udt \\
+    d(\mathbb{E}X) &= udt\ (\text{ODE for } \mathbb{E}X) \\
+    \frac{d}{dt}(\mathbb{E}X) &= u \\
+    \mathbb{E}X &= ut 
+\end{align*}
+From the discrete picture:
+\begin{align*}
+    X_{i+1} - X_i &= u\delta t + \sqrt{2D\delta t} Z\\
+    \mathbb{E} X_{i+1} - \mathbb{E}X_i &= u \delta t \\
+    \frac{\mathbb{E}X_{i+1}-\mathbb{E}X_i}{\delta t} &= u \\
+    \frac{d}{dt} \mathbb{E}X &= u \\
+    \mathbb{E}X &= ut
+\end{align*}
+
+
+
 
 \end{document}
