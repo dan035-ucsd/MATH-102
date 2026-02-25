@@ -888,5 +888,78 @@ Then we use the prediction function
     f(x) &= \beta_0 + \sum_{i\in S} \alpha_i \exp(-\gamma \sum_{j=1}^{p} |x_j-x_{ij}|)
 \end{align*}
 
+\subsubsection{Kernel Functions}
+There are 3 main kernel functions:
+\begin{enumerate}
+    \item Inner product kernel 
+    \begin{align*}
+        k(x,y) =\ <x,y>\ = \sum_{j=1}^{p}x_j y_j
+    \end{align*}
+    \item Polynomial kernel
+    \begin{align*}
+        k(x,y) = (1+<x,y>)^d = (1 + \sum_{j=1}^{p}x_jy_j)^d \\
+        \text{here } d \in \{2,3,...\}
+    \end{align*}
+    \item Radial kernel
+    \begin{align*}
+        k(x,y) = \exp(-\gamma ||x-y||^2) = \exp(-\gamma\sum_{j=1}^{p}(x_j-y_j)^2)
+    \end{align*}
+\end{enumerate}
+How does the computer fit/optimize parameters $\beta_0, \alpha_1, ..., \alpha_n$? 
+We choose parameters to optimize 
+\begin{align*}
+    \underbrace{L}_{\text{loss function}} = \underbrace{\sum_{i=1}^{n}\max \{0,1-y_if(x_i)\}}_\text{data misfit/hinge loss} + \underbrace{\lambda ||f||^2_k}_{\text{penalty term } \lambda > 0 }
+\end{align*}
+\begin{align*}
+    ||f||^2_k = \sum_{i,l = 1}^{n} \alpha_i \alpha_l K(x_i,x_l)
+\end{align*}
+Where $j$ is the index for different predictors, $i,l$ to index observations. If 
+$f(x) = \beta_0 + \sum_{i=1}^{n} \alpha_i k(x_1,x_i)$\\ 
+\underline{Remarks}:
+\begin{itemize}
+    \item As $\lambda \nearrow \infty$, the optimization wants to make $||f||^2_k$ small
+    $\Rightarrow$ all the $\alpha_i$'s are small $\Rightarrow$ collapses to a constant predictor 
+    $f(x) = \beta_0$.
+    \item As $\lambda \searrow 0$, the optimization doesn't care about the size/complexity of
+    $\alpha_i$'s $\Rightarrow$ perfect classification on training data.
+\end{itemize}
+So what is the margin? What are the support vectors? \\
+The margin is the region $\{X\ |\ -1 \le f(x) \le 1\}$
+\begin{enumerate}[(a)]
+    \item "$X_i$ is on the margin" $[y_if(x_i) = +1]$
+    \begin{align*}
+        \Leftrightarrow \begin{cases}
+            y_i = + 1 & f(x_i) = +1 \\
+            y_i = - 1 & f(x_i) = -1
+        \end{cases}\qquad \boxed{\text{marginal}}
+    \end{align*}
+    \item "$X_i$ is on the right side of the margin" $[y_if(x_i) > +1]$
+    \begin{align*}
+        \Leftrightarrow \begin{cases}
+            y_i = + 1 & f(x_i) > +1 \\
+            y_i = - 1 & f(x_i) < -1
+        \end{cases}\qquad \boxed{\text{good}}
+    \end{align*}
+    \item "$X_i$ is on the wrong side of the margin" $[y_if(x_i) < +1]$
+    \begin{align*}
+        \Leftrightarrow \begin{cases}
+            y_i = + 1 & f(x_i) < +1 \\
+            y_i = - 1 & f(x_i) > -1
+        \end{cases}\qquad \boxed{\text{bad}}
+    \end{align*}
+\end{enumerate}
+Mathematical \underline{support} means nonzero coefficients. Support vectors are 
+all the data input points $X_i$ with indices in 
+\begin{align*}
+    S = \{i\ |\ y_ix_i \le +1\} \\
+    i = 1,2,\dots,n
+\end{align*}\
+SVMs are "sparse" 
+\begin{align*}
+    f(x) &= \beta_0 + \sum_{i=1}^{n} \alpha_i k(x, x_i) \\
+    &= \beta_0 +\sum_{i \in S} \alpha_i k(x,x_i) 
+\end{align*}
+This means $\alpha_i = 0$ if $i$ is outside the support set/ $X_i$ is on the right 
+side of the boundary.
 
 \end{document}
