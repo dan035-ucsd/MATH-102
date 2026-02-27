@@ -1083,7 +1083,147 @@ From the discrete picture:
     \mathbb{E}X &= ut
 \end{align*}
 
+\subsection{Lecture 21 - General SDEs}
+\underline{Recap}:
+\begin{itemize}
+    \item BM with drift: $X(t) \in \mathbb{R}$
+    \item SDE: $dX = udt + \sqrt{2D} \cdot dB, X(0) = 0$ \\
+    Where $dX$ is change in $X$, $dt$ is change in $t$, $dB$ is the infinitesimal Brownian 
+    increment ($dB \sim N(0,dt)$). Where $u,D \in \mathbb{R}, D > 0$, and $u$ is speed, $D$ 
+    is diffusivity. Intuitively, $dB$ is like $\sqrt{dt}\cdot Z,\ Z \sim N(0,1)$, and 
+    $\mathbb{E}(dB) = 0,\ \mathbb{E}(dB^2) = dt$.
+\end{itemize}
+Why does $\mathbb{E}(dx) = d(\mathbb{E}X)$? 
 
+Let $y(t) = \mathbb{E}(X(t))$, then
+\begin{align*}
+    \mathbb{E}(dx) &= \mathbb{E}(X(t+\delta t) - X(t)) \\
+    &= \mathbb{E}(X(t+\delta t)) - \mathbb{E}X(t) \\
+    &= y(t +\delta t) - y(t) \\
+    &= dy \\
+    &= d(\mathbb{E}X)
+\end{align*}
+\textbf{Ornstein-Uhlenbeck process} (OU)
+\begin{align*}
+    dX = -\alpha Xdt + \sqrt{2D} dB,\ X(0) = x_0
+\end{align*}
+Constants: $\alpha, D, x_0 \in \mathbb{R}, D > 0$ \\
+1d process: $X(t) \in \mathbb{R}$ \\
+\underline{Euler-Maruyama}: numerical approximation for $X(t)$ on $t \in [0,T]$ \\
+\underline{Algorithm}:
+\begin{enumerate}
+    \item Set $T > 0,\ n \in \mathbb{Z}_{>0},\ \delta t - \frac Tn$ 
+    \item Let $t_k = k\delta t,\ k=0,1,\dots,n$
+    \item For $i = 0,\dots, n-1$ \\
+    Generate $Z \sim N(0,1)$ \\
+    Set $X_{i+1} = X_i - \alpha X_i \delta t + \sqrt{2D\delta t} \cdot Z$
+    \item End
+\end{enumerate}
+Output: $X_0, X_1, \dots, X_n$ with $X_i \approx X(t_i)$ (true solution). \\ \\
+What are the moments of $X(t)$?
+\begin{align*}
+    dX &= -\alpha Xdt + \sqrt{2D} dB \\
+    d(\mathbb{E}X) &= -\alpha \mathbb{E}Xdt \\
+    \frac{d}{dt} \mathbb{E}X &= -\alpha \mathbb{E}X \\
+    &\text{This gives an ODE for } \mathbb{E}X
+\end{align*}
+Let $y(t) = \mathbb{E}(X(t))$
+\begin{align*}
+    &\Rightarrow \frac{dy}{dt} = -\alpha y,\ y(0) = x_0 \\
+    &\Rightarrow y(t) = x_0e^{-\alpha t} = \mathbb{E}(X(t))
+\end{align*}
+\underline{Remarks}:
+\begin{itemize}
+    \item What about higher moments, e.g. $\mathbb{E}(X^2)$?
+    \item What is $d(\mathbb{E}(X^2)) = \mathbb{E}(d(X^2))$? \\
+    Ito's lemma, stochastic calculus.
+\end{itemize}
+\textbf{General SDEs}
+In 1d, SDEs are equations of the form:
+\begin{align*}
+    dX = b(X,t)dt + \sigma(X,t)dB
+\end{align*}
+Initial condition: $X(0) = x_0$ \\
+Where: $B(t)$ is a BM, $\ X(t) \in \mathbb{R}$ (1d SDE), $\ b(X,t), \sigma(X,t) \in \mathbb{R}$
+
+\underline{Terminology}:
+\begin{itemize}
+    \item Drift term: $b(X,t)dt$ 
+    \item Diffusion term: $\sigma(X,t)dB$
+    \item Time homogeneous: $b,\sigma$ are independent of $t$, it would be time inhomogeneous otherwise
+    \item Additive noise: $\sigma$ is independent of $X$
+    \item Multiplicative noise: $\sigma$ depends on $X$
+\end{itemize}
+\boxed{\text{ex}} Particle in force field $F(X),\ X(t) \in \mathbb{R}$
+\begin{align*}
+    \text{SDE}:\quad dX = \underbrace{F(X)dt}_{\text{drift, deterministic force}} + \underbrace{\sqrt{2D}dB}_{\text{diffusion, random kicks}}
+\end{align*}
+\begin{itemize}
+    \item $D > 0$ is constant.
+    \item SDE is time homogeneous with additive noise.
+\end{itemize}
+Note: \\
+SDEs are sometimes written as
+\begin{align*}
+    dX_t &= b(X_t,t)dt + \sigma(X_t,t)dB_t \\
+    \frac{dX}{dt} &= b(X,t) + \sigma(X,t)\xi \\
+    &(\text{Langevin})
+\end{align*}
+\underline{SDE in higher dimensions}
+\begin{itemize}
+    \item $B(t) = (B_1(t),\dots,B_m(t)) \in \mathbb{R}^m$ is BM if all components are independent BMs
+    \item SDE for $X(t) \in \mathbb{R}^m$ has the form
+    \begin{align*}
+        dX = b(X,t)dt + \sigma(X,t)dB
+    \end{align*} 
+    Where $b(X,t) \in \mathbb{R}^m$ and in general, $\sigma(X,t)$ can be $m\times m $ matrix
+    (if $\sigma \propto I_m$, then can treat $\sigma$ as scalar)
+\end{itemize}
+\boxed{\text{ex}} Brownian particle in 2d, $X(t) \in \mathbb{R}^2$
+\begin{align*}
+    \text{SDE: } dX = \sqrt{2D} dB
+\end{align*}
+Euler: $T,\ \delta t > 0,\ n = \frac{T}{\delta t},\ t_k = k\delta t,\ k = 0,\dots,n$ \\
+For $i = 0, \dots, n-1$
+
+Generate $Z_1, Z_2 \sim N(0,1)$ iid 
+
+$X_{i+1} = X_i + \sqrt{\delta t} \begin{bmatrix}
+    Z_1 \\ Z_2 
+\end{bmatrix}$\\
+End \\\\
+\boxed{\text{ex}} Active Brownian particle
+\begin{itemize}
+    \item Speed $v$ 
+    \item Direction $n_\theta = (\cos \theta, \sin \theta)$
+    \item $\theta$ diffuses
+\end{itemize}
+\begin{align*}
+    \text{SDE: } dX &= vn_\theta dt + \sqrt{2D_T}dB_T \\
+    d\theta &= \sqrt{2D_R} dB_R 
+\end{align*}
+Where $X(t) \in \mathbb{R}^2,\ \theta(t) \in \mathbb{R}$, and constants $v, D_R, D_T \in \mathbb{R}$
+
+\begin{itemize}
+    \item $B_T(t) \in \mathbb{R}^2$ is 2d BM 
+    \item $B_R(t) \in \mathbb{R}$ is 1d BM 
+    \item $B_T, B_R$ are independent processes
+\end{itemize}
+Euler: Choose $T, \delta t > 0, n = \frac{T}{\delta t},\ x_0, \theta_0$ \\
+For $i = 0,\dots, n-1$
+
+Generate $Z_1, Z_2, Z_3 \sim N(0,1)$ iid. \\
+Set:
+\begin{align*}
+    X_{i+1} &= X_i + v\begin{bmatrix}
+        \cos \theta_i \\ \sin \theta_i
+    \end{bmatrix} \delta t + \sqrt{2D_T \delta t} \begin{bmatrix}
+        Z_1 \\ Z_2 
+    \end{bmatrix}  \\
+    \theta_{i+1} &= \theta_i + \sqrt{2D_R \delta t} Z_3
+\end{align*}
+End \\
+Output $(\theta_i,\ X_i) \approx (\theta(t_i), X(t_i))$
 
 
 \end{document}
