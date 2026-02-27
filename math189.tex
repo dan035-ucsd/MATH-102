@@ -964,4 +964,86 @@ SVMs are "sparse"
 This means $\alpha_i = 0$ if $i$ is outside the support set/ $X_i$ is on the right 
 side of the boundary.
 
+\section{Neural Networks}
+\subsection{Introduction to Neural Networks}
+\underline{Question}: What is a neural network? 
+\begin{align*}
+    \text{Input layer } x_i \rightarrow \text{ Hidden layer } A_j \rightarrow \text{ Output layer } f(x) \rightarrow y
+\end{align*}
+\begin{itemize}
+    \item Arrows indicate function dependencies \\
+        $f(x)$ is a function of $A_1,A_2,A_3,A_4,A_5$ \\
+        $A_1$ is a function of $x_1,X_2,X_3,x_4$
+    \item Usually, these are very specific functional dependencies
+    \begin{align*}
+        f(x) = \beta_0 + \sum_{k=1}^{K}B_kA_k
+    \end{align*}
+    \item Output layer is a linear function of hidden neurons (in the layer
+    preceding it)
+\end{itemize}
+For each $k = 1,2,\dots,K$,
+\begin{align*}
+    A_k = g \cdot \left(\underbrace{w_{k0} + \sum_{j=1}^{p}w_{kj}x_j}_{\text{linear function}}\right)
+\end{align*}
+Where $g$ is a nonlinear activation function, or a rectified linear unit.
+\begin{align*}
+    g(z) = \text{ReLu}(z) = \begin{cases}
+        z & z > 0 \\ 0 & z \le 0
+    \end{cases}
+\end{align*}
+\begin{itemize}
+    \item The output layer does not have a nonlinear activation.
+    \item The hidden layers do have a nonlinear activation.
+\end{itemize}
+Nowadays, we can code a very complicated prediction functions. The computer will
+do most of the work to train/optimize parameters based on a loss function that 
+you specify. \\ \\
+\underline{Question 1}: What parameters do we need to optimize? 
+\begin{align*}
+    f(x) = \beta_0 + \sum_{k=1}^{K}B_kA_k
+\end{align*}
+Add all the arrows and the neurons they point to. 
+\begin{itemize}
+    \item We have $K + 1$ parameters between the hidden and the output layers. Where $K$ is 
+    the number of arrows. 
+    \item We have 25 parameters between the input and hidden layers in our class example. This
+    adds up to a total of 31 parameters.
+\end{itemize}
+\underline{Question 2}: What loss function could/should we use?
+\begin{align*}
+    \min \sum_{i=1}^{n}(y_i - f(x_i))^2 \\
+    \text{which is the RSS given } (x_i, y_i)_{1\le i \le n}
+\end{align*}
+"Labels"/responses are encoded as vectors. In the case of the MNIST dataset.
+\begin{align*} y =
+    \begin{bmatrix}
+        y_0 \\ \vdots \\ y_9
+    \end{bmatrix}
+\end{align*}
+With a 1 indicating the correct digit, and 0s everywhere else. This is also known as
+One-hot encoding. \\ 
+In the MNIST dataset, there are 60,000 training samples, and 10,000 testing images.
+ISLP trained using two hidden layers $L_1$ with 256 neurons and $L_2$ with 128 neurons. \\
+
+\begin{tabular}{c c c c}
+    Input layer & Hidden layer $L_1$ & Hidden layer $L_2$ & Output layer \\
+    \hline
+    $x_0$ & $A_1^{(1)}$ & $A_1^{(2)}$ & $f_0(x) \rightarrow y_0$ \\
+    $x_1$ & $A_2^{(1)}$ & $A_2^{(2)}$ & $f_1(x) \rightarrow y_1$ \\
+    $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \\
+    $x_p$ & $A_{k_1}^{(1)}$ & $A_{k_2}^{(2)}$ & $f_9(x) \rightarrow y_9$
+\end{tabular} \\ \\
+$k_1 = 256,\ k_2 = 128,\ p = 784 = 28^2$ \\
+How many parameters?
+\begin{align*}
+    (pk_1 + k_1) + (k_1k_2 + k_2) + (k_2\cdot 10 + 10) = 235,146
+\end{align*}
+\underline{ReLu net}
+\begin{align*}
+    A^{(1)}_k &= g\left(w_{k0}^{(1)}+ \sum_{j=1}^{p}w_{kj}^{(1)}x_j\right) \\
+    A^{(2)}_l &= g\left(w_{l0}^{(2)}+ \sum_{k=1}^{K_1}w_{lk}^{(2)}A_k^{(1)}\right) \\
+    f_m(x) &= \frac{e^{z_m}}{\sum_{l=0}^{9}e^{z_l}} \\
+    z_m &= \beta_{m0} + \sum_{l=1}^{k_2} \beta_{ml}A_l^{(2)}
+\end{align*}
+
 \end{document}
