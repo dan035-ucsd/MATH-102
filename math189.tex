@@ -964,6 +964,19 @@ SVMs are "sparse"
 This means $\alpha_i = 0$ if $i$ is outside the support set/ $X_i$ is on the right 
 side of the boundary.
 
+\subsubsection{Gradient Descent}
+This is an algorithm for finding a (local) minimum of a function. \\
+Idea: Use the gradient, which is the direction of steepest increase. \\
+\underline{Algorithm}:
+\begin{enumerate}
+    \item Start at $x_0$
+    \item New guess: \begin{align*}
+        x_{n+1} = x_n - \rho\nabla f(x_0)\quad \rho \in \mathbb{R},\ \rho \text{ is small}
+    \end{align*}
+\end{enumerate}
+\underline{Fact}: If $\rho$ is small enough, gradient descent is guaranteed to 
+converge to a local minimum of $f$
+
 \section{Neural Networks}
 \subsection{Introduction to Neural Networks}
 \underline{Question}: What is a neural network? 
