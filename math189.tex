@@ -1046,4 +1046,92 @@ How many parameters?
     z_m &= \beta_{m0} + \sum_{l=1}^{k_2} \beta_{ml}A_l^{(2)}
 \end{align*}
 
+\subsection{Convolutional Neural Nets}
+Overwhelmingly, convolutional neural nets are for 2-dimensional data.
+\begin{align*}
+    \text{Original Image} \rightarrow 
+    \begin{bmatrix}
+        a & b & c \\
+        d & e & f \\
+        g & h & i \\
+        j & k & l
+    \end{bmatrix}_{4\times 3}
+\end{align*}
+Your eyes naturally sees little patches, say $\begin{bmatrix}
+    g & h \\ j & k
+\end{bmatrix}$ \\
+\begin{align*}
+    \text{Convolutional Filter} \rightarrow
+    \begin{bmatrix}
+        \alpha & \beta \\ \gamma & \delta
+    \end{bmatrix}_{2\times 2}
+\end{align*}
+\begin{center}
+    \underline{Convolved Image} \\
+    $\begin{bmatrix}
+        a\alpha + b\beta + d\gamma + e\delta & b\alpha + c\beta + e\gamma + f\delta \\
+        d\alpha + e\beta + g\gamma + h\delta & e\alpha + f\beta + h\gamma + i\delta \\
+        g\alpha + h\beta + j\gamma + k\delta & h\alpha + i\beta + k\gamma + l\delta 
+    \end{bmatrix}_{3\times 2}$
+\end{center}
+\boxed{\text{ex}} CNN architecture 
+
+Given a box denoting an image, the north and west side will have the number of pixels of that side.
+The south side will have $\times 3$ which denotes 3 channels, indicating intensity
+in RGB. The pattern goes convolve, pool, convolve, pool, $\dots$, and eventually flatten.
+
+Before applying the $2\times 2$ convolutional filter to $32\times 32$ image, add a horizontal
+and vertical level of zeros, temporarily yielding a $33\times 33$ image before convolving.
+
+Apply a $2\times 2$ convolution to each channel separately, add  them together, add a bias term
+$b_1$ and apply a ReLu activation. \\ \\
+There are two types of pooling, max pooling and average pooling.
+\begin{center}
+    Max pooling \\
+    $\begin{bmatrix}
+        1 & 2 &| & 5 & 3 \\
+        3 & 0 &| & 1 & 2 \\
+        \hline
+        2 & 1 &| & 3 & 4 \\
+        1 & 1 &| & 2 & 0
+    \end{bmatrix}_{4 \times 4} \rightarrow 
+    \begin{bmatrix}
+        3 & 5 \\
+        2 & 4
+    \end{bmatrix}_{2\times 2}$ \\
+\end{center}
+\begin{center}
+    Average pooling \\
+    $\begin{bmatrix}
+        1 & 2 &| & 5 & 3 \\
+        3 & 0 &| & 1 & 2 \\
+        \hline
+        2 & 1 &| & 3 & 4 \\
+        1 & 1 &| & 2 & 0
+    \end{bmatrix}_{4\times 4} \rightarrow 
+    \begin{bmatrix}
+        1.5 & 2.75 \\
+        1.25 & 2.25
+    \end{bmatrix}_{2\times 2}$
+\end{center}
+We can apply a softmax to make the final vector in the CNN pathway into probabilities.
+\begin{align*}
+    \begin{bmatrix}
+        z_1 \\ \vdots \\ z_k
+    \end{bmatrix} \rightarrow
+    \frac{e^{z_i}}{\sum_{k=1}^{K}e^{z_k}}
+\end{align*}
+With 6 output channels ($\times 6$), each channel uses $2\times 2$ convolutional filters
+on the 3 input channels and adds a bias parameter. 
+\begin{align*}
+    6[(3)(4)+1] = 6 \cdot 13 = 78
+\end{align*}
+With 12 output channels ($\times 12$), each channel uses $2\times 2$ convolutional filters
+on the 6 input channels and adds a bias parameter.
+\begin{align*}
+    12[(6)(4)+1] = 2512
+\end{align*}
+
+
+
 \end{document}
