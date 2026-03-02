@@ -1129,9 +1129,10 @@ on the 3 input channels and adds a bias parameter.
 With 12 output channels ($\times 12$), each channel uses $2\times 2$ convolutional filters
 on the 6 input channels and adds a bias parameter.
 \begin{align*}
-    12[(6)(4)+1] = 2512
+    12[(6)(4)+1] = 300
 \end{align*}
-
+On the flatten layers, we multiply the number of inputs to outputs and add bias parameters 
+for the number of outputs we have.
 
 
 \end{document}
