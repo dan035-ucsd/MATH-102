@@ -756,7 +756,37 @@ Given $(x_k, y_k) \in \mathbb{R}^2$
     \begin{align*}
         f_i(\ \cdot\ |\ y_1,..., y_{i-1}, x_k)
     \end{align*}
+    \item Set $X_{k+1} \leftarrow (Y_1,\dots, Y_m)$
+    \item Output: $X_0, X_1, \dots \in \mathbb{R}^m$
 \end{enumerate}
+\underline{Remarks}:
+\begin{itemize}
+    \item Systemic-scan $\rightarrow$ choose coords $J = 1,2,\dots,m$ in order
+    \item Random-scan Gibbs is a special case of Metropolis.
+\end{itemize}
+\textbf{Metropolis} (Random-Walk Sampler)\\
+Goal: sample from target pdf $f(x),\ x \in \mathbb{R}^m$, where $f(x)$ has an unknown normalization. \\
+Given $X_k = (X_{k1},\dots,X_{km}) \in \mathbb{R}^m$ 
+\begin{enumerate}
+    \item Generate $Z = (Z_1, \dots, Z_m) \in \mathbb{R}^m$ \\
+    Where $Z_1, \dots, Z_m \sim N(0,1)$ iid \\
+    (i.e. $Z \sim N(0, I_m)$ is a multivariate normal)
+    \item Set proposal state $Y = X_k + Z$ \\
+    (proposal 'transition matrix' $q(X_k, \cdot)$ is a pdf of $N(X_k, I_m)$)
+    \item Set $\alpha = \min(1, \frac{f(Y)}{f(X_k)})$
+    \item Generate $U \sim U[0,1]$ \\
+    Set $X_{k+1} \leftarrow Y$ if $U \le \alpha$\\
+    Set $X_{k+1} \leftarrow X_k$ if $U > \alpha$
+    \item Output: $X_0, X_1,\dots \in \mathbb{R}^m$
+\end{enumerate}
+\underline{Remarks}:
+\begin{itemize}
+    \item Output is a MC on a continuous state space $\mathbb{R}^m$
+    \item Sensitive to typical 'jump' size $Z$ (HW 4)
+    \item What happens if we take $\mathcal{l}Z$ and let $\mathcal{l} \rightarrow 0$
+    and we look at $X_n$ as $n \rightarrow \infty$? \\
+    $\rightarrow$ SDEs
+\end{itemize}
 
 \section{Stochastic Differential Equation}
 \subsection{Lecture 18 - Intro to SDEs}
@@ -1321,8 +1351,38 @@ Then
 \begin{align*}
     x(t_{i+1}) &= x(t_i) + \delta t \frac{dx}{dt} + \mathcal{O}(\delta t^2) \\
     &= x(t_i) + \delta t \frac{dx}{dt}\Big\vert_{t = t_i} + \mathcal{O}(\delta t^2)\\
+    &= x(t_i) + \delta t u(x(t_i)) + \mathcal{O}(\delta t^2) \\
+    \text{But } u(x(t_i)) &= u(x(t_i) + \mathcal{O}(\delta t)) \\
+    &= u(x(t_i)) + \mathcal{O}(\delta t)\quad \text{at } \mathcal{O}(\delta t) \\
+    \Rightarrow x(t_{i+1}) &= x(t_i) + u(x(t_{i+1})) \delta t + \mathcal{O}(\delta t^2) \\
+    \text{and } x(t_{i+1}) &= x(t_i) + u(x(t_i))\delta t + \mathcal{O}(\delta t^2)
 \end{align*}
-
+We have equivalent discretizations of $x(t)$
+\begin{align*}
+    x_{i+1} &= x_i + u(x_i) \delta t &x_0 = a \\
+    \tilde x_{i+1} &= \tilde x_i + u(\tilde x_{i+1}) \delta t &\tilde x_0 = a
+\end{align*}
+where both $x_i, \tilde x_i \approx x(t_i)$ \\ \\
+\underline{SDE case}: \\
+Consider an SDE:
+\begin{align*}
+    dX = u(X)dt + \sigma(X)dB,\ X(0) = x_0
+\end{align*}
+Set $\delta t > 0$, discretize up to $\mathcal{O}(\delta t)$
+\begin{align*}
+    X_{i+1} = X_i + u(X_i)\delta t + \sigma(X_i)\sqrt{\delta t} Z_i
+\end{align*}
+where $X_0 = x_0$ and $Z_i \sim N(0,1)$ and $Z_i,\ X_i$ independent. \\
+This is \underline{different} from:
+\begin{center}
+    $X_{i+1} = X_i + u(X_{i+1})\delta t + \sigma(X_{i+1})\sqrt{\delta t} Z_i$ \\
+    $Z_i \sim N(0,1)$ is independent of $X_i$
+\end{center}
+Ito's SDE: Continuum limit of 
+\begin{center}
+    $X_{i+1} = X_i + u(X_i)\delta t + \sigma(X_i) \sqrt{\delta t} Z_i$ \\
+    $Z_i \sim N(0,1)$ is independent of $X_i$
+\end{center}
  
 
 
