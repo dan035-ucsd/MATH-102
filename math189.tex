@@ -1015,7 +1015,7 @@ you specify. \\ \\
 \begin{align*}
     f(x) = \beta_0 + \sum_{k=1}^{K}\beta_kA_k
 \end{align*}
-Add all the arrows and the neurons they point to. 
+Add all the arrows (weights) and the neurons they point to (biases). 
 \begin{itemize}
     \item We have $K + 1$ parameters between the hidden and the output layers. Where $K$ is 
     the number of arrows. 
@@ -1060,7 +1060,27 @@ How many parameters?
 \end{align*}
 
 \subsection{Convolutional Neural Nets}
+
 Overwhelmingly, convolutional neural nets are for 2-dimensional data.
+
+Each input pixel will be denoted as $X_{ivh}$ where 
+\begin{align*}
+    X_{i,v,h} = \begin{cases}
+        i \in \{1,2,3\} & \text{input index (RGB)} \\
+        v \in \{1,2,\dots, 32\} & \text{vertical position} \\
+        h \in \{1,2,\dots, 32\} & \text{horizontal position}
+    \end{cases}
+\end{align*}
+
+Each output variable will be denoted as $A_{ovh}$ where
+\begin{align*}
+    A_{o,v,h} = \begin{cases}
+        o \in \{1,2,3,4,5,6\} & \text{output index (RGB)} \\
+        v \in \{1,2,\dots, 32\} & \text{vertical position} \\
+        h \in \{1,2,\dots, 32\} & \text{horizontal position}
+    \end{cases}
+\end{align*}
+\textbf{Convolutional filters} \\
 \begin{align*}
     \text{Original Image} \rightarrow 
     \begin{bmatrix}
@@ -1079,6 +1099,16 @@ Your eyes naturally sees little patches, say $\begin{bmatrix}
         \alpha & \beta \\ \gamma & \delta
     \end{bmatrix}_{2\times 2}
 \end{align*}
+These filters map from each input channel $i = 1,2,3$ to each output channel $o=1,2,3,4,5,6$.
+By standard, these are usually $2\times 2$.
+\begin{align*}
+    32\times 32\ (\times 3) &\rightarrow 32\times 32\ (\times 6) \\
+    X_{i,v,h} &\rightarrow A_{o,v,h}
+\end{align*}
+The number of free parameters is (\# of input channels)(\# of output channels)
+(\# of parameters in filter). In class example of $32\times 32 (\times 3) \rightarrow
+32\times 32(\times 6)$, we have $3(6)(4) = 72$ weight parameters.
+
 \begin{center}
     \underline{Convolved Image} \\
     $\begin{bmatrix}
@@ -1090,14 +1120,20 @@ Your eyes naturally sees little patches, say $\begin{bmatrix}
 \boxed{\text{ex}} CNN architecture 
 
 Given a box denoting an image, the north and west side will have the number of pixels of that side.
-The south side will have $\times 3$ which denotes 3 channels, indicating intensity
+The south side will have $(\times 3)$ which denotes 3 channels, indicating intensity
 in RGB. The pattern goes convolve, pool, convolve, pool, $\dots$, and eventually flatten.
 
 Before applying the $2\times 2$ convolutional filter to $32\times 32$ image, add a horizontal
-and vertical level of zeros, temporarily yielding a $33\times 33$ image before convolving.
+and vertical level of zeros, temporarily yielding a $33\times 33$ image before convolving. This is
+called zero padding.
 
 Apply a $2\times 2$ convolution to each channel separately, add  them together, add a bias term
-$b_1$ and apply a ReLu activation. \\ \\
+$b_1$ and apply a ReLU activation. 
+\begin{align*}
+    A_{o,v,h} = \text{ReLU} \left(w_0 + \sum_{i=0}^{3 \text{channels}} \begin{bmatrix}
+        X_{i,v,h}w_{i11} & X_{i,v,h+1}w_{i12} \\ X_{i,v+1,h}w_{i21} & X_{i,v+1,h+1}w_{i22}
+    \end{bmatrix}\right)
+\end{align*}
 There are two types of pooling, max pooling and average pooling.
 \begin{center}
     Max pooling \\
@@ -1146,6 +1182,5 @@ on the 6 input channels and adds a bias parameter.
 \end{align*}
 On the flatten layers, we multiply the number of inputs to outputs and add bias parameters 
 for the number of outputs we have.
-
 
 \end{document}
