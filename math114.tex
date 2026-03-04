@@ -1384,7 +1384,114 @@ Ito's SDE: Continuum limit of
     $Z_i \sim N(0,1)$ is independent of $X_i$
 \end{center}
  
+\subsection{Lecture 23 - Application of Ito's Lemma}
+\underline{Recap}:
+\begin{itemize}
+    \item Ito's Lemma: stochastic chain rule
+    \item 1d, time-homogeneous: $dX = \underbrace{u(X)dt}_{\mathcal{O}(dt)} + \underbrace{\sigma(X)dB}_{\mathcal{O}(\sqrt{dt})}$
+\end{itemize} 
+Change in $f(X)$ is 
+    \begin{align*}
+        df &= f(X + dX) - f(x) \\
+        &= f'(X)dX + \frac 12 f''(X)dX^2 + \underbrace{\mathcal{O}(dX^3)}_{\mathcal{O}(dt^{\frac{3}{2}})} \\
+        &= f'(X)[u(X)dt + \sigma dB] +\frac 12 f''(X)\sigma(X)^2\underbrace{dB^2}_{dt} + \mathcal{O}(dt^{\frac{3}{2}}) \\
+        &= (uf' + \frac 12 \sigma^2 f'')dt + f'\sigma dB
+    \end{align*}
+\boxed{\text{ex}} Ornstein-Uhlenbeck process: $X(t)\in \mathbb{R}$ \\
+SDE: $dX = -\alpha Xdt + \sqrt{2D}dB,\ X(0) = x_0$ \\
+where $\alpha,\ D$ are constants, $\alpha,\ D > 0$ \\ \\
+What is $df$ for $f(X) = X^2$?
 
-
+Ito's:
+\begin{align*}
+    df &= (-\alpha Xf'+Df'')dt + f'\sqrt{2D}dB \\
+    d(X^2) &= (-2\alpha X^2+2D)dt + \underbrace{2X\sqrt{2D}dB}_{\text{mult. noise}}
+\end{align*}
+\underline{Discretization, types of SDE}
+\begin{itemize}
+    \item Multiplicative noise can have multiple meanings. We mostly work in the time homogeneous case.
+\end{itemize}
+\underline{Ito SDE}: \\
+Continuum limit of: 
+\begin{align*}
+    X_{i+1} = X_i + u(X_i)\delta t + \sigma (X_i)\sqrt{\delta t}Z_i \\
+    Z_i \sim N(0,1),\ X_i, Z_i \text{ independent},\ \delta t > 0 
+\end{align*}
+SDE: $dX = u(X)dt + \sigma(X)dB \leftarrow$ Most common type of SDE \\
+\underline{Remarks}:
+\begin{itemize}
+    \item $\mathbb{E}(\sigma(X_i)\sqrt{\delta t}Z_i) = 0$ (independent) \\
+    $\Rightarrow \mathbb{E}(\sigma(X)dB) = 0$\\
+    $\Rightarrow \mathbb{E}(dX) = \mathbb{E}(u(X))dt$  
+\end{itemize}
+\underline{Backwards-Ito SDE}: \\
+Continuum limit of: 
+\begin{align*}
+    X_{i+1} = X_i + u(X_{i+1})\delta t + \sigma (X_{i+1}) \sqrt{\delta t} Z_i \\
+    Z_i \sim N(0,1),\ X_i, Z_i \text{ independent},\ \delta t > 0
+\end{align*}
+SDE: $dX = u(X)dt + \sigma(X)\bullet dB$ \\
+\underline{Remarks}:
+\begin{itemize}
+    \item Anticipatory: diffusion term depends on future state.
+    \item $\mathbb{E}(dX) = \mathbb{E}(u(X))dt$
+\end{itemize}
+\underline{Stratanovich SDE}: \\
+Continuum limit of:
+\begin{align*}
+    X_{i+1} = X_i + u(\frac{X_i + X_{i+1}}{2})\delta t + \sigma(\frac{X_i + X_{i+1}}{2})\sqrt{\delta t} Z_i\\
+    Z_i \sim N(0,1),\ X_i, Z_i \text{ independent, } \delta t > 0 
+\end{align*}
+SDE: $dX = u(X)dt + \sigma(X)\circ dB$ \\
+\underline{Remarks}:
+\begin{itemize}
+    \item Notation can vary
+    \item Ito-SDE sometimes written as \begin{align*}
+        dX = u(X)dt + \sigma(X)*dB
+    \end{align*}
+    \item We consider Ito SDEs, which is most common since $\mathbb{E}(dX) = \mathbb{E}(u(X))dt$
+    \item Different SDEs can be transformed into each other.
+\end{itemize}
+\boxed{\text{ex}} Suppose $X(t)$ satisfies 
+\begin{align*}
+    &dX = u(X)dt + \sigma(X)\bullet dB\quad (\text{Backwards Ito}) \\
+\end{align*}
+Then $X(t)$ satisfies 
+\begin{align*}
+    &dX = (u(X)+\sigma(X)\sigma'(X))dt + \sigma(X)dB\quad \text{(Ito)}
+\end{align*}
+\begin{itemize}
+    \item Different SDEs have different chain rules, Ito's lemma holds for Ito SDEs.
+\end{itemize}
+\boxed{\text{ex}} Using discretizations, find $df(X)$. \\
+Ito SDE: $X_{i+1} = X_i + u(X_i)\delta t + \sigma(X_i)\sqrt{\delta t}Z_i$
+\begin{align*}
+    \Rightarrow f(X_{i+1}) &= f(X_i) + f'(X_i)[u(X_i)\delta t + \sigma(X_i)\sqrt{\delta t}Z_i] \\
+    &+ \frac 12 f''(X_i) \sigma(X_i)^2 \underbrace{\delta t Z_i^2}_{\delta t} + \mathcal{O}(\delta t^\frac 32) \\
+    \Rightarrow f(X_{i+1}) &= f(X_i) + \delta t [u(X_i)f'(X_i) + \frac 12 \sigma(X_i)^2f''(X_i)] \\
+    &+ f'(X_i) \sigma(X_i)\sqrt{\delta t} Z_i + \mathcal{O}(\delta t^\frac 32)
+\end{align*}
+\boxed{\text{ex}} OU-process again $X(t) \in \mathbb{R}$ \\
+SDE: $dX = -\alpha Xdt + \sqrt{2D}dB,\ X(0) = x_0$ where $\alpha, D > 0 $ are constants. \\
+Take $\mathbb{E}$
+\begin{align*}
+    d(\mathbb{E}X) = -\alpha(\mathbb{E}X)dt
+\end{align*}
+Set $y(t) = \mathbb{E}(X(t))$
+\begin{align*}
+    \Rightarrow \frac{dy}{dt} &= - \alpha y \\
+    \Rightarrow y(t) &= x_0 e^{-\alpha t} = \mathbb{E}(X(t))
+\end{align*}
+Ito's for $f(X) = X^2$:  \\
+\begin{align*}
+    df &= (-\alpha Xf' + Df'')+f'\sqrt{2D}dB \\
+    d(X^2) &= (-2\alpha X^2 + 2D)dt + 2X \sqrt{2D}dB
+\end{align*}
+Take $\mathbb{E}$:
+\begin{align*}
+    d(\mathbb{E}X^2) &= (-2\alpha\mathbb{E}X^2 + 2D)dt + \underbrace{\mathbb{E}(2X\sqrt{2D}dB)}_{\searrow 0\ (\text{Ito SDE})} \\
+    \frac d{dt} \mathbb{E}(X^2) &= -2\alpha (\mathbb{E}X^2) + 2D \\
+    \frac{dy}{dt} &= -2\alpha y + 2D,\ y(t) = \mathbb{E}(X^2),\ y(0) = X^2
+\end{align*}
 
 \end{document}
