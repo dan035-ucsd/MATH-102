@@ -989,7 +989,7 @@ converge to a local minimum of $f$
         $A_1$ is a function of $x_1,X_2,X_3,x_4$
     \item Usually, these are very specific functional dependencies
     \begin{align*}
-        f(x) = \beta_0 + \sum_{k=1}^{K}B_kA_k
+        f(x) = \beta_0 + \sum_{k=1}^{K}\beta_kA_k
     \end{align*}
     \item Output layer is a linear function of hidden neurons (in the layer
     preceding it)
@@ -1013,7 +1013,7 @@ do most of the work to train/optimize parameters based on a loss function that
 you specify. \\ \\
 \underline{Question 1}: What parameters do we need to optimize? 
 \begin{align*}
-    f(x) = \beta_0 + \sum_{k=1}^{K}B_kA_k
+    f(x) = \beta_0 + \sum_{k=1}^{K}\beta_kA_k
 \end{align*}
 Add all the arrows and the neurons they point to. 
 \begin{itemize}

@@ -1,0 +1,43 @@
+digraph Neural_Network {
+	rankdir=LR splines=line
+	node [label="" shape=circle]
+	subgraph cluster0 {
+		color=white label="Input Layer" labelloc=b
+		A
+		B
+		C
+		D
+	}
+	subgraph cluster1 {
+		color=white label="Hidden Layer 1" labelloc=b
+		E
+		F
+	}
+	subgraph cluster2 {
+		color=white label="Hidden Layer 2" labelloc=b
+		G
+		H
+		I
+	}
+	subgraph cluster3 {
+		color=white label="Output Layer     " labelloc=b
+		J
+	}
+	A -> E
+	B -> E
+	C -> E
+	D -> E
+	A -> F
+	B -> F
+	C -> F
+	D -> F
+	E -> G
+	E -> H
+	E -> I
+	F -> G
+	F -> H
+	F -> I
+	G -> J
+	H -> J
+	I -> J
+}
