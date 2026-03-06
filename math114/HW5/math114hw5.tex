@@ -2,26 +2,120 @@
 
 \usepackage{amsmath, amssymb, amsthm, enumerate, graphicx}
 
-\title{MATH  HW }
+\title{MATH 114 HW 5}
 \author{Dani Nguyen}
-\date{Winter 2025}
+\date{Winter 2026}
 
 \begin{document}
 \maketitle
 \graphicspath{ {./} }
 
 \noindent \textbf{Question 1} 
-\begin{enumerate}
-    \item 
+\begin{enumerate}[a.]
+    \item Note that $B(t)-B(s)\sim N(0,t-s)$ and $B(0) = 0$
+    \begin{align*}
+        B(8) &= B(8) - B(0) \sim N(0,8-0)\\
+        \mathbb{E}(B(8)) &= \mathbb{E}(B(8)-B(0)) \\
+        &= 0 \\
+        \text{Var}(B(8)) &= \text{Var}(B(8)-B(0)) \\
+        &= 8 \\
+        B(8) - B(5) &\sim N(0,8-5) \\
+        &\sim N(0,3)\\
+        \text{Var}(B(8) - B(5)) &= 3
+    \end{align*}
+    \item Note that $\Phi(z) = \mathbb{P}(Z<z)$ for $Z \sim N(0,1)$
+    \begin{align*}
+        \mathbb{P}(B(4)\le 3\ |\ B(1)=1) &= \mathbb{P}(B(4) - B(1)\le 3 - 1\ |\ B(1)=1) \\
+        &= \mathbb{P}(B(4) - B(1)\le 2\ |\ B(1)=1)
+    \end{align*}
+    Since $B(4) - B(1) \sim N(0,3)$, we have
+    \begin{align*}
+        \text{Var}Z &= 1 \\
+        3\text{VarZ} &= 3 \\
+        \text{Var}(\sqrt3Z) &= 3 \\
+        \text{Var}(\sqrt3Z) &= \text{Var}(B(4)-B(1))
+    \end{align*}
+    \begin{align*}
+        \mathbb{P}(\sqrt3Z\le 2) &= \mathbb{P}(Z \le \frac{2}{\sqrt3}) \\
+        &= \Phi\left(\frac{2}{\sqrt3}\right)
+    \end{align*}
 \end{enumerate}
 \noindent \textbf{Question 2} 
-\begin{enumerate}
-    \item 
-\end{enumerate}
-\noindent \textbf{Question 3} 
 \begin{enumerate}[a.]
     \item 
 \end{enumerate}
+\newpage
+\noindent \textbf{Question 3} 
+\begin{enumerate}[a.]
+    \item Given $X(0) = 1$
+    \begin{align*}
+        dX(t) &= -X(t)dt + \sqrt2 dB(t) \\
+        \mathbb{E}(dX(t)) &= \mathbb{E}(-X(t)dt) + \mathbb{E}(\sqrt2 dB(t)) \\
+        d\mathbb{E}(X(t)) &= -\mathbb{E}(X(t))dt + 0 \\ 
+        \frac{d}{dt}\mathbb{E}(X(t)) &= - \mathbb{E}(X(t)) \\
+        \mathbb{E}(X(t)) &= Ce^{-t}
+    \end{align*}
+    Plug in the initial condition $X(0) = 1$
+    \begin{align*}
+        \mathbb{E}(X(0)) &= Ce^{-0} \\
+        1 &= C
+    \end{align*} 
+    Therefore we have 
+    \begin{align*}
+        \mathbb{E}(X(t)) &= e^{-t} \\
+        \mathbb{E}(X(1)) &= e^{-1}
+    \end{align*}
+    \item \begin{enumerate}[i.]
+        \item Note that $X \sim N(\mu, \sigma^2)$ if $X = \sigma Z + \mu$
+        \begin{align*}
+            X_1 &= X_0 - X_0\delta t + \sqrt{2\delta t} Z_0 \\
+            &= 1 - \delta t + \sqrt{2\delta t} Z_0 \\
+            X_1 &\sim N(1-\delta t,2\delta t)
+        \end{align*}
+        \item If $X_i$ is normally distributed
+        \begin{align*}
+            X_{i+1} &= (1-\delta t)X_i + (\sqrt{2\delta t}) Z_i
+        \end{align*}
+        Sum of normals are normals, therefore, $X_{i+1}$ is normally distributed
+        \item Find $\mathbb{E}(X_{i+1})$
+        \begin{align*}
+            \mathbb{E}(X_{i+1}) &= (1-\delta t)\mathbb{E}(X_i) + \sqrt{2\delta t} \mathbb{E} Z_i \\
+            &= (1-\delta t)\mathbb{E}(X_i)\quad \text{ since } \mathbb{E}Z_i = 0
+        \end{align*}
+        Find $\mathbb{E}(X_i)$
+        \begin{align*}
+            \mathbb{E}(X_i) &= (1-\delta t) \mathbb{E}(X_{i-1}) \\
+            &= (1-\delta t)^2\mathbb{E}(X_{i-2}) \\
+            &\quad \vdots \\
+            &= (1-\delta t)^i\mathbb{E}(X_{0}) \\
+            &= (1-\delta t)^i \quad \text{ since } \mathbb{E}(X_0) = 1
+        \end{align*}
+        \item Find Var$(X_{i+1})$
+        \begin{align*}
+            \text{Var}(X_{i+1}) = \text{Var}((1-\delta t)X_i + \sqrt{2\delta t}Z_i)
+        \end{align*}
+        Note that $Var(aX + bY) = a^2\text{Var}X + b^2\text{Var}Y + 2ab\text{Cov}(X,Y)$,
+        but since $X,Y$ independent in this case, Cov$(X,Y) = 0$
+        \begin{align*}
+            \text{Var}(X_{i+1}) &= (1-\delta t)^2\text{Var}(X_i) +2\delta t \text{Var}(Z_i) \\
+            &= (1-\delta t)^2\text{Var}(X_i) + 2\delta t
+        \end{align*}
+        Find Var$(X_i)$
+        \begin{align*}
+            \text{Var}(X_i) &= (1-\delta t)^2(\text{Var}(X_{i-1})) + 2\delta t \\
+            &= (1-\delta t)^2((1-\delta t)^2 \text{Var}(X_{i-2}) + 2\delta t) + 2\delta t \\
+            &= (1-\delta t)^4\text{Var}(X_{i-2}) + (1-\delta t)^2 \cdot 2\delta t + 2\delta t \\
+            &= (1-\delta t)^4\text{Var}(X_{i-2}) + 2\delta t (1+(1-\delta t)^2) \\
+            &= (1-\delta t)^4((1-\delta t)^2\text{Var}(X_{i-3})+2\delta t ) + 2\delta t (1+(1-\delta t)^2) \\
+            &= (1-\delta t)^6(\text{Var}(X_{i-3})) + 2\delta t (1+(1-\delta t)^2 + (1-\delta t)^4) \\
+            &\quad \vdots \\
+            &= (1-\delta t)^{2i} \text{Var}(X_0) + 2\delta t \sum_{j=0}^{i-1}(1-\delta t)^{2j} \\
+            &= 2\delta t \sum_{j=0}^{i-1}(1-\delta t)^{2j}
+        \end{align*}
+        \item $X_i \sim N\left((1-\delta t)^i,\ 2\delta t \sum_{j=0}^{i-1}(1-\delta t)^{2j}\right)$
+    \end{enumerate}
+\end{enumerate}
+\newpage
 \noindent \textbf{Question 4} \\
 
 \end{document}
