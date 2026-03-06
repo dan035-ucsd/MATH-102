@@ -1494,4 +1494,147 @@ Take $\mathbb{E}$:
     \frac{dy}{dt} &= -2\alpha y + 2D,\ y(t) = \mathbb{E}(X^2),\ y(0) = X^2
 \end{align*}
 
+\subsection{Lecture 24 - Solving SDEs with Ito's Lemma}
+\underline{Recap}:
+\begin{itemize}
+    \item Ito's Lemma as stochastic chain rule
+    \item Take ODE, $x(t) \in \mathbb{R}$
+    \begin{align*}
+        \frac{dx}{dt} = u(x) \\
+        dx = u(x)dt
+    \end{align*}
+    Then $f(x(t))$ satisfies
+    \begin{align*}
+        \frac{df}{dt} = f'(x)\frac{dx}{dt} &= f'(x)u(x)\\
+        \Rightarrow df &= f'(x)u(x)dt
+    \end{align*}
+    Take Ito-SDE, $X(t) \in \mathbb{R}$
+    \begin{align*}
+        dX = u(X)dt + \sqrt{2D}dB 
+    \end{align*}
+    Then $f(X(t))$ satisfies 
+    \begin{align*}
+        df = (uf' + Df'')dt + f'\sqrt{2D}dB
+    \end{align*}
+\end{itemize}
+\underline{Remarks}: Types of ODEs we will encounter
+\begin{itemize}
+    \item $\frac{dy}{dt} = \alpha y \Rightarrow y(t) = Ae^{\alpha t}$
+    \item $\frac{dy}{dt} = \alpha y + \beta \Rightarrow y(t) = Ae^{\alpha t} - \frac{\beta}{\alpha}$ \\
+    where $A$ is set by initial condition.
+\end{itemize}
+\boxed{\text{ex}} BM with drift $X(t) \in \mathbb{R}$
+\begin{align*}
+    dX = udt + \sqrt{2D}dB, X(0)=x_0 \\
+    u,D \text{ are constants},\ D > 0
+\end{align*}
+Take the expectation $\mathbb{E}$:
+\begin{align*}
+    d(\mathbb{E}(X)) &= udt \\
+    \Rightarrow \frac{d}{dt}(\mathbb{E}X) &= u  \\
+    \Rightarrow \mathbb{E}(X(t)) &= ut + x_0\\
+\end{align*}
+Ito:
+\begin{align*}
+    df = (uf' + Df'')dt + f'\sqrt{2D}dB
+\end{align*}
+Set $f(x) = x^2$
+\begin{align*}
+    d(X^2) &= (2Xu + 2D)dt + 2X\sqrt{2D}db \\
+    d(\mathbb{E}X^2) &= (2u\mathbb{E}X+2D)dt + \mathbb{E}(2X\sqrt{2D}dB)\\
+    \frac{d}{dt}(\mathbb{E}X^2) &= 2u^2t + 2ux_0 + 2D \\
+    (\mathbb{E}X^2) &= u^2t^2 + 2ux_0t + 2Dt + x_0^2 \\
+    \text{Var}X &= \mathbb{E}X^2 - (\mathbb{E}X)^2 = 2Dt \\
+    &= \text{Var}(\sqrt{2D}B(t))
+\end{align*}
+Here we know the distribution of $X(t)$
+\begin{align*}
+    X(t) &= \int_{0}^{t}dX = \int_{0}^{t}udt' + \int_{0}^{t}\sqrt{2D}dB + x_0 \\
+    &= ut + x_0 + \sqrt{2D}B(t) \\
+    \Rightarrow X(t) &\sim N(ut+x_0, 2Dt)
+\end{align*}
+\boxed{\text{ex}} Geometric BM (GBM) for modeling stock prices, $X(t) \in \mathbb{R}$
+\begin{align*}
+    dX = \mu Xdt + \sigma XdB,\ X(0) = x_0 \\
+    \text{with constants } \mu, \sigma
+\end{align*}
+Find $\mathbb{E}X$ 
+\begin{align*}
+    d(\mathbb{E}X) &= \mu \mathbb{E}X dt \\
+    \frac{d}{dt} \mathbb{E}X &= \mu \mathbb{E}X \\
+    \mathbb{E}X &= x_0e^{\mu t}   
+\end{align*}
+Find $\mathbb{E}X^2$ using Ito
+\begin{align*}
+    df = (\mu Xf + \frac 12 \sigma^2 X^2 f'')dt + f'\sigma X dB
+\end{align*}
+Set $f(X) = X^2$
+\begin{align*}
+    d(X^2) &= (2\mu X^2 + \sigma^2X^2) dt + 2\sigma X^2dB \\
+    d(\mathbb{E}X^2) &= (2\mu +\sigma^2) \mathbb{E}X^2dt \\
+    \frac{d}{dt}\mathbb{E}(X^2) &= (2\mu + \sigma^2) \mathbb{E}(X^2) \\
+    \mathbb{E}X^2 &= x_0^2e^{2\mu +\sigma^2}t
+\end{align*}
+We can get the distribution of $X(t)$ from this. \\ \\
+Why GBM? \\
+Ito with $f(X) = \log (\frac{X}{x_0}) = \log X - \log x_0$
+\begin{align*}
+    d(\log X) &= (\mu X \cdot \frac 1X + \frac 12 \sigma^2X^2\cdot (\frac{-1}{x^2}))dt + \frac 1X \sigma X dB \\
+    &= (\mu - \frac 12 \sigma^2)dt + \sigma dB \Rightarrow \text{BM with drift} \\
+    &\Rightarrow \log X \text{ is normal} \\
+    \mathbb{E}(\log X) &= (\mu-\frac 12\sigma^2)t + \log x_0 \\
+    \text{Var}(\log X) &= \sigma^2 t \\
+    \log X(t) &\sim N\left((\mu - \frac 12 \sigma^2)t + \log x_0,\ \sigma^2t\right)
+\end{align*}
+\textbf{2d SDEs} \\
+\boxed{\text{ex}} Particle $(X(t), Y(t)) \in \mathbb{R}^2$, moving in $2d$ with random kicks. \\
+\begin{align*}
+    dX = u(X,Y)dt + \sqrt{2D_1(X,Y)}dB_1 \\
+    dY = v(X,Y)dt + \sqrt{2D_2(X,Y)}dB_2 
+\end{align*}
+For functions $u,v,D_1,D_2: \mathbb{R}^2 \rightarrow \mathbb{R}$ and $B_1(t), B_2(t)$ are
+independent BMs. \\
+\underline{2d Ito's Lemma} \\
+Find $df$ for $f(X,Y),\ f:\mathbb{R}^2\rightarrow\mathbb{R}$ using Taylor's expansion.
+\begin{align*}
+    df &= f(X+dX, Y + dY) - f(X,Y) \\
+    &= dX \partial_X f + dY\partial_Y f + \frac 12 \begin{bmatrix}
+        dX & dY
+    \end{bmatrix} \begin{bmatrix}
+        \partial^2_{XX} f & \partial^2_{XY}f \\ \partial^2_{YX} f & \partial^2_{YY}f
+    \end{bmatrix} \begin{bmatrix}
+        dX \\ dY
+    \end{bmatrix} + \mathcal{O}(dt^{\frac 32})
+\end{align*}
+Ito's Lemma: 
+\begin{align*}
+    df &= \left(u \frac{\partial f}{\partial X} + v \frac{\partial f}{\partial Y} + D_1 \frac{\partial^2 f}{\partial X^2} + D_2\frac{\partial^2 f}{\partial Y^2}\right)  + \frac{\partial f}{\partial X} \sqrt{2D_1}dB_1 + \frac{\partial f}{\partial Y} \sqrt{2D_2}dB_2
+\end{align*}
+"Add the Ito's lemma expressions for each SDE" \\\\
+\boxed{\text{ex}} Microbe walking on a line $X(t) \in \mathbb{R}$
+\begin{align*}
+    dX = v\cos \theta dt + 0,\ X(0) = 0 \\
+    d\theta = 0 + \sqrt{2D}dB,\ \theta(0) = 0 
+\end{align*}
+\begin{itemize}
+    \item Particle tries to move in $\theta$ direction.
+    \item 2d active particle $\rightarrow$ 3 SDEs
+    \item $v,D$ are constants, $D>0$
+\end{itemize}
+What is $\mathbb{E}X$?
+\begin{align*}
+    d(\mathbb{E}X) = v\mathbb{E}(\cos \theta)dt 
+\end{align*}
+Ito's Lemma for $f(X,\theta) = \cos \theta$
+\begin{align*}
+    df &= \left( v\cos \theta \frac{\partial f}{\partial X} + 0 \frac{\partial f}{\partial \theta} + 0\frac{\partial^2 f}{\partial X^2} + D\frac{\partial^2f}{\partial \theta^2} \right)dt + \frac{\partial f}{\partial \theta}\sqrt{2D}dB \\
+    d(\cos \theta) &= -D\cos \theta dt + \sin \theta \sqrt{2D}dB \\
+    \frac{d}{dt}(\mathbb{E}\cos\theta) &= -D\mathbb{E}(\cos\theta) \\
+    \mathbb{E} \cos\theta &= e^{-Dt} \quad (\theta(0) = 1) \\
+    \frac{d}{dt}\mathbb{E}X &= ve^{-Dt} \\
+    \mathbb{E}X(t) &= \frac{-v}{D}e^{-Dt}+\frac vD\quad X(0) = 0
+\end{align*}
+
+
+
 \end{document}
