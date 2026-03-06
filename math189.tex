@@ -1183,4 +1183,46 @@ on the 6 input channels and adds a bias parameter.
 On the flatten layers, we multiply the number of inputs to outputs and add bias parameters 
 for the number of outputs we have.
 
+\subsection{Unsupervised Learning}
+Supervised learning means prediction, where we are given predictors 
+\begin{align*}
+    X_1,X_2,\dots,X_p \rightarrow \text{ predict } y
+\end{align*}
+Unsupervised learning means compression, where we find a sample data format that 
+compresses observations $X_1,X_2,\dots,X_n \in \mathbb{R}^p$ as accurately as possible. \\
+\underline{Examples}
+\begin{itemize}
+    \item Principal component analysis \\
+    Every data point requires an $x$ and a $y$ coordinate, giving $2n$ numbers to store,
+    PCA creates a best-fit line and stores the points' location when projected on the 
+    line, allowing us to only store $n+1$ numbers, the locations and the slope of the 
+    line.
+    \item Clustering \\
+    Create $m$ clusters of data points and store only the cluster centers, we only have 
+    to store $2m$ numbers along with $n$ booleans for which cluster the data point 
+    belongs to.
+\end{itemize}
+PCA is really good for exploratory data analysis
+\begin{enumerate}
+    \item Standardize the data by subtracting the mean and dividing by the standard deviation.
+    \begin{align*}
+        X_{ij} \leftarrow \tilde X_{ij} &= \frac{X_{ij} - \mu_j}{\sigma_j} \\
+        \mu_j &= \frac 1n \sum_{i=1}^{n}X_{ij} \\
+        \sigma_j^2 &= \frac{1}{n-1} \sum_{i=1}^{n}(X_{ij}-\mu_j)^2
+    \end{align*}
+    \item Find first principal component, which is a linear combination that maximizes variance
+    with normalized coefficients $\sum_{j=1}^{p}\phi^2_{ji} = 1$.
+    \begin{align*}
+        Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1}X_p
+    \end{align*}
+    \item Find second principal component that maximizes variance while being uncorrelated with $Z_1$.
+    \begin{align*}
+        Z_2 = \phi_{12}X_1 + \phi_{22}X_2 + \dots + \phi_{p2}X_p
+    \end{align*}
+\end{enumerate}
+\boxed{\text{ex}} Number of arrests per 100,000 residents for assault $(X_1)$, murder $(X_2)$, 
+rape $(X_3)$, and percent of population in urban areas $(X_4)$. We have observations for each
+state $(n=50)$.
+
+
 \end{document}
