@@ -1608,7 +1608,7 @@ Find $df$ for $f(X,Y),\ f:\mathbb{R}^2\rightarrow\mathbb{R}$ using Taylor's expa
 \end{align*}
 Ito's Lemma: 
 \begin{align*}
-    df &= \left(u \frac{\partial f}{\partial X} + v \frac{\partial f}{\partial Y} + D_1 \frac{\partial^2 f}{\partial X^2} + D_2\frac{\partial^2 f}{\partial Y^2}\right)  + \frac{\partial f}{\partial X} \sqrt{2D_1}dB_1 + \frac{\partial f}{\partial Y} \sqrt{2D_2}dB_2
+    df &= \left(u \frac{\partial f}{\partial X} + v \frac{\partial f}{\partial Y} + D_1 \frac{\partial^2 f}{\partial X^2} + D_2\frac{\partial^2 f}{\partial Y^2}\right)dt  + \frac{\partial f}{\partial X} \sqrt{2D_1}dB_1 + \frac{\partial f}{\partial Y} \sqrt{2D_2}dB_2
 \end{align*}
 "Add the Ito's lemma expressions for each SDE" \\\\
 \boxed{\text{ex}} Microbe walking on a line $X(t) \in \mathbb{R}$
@@ -1635,6 +1635,42 @@ Ito's Lemma for $f(X,\theta) = \cos \theta$
     \mathbb{E}X(t) &= \frac{-v}{D}e^{-Dt}+\frac vD\quad X(0) = 0
 \end{align*}
 
-
+\subsection{Lecture 25 - Numerics \& Convergence}
+Consider 1d SDE, $X(t) \in \mathbb{R},\ t\in [0,T]$
+\begin{align*}
+    dX = u(X)dt + \sqrt{2D(X)} dB,\ X(t) = x_0
+\end{align*}
+\underline{Euler-Maruyama}
+\begin{itemize}
+    \item Take $n \in \mathbb{Z},\ n>0,\ $ Set $\delta t = \frac{T}{n}$
+    \item $t_i = i\delta t,\ i = 0,1,\dots, n,\ t_n = T$
+\end{itemize}
+Define discretized process $Y_0^{\delta t}, Y_1^{\delta t},\dots, Y_n^{\delta t}$ by
+\begin{align*}
+    Y_0^{\delta t} = x_0
+\end{align*}
+We have 
+\begin{align*}
+    Y_{i+1}^{\delta t} = Y_i^{\delta t} + \delta t u(Y_i^{\delta t}) + \sqrt{2D(Y_i^{\delta t})}Z_i \\
+    \text{for } i = 0,1,\dots, n-1 \\
+    \text{where } Z_0, Z_1, \dots, Z_{n-1} \sim N(0,1) \text{ iid} \\
+    Z_i, X_i \text{ independent}
+\end{align*}
+\begin{itemize}
+    \item $Y_i^{\delta t}$ approximates $X(t_i) = X(i\delta t)$ (continuous solution).
+    \item In fact $Y_i^{\delta t}$ converges to true solution
+\end{itemize}
+\boxed{\text{ex}} Focus on time $T$:
+\begin{align*}
+    Y_n^{\delta t} \rightarrow X(t)
+\end{align*}
+\underline{Define}:
+\begin{itemize}
+    \item $Y_n^{\delta t}$ converges strongly to $X$ at time $T$ with order $\alpha$ if:
+    \begin{align*}
+        \mathbb{E} \left| Y_n^{\delta t} -X(t) \right| = \mathcal{O}(\delta t^\alpha)
+        \text{ as } \delta t \rightarrow 0, n \rightarrow \infty, n\delta t = T \text{ fixed}
+    \end{align*}
+\end{itemize}
 
 \end{document}
