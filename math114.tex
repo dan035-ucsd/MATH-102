@@ -11,7 +11,6 @@
 \tableofcontents
 
 \section{Overview}
-\subsection{Introduction}
 Stochastic models describe real life phenomena like motion of the cell, shape of polymers
 stock prices, and more. What can we compute \underline{analytically} and \underline{numerically} from these models? \\
 
@@ -28,30 +27,8 @@ stock prices, and more. What can we compute \underline{analytically} and \underl
     \item Stochastic differential equations (numerical \& computation)
 \end{enumerate}
 
-\subsection{Sampling}
-- Generating "hard" RVs from "easy" RVs. \\
-- Compute "hard" integrals. \\ \\
-\boxed{ex} Area of the unit circle, $A = \pi$ \\ 
-Let $U_1 \sim U(-1,1)$ and $U_2 \sim U(-1,1)$ \\
-Let $x = \begin{cases}
-    0 \text{ if } (u_1,u_2) \text{ outside circle} \\
-    1 \text{ if } (u_1,u_2) \text{ inside circle}
-\end{cases}$ \\ 
-$\implies  P(X = 1) = \frac{A}{4}, P(X = 0) = 1 - \frac{A}{4}$ \\ 
-$\mathbb{E}(X) = \frac{A}{4}$  \\ 
-After N trials we generate $X_1, X_2, ..., X_n$\quad iid \\
-By the strong law of large numbers
-\begin{align*}
-    \lim_{N\rightarrow\inf} \frac{1}{N} \sum_{i=1}^{N}X_i = \frac{A}{4} = \frac{\pi}{4}
-\end{align*}
-
-\subsection{MCMC}
-Construct Markov chains to generate target distribution. \\ 
-\boxed{ex} Ising model
-
-
 \section{Markov Chains}
-\subsection{Lecture 9}
+\subsection{Lecture 9 - Intro to Markov Chains}
 \underline{Def:} A stochastic process is a family of RVs, $X_\epsilon \in S$, 
 indexed by $t$, where $S \subseteq \mathbb{R}^d$ is a state space. Typically, 
 $t \in [0,\infty)$, or $t \ in [a,b]$, or $t\in\{0,1,2,3,...\}$, etc.
@@ -120,7 +97,7 @@ $\implies p = \begin{bmatrix}
     p_1 & \dots & p_n
 \end{bmatrix}$, $\displaystyle\sum_{i=1}^{n} p_i = 1$
 
-\subsection{Lecture 10}
+\subsection{Lecture 10 - Transition Matrices}
 Recap: \begin{itemize}
     \item Discrete time/state, time homogeneous
     \item MC: $\{X_n\}^\infty_{n=0} \in S$
@@ -289,6 +266,7 @@ How do we find $\pi$?
     \end{align*}
 \end{itemize}
 
+\section{Markov Chain Monte Carlo}
 \subsection{Lecture 12 - MCMC}
 Recap:
 \begin{itemize}
@@ -429,7 +407,7 @@ Large $\Pi (\sigma) \longleftrightarrow $ Low energy states.
         $\Delta \mathcal{H} = 2J \sigma_i(\sigma_{i+1} + \sigma_{i-1}) + 2h\sigma_i$
 \end{enumerate}
 
-\subsection{Lecture 14}
+\subsection{Lecture 14 - Convergence of $\pi$}
 \underline{Recap: Metropolis Chain} \\
 We have 
 \begin{itemize}
@@ -1255,7 +1233,8 @@ Set:
 End \\
 Output $(\theta_i,\ X_i) \approx (\theta(t_i), X(t_i))$
 
-\subsection{Lecture 22 - Ito's Lemma \& Stochastic Calculus}
+\section{Stochastic Calculus}
+\subsection{Lecture 22 - Ito's Lemma}
 \underline{Recap}:
 \begin{itemize}
     \item SDE $X(t) \in \mathbb{R},\ t \ge 0$ \\
@@ -1318,7 +1297,8 @@ Calculate:
     &= f(X) + f'(X)dX + \frac 12 f''(X)dX^2 + \mathcal{O}(dX^3) \\
     &= f'(X)dX + \frac 12 f''(X)dX^2 + \mathcal{O}(dt^\frac 32)\\
     &= f'(X)(u(X)dt + \sigma(X)dB) + \frac 12 f''(X) ((\sigma(X)dB)^2+\mathcal{O}(dt^\frac 32))\\
-    &= \underbrace{(u(X)f'(X) + \frac 12 f''(X)\sigma(X)^2)dt + f'(X)\sigma(X)dB}_{\text{Ito's Lemma}}
+    &= \underbrace{(u(X)f'(X) + \frac 12 f''(X)\sigma(X)^2)dt + f'(X)\sigma(X)dB}_{\text{Ito's Lemma}} \\
+    &= (uf'+ \frac 12 f''\sigma^2)dt + f'\sigma dB
 \end{align*}
 \underline{Remarks}:
 \begin{itemize}
@@ -1668,9 +1648,57 @@ We have
 \begin{itemize}
     \item $Y_n^{\delta t}$ converges strongly to $X$ at time $T$ with order $\alpha$ if:
     \begin{align*}
-        \mathbb{E} \left| Y_n^{\delta t} -X(t) \right| = \mathcal{O}(\delta t^\alpha)
+        \mathbb{E} \left| Y_n^{\delta t} - X(t) \right| = \mathcal{O}(\delta t^\alpha)
         \text{ as } \delta t \rightarrow 0, n \rightarrow \infty, n\delta t = T \text{ fixed}
     \end{align*}
+    \item $Y_n^{\delta t}$ converges weakly to $X$ at time $T$ with order $\beta$ 
+    (with respect to function class) if:
+    \begin{align*}
+        \left| \mathbb{E}f(Y_n^{\delta t}) - \mathbb{E}f(X(T)) \right| = \mathcal{O}(\delta t^\beta) 
+        \text{ as } \delta t \rightarrow 0, n \rightarrow \infty, n \delta t = T \text{ fixed} \\
+        \text{for all functions in function class}
+    \end{align*}
+    e.g. take functions $f(X) = X,X^2,X^3,\dots$
+\end{itemize}
+\underline{Remarks}:
+\begin{itemize}
+    \item Strong: convergence of sample paths, $Y_i^{\delta t}, X(t_i)$ for fixed realizations
+    of BM, $B(t)$.
+    \item Weak: convergence of distributions of $Y_n^{\delta t}, X(T)$.
+    \item Typically, we care about weak convergence.
+\end{itemize}
+\boxed{\text{ex}} Euler-Maruyama
+\begin{itemize}
+    \item Strong order $\frac{1}{2}$
+    \item Weak order $\frac{1}{2}$
+    \item Can construct higher order in 1d
+    \begin{itemize}
+        \item Stochastic Ito-Taylor expansion
+        \item Milstein's method
+    \end{itemize}
+\end{itemize}
+\textbf{SDE, PDE, Stationary Dists}\\
+Consider the 1d SDE for $X(t) \in \mathbb{R}$
+\begin{align*}
+    dX = \sqrt{2D}dB,\ D>0,\ X(0) = 0
+\end{align*}
+Solution: $X(t) = \sqrt{2D}B(t) \Rightarrow X(t) \sim N(0,2Dt)$ since $B(t) \sim N(0,t)$ \\
+Let $p(X,t)$ be the pdf of $X(t)$, i.e. 
+\begin{align*}
+    \mathbb{P}(X(t) < x) = \int_{-\infty}^{x}p(y,t)dy \\
+    \text{here } p(X,t) = \frac{1}{\sqrt{4\pi Dt}} \exp (\frac{-x^2}{4Dt})
+\end{align*}
+How does $p(X,t)$ change with $t$?
+\begin{align*}
+    \frac{\partial p}{\partial t} = D\frac{\partial^2 p}{\partial X^2} \quad \text{(Diffusion eq)}
+\end{align*}
+What about general SDEs? \\
+Consider $dX = -V'(X)dt + \sqrt{2D}dB$ \\
+Interpretation: "If you're at $X(t)$, go in direction $-V'(X)$ plus noise."
+\begin{itemize}
+    \item Can think of $X(t)$ as a particle rolling into a well of the potential $V(X)$ with noise.
+    \item Low noise $\rightarrow$ particle trapped in well.
+    \item High noise $\rightarrow$ particle explores many wells.
 \end{itemize}
 
 \end{document}
