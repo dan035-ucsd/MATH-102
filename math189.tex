@@ -1202,19 +1202,34 @@ compresses observations $X_1,X_2,\dots,X_n \in \mathbb{R}^p$ as accurately as po
     to store $2m$ numbers along with $n$ booleans for which cluster the data point 
     belongs to.
 \end{itemize}
-PCA is really good for exploratory data analysis
+\subsubsection{Principal Component Analysis}
+In PCA, predictors are called features.
 \begin{enumerate}
     \item Standardize the data by subtracting the mean and dividing by the standard deviation.
     \begin{align*}
-        X_{ij} \leftarrow \tilde X_{ij} &= \frac{X_{ij} - \mu_j}{\sigma_j} \\
+        X_{ij} \leftarrow \tilde X_{ij} &= \frac{X_{ij} - \mu_j}{\sigma_j} \quad \text{where}
+        \begin{cases}
         \mu_j &= \frac 1n \sum_{i=1}^{n}X_{ij} \\
         \sigma_j^2 &= \frac{1}{n-1} \sum_{i=1}^{n}(X_{ij}-\mu_j)^2
+        \end{cases}
     \end{align*}
     \item Find first principal component, which is a linear combination that maximizes variance
     with normalized coefficients $\sum_{j=1}^{p}\phi^2_{ji} = 1$.
     \begin{align*}
         Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1}X_p
     \end{align*}
+    Largest variance means that the "loading" vector 
+    \begin{align*}
+       \phi_1 = \begin{bmatrix}
+        \phi_{11} \\ \phi_{21} \\ \vdots \\ \phi_{p1}
+        \end{bmatrix}
+    \end{align*}
+    solves the maximization problem
+\begin{align*}
+    \max_{\phi_{11},\dots,\phi_{p1}} \frac{1}{n-1}\sum_{i=1}^{n}\left( \sum_{j=1}^{p} \phi_{j1}x_{ij}\right)^2\
+    \text{ such that } \sum_{j=1}^{p}\phi_{j1}^2 = 1
+\end{align*}
+
     \item Find second principal component that maximizes variance while being uncorrelated with $Z_1$.
     \begin{align*}
         Z_2 = \phi_{12}X_1 + \phi_{22}X_2 + \dots + \phi_{p2}X_p
@@ -1222,7 +1237,6 @@ PCA is really good for exploratory data analysis
 \end{enumerate}
 \boxed{\text{ex}} Number of arrests per 100,000 residents for assault $(X_1)$, murder $(X_2)$, 
 rape $(X_3)$, and percent of population in urban areas $(X_4)$. We have observations for each
-state $(n=50)$.
-
+state $(n=50)$. 
 
 \end{document}
