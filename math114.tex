@@ -1774,4 +1774,67 @@ as $x \rightarrow \pm \infty$
 This is the Fokker-Planck equation (FPE) \\
 E.g. For 
 
+\subsection{Final Review}
+\textbf{Topics.} Everything up to + including Lecture 24. \\
+\textbf{Markov Chains} \\
+
+\textbf{MCMC} \\
+
+ 
+\textbf{Brownian Motion} \\
+\textbf{SDEs}
+\begin{itemize}
+    \item We've been dealing with Ito SDEs, for $X(t) \in \mathbb{R},t \ge 0$
+    \begin{align*}
+        dX = \underbrace{u(X)dt}_{\text{drift}} + \underbrace{\sqrt{2D(X)}dB}_{\text{diffusion}}
+    \end{align*}
+    \item Intuition: $dB \sim \sqrt{dt}Z,\ Z\sim N(0,1)$
+    \item Goal: Simulate, find distribution of $X(t)$, $\mathbb{E}(X(t))$, $\mathbb{E}(X(t)^2)$
+\end{itemize}
+\underline{Euler-Maruyama}
+\begin{itemize}
+    \item Simulate interval $[0,T]$, set $\delta t = \frac Tn$ for $n > 0, n \in \mathbb{Z}$
+    \item Set $X_0 = x_0$ and 
+    \begin{align*}
+        X_{i+1} = X_i + U(X_i)\delta t + \sqrt{2D(X_i)}\sqrt{\delta t} Z_i \\
+        \text{for } Z_0, Z_1, \dots, Z_n \sim N(0,1) \text{ iid} \\
+        Z_i, X_i, \text{ are independent}
+    \end{align*}
+    \item Then $X_i \approx X(i\delta t)$ \\
+    $|\mathbb{E}(X_n) - \mathbb{E}(X(T))| \sim \mathcal{O}(\delta t)$
+    \item Solvable SDE:
+    \begin{align*}
+        dX &= \sqrt{2D} dB,\ X(0) = 0 \\
+        X(t) &= \sqrt{2D}B(t) \sim N(2Dt) \text{ since }B(t) \sim N(0,t)
+    \end{align*}
+    \item $dX = udt + \sqrt{2D}dB, X(0) = x_0$ \\
+    $X(t) = ut + x_0 +\sqrt{2D}B(t) \sim N(ut+ x_0,2Dt)$ 
+\end{itemize}
+\underline{Ito's Lemma}
+\begin{align*}
+    dX = u(X)dt + \sqrt{2D}dB
+\end{align*}
+For any function $f(X)$:
+\begin{align*}
+    d(f(X)) &= (uf' + Df'')dt + f'\sqrt{2D} dB \\
+    &= (uf' + Df + \frac 12 f'')dt + f' \sigma dB \\
+    &= f'(X)dx + Df''dt
+\end{align*}
+\boxed{\text{ex}} Geometric BM, $a,b$ are constants, set $f(X) = \log X$
+\begin{align*}
+    dX &= aXdt + bXdB,\ X(0) = 1 \\
+    d(f(X)) &= (aXf' + \frac 12 b^2X^2f'')dt + f'bXdB \\
+    d(\log X) &= (aX\frac 1X + \frac 12 b^2 X^2 \frac{-1}{X^2})dt + \frac 1X bXdB \\
+    &= (a-\frac 12 b^2)dt + bdB \\
+    \log X &= (a-\frac 12b^2)t + bB(t) \sim N((a-\frac 12 b^2)t, b^2t)
+\end{align*}
+\boxed{\text{ex}} Ornstein-Uhlenbeck, $\alpha, D$ are constants, $X(0) = x_0$
+\begin{align*}
+    dX = -\alpha X dt + \sqrt{2D} dB
+\end{align*}
+Goal: find $\mathbb{E}X^2$
+\begin{align*}
+    \text{Ito: } d(f(X)) &= (-\alpha Xf' + Df'')dt + f'\sqrt{2D}dB \\
+    &= 
+\end{align*}
 \end{document}
