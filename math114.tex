@@ -1701,4 +1701,77 @@ Interpretation: "If you're at $X(t)$, go in direction $-V'(X)$ plus noise."
     \item High noise $\rightarrow$ particle explores many wells.
 \end{itemize}
 
+\subsection{Lecture 26 - Fokker-Planck Equation}
+\underline{Recap}:
+\begin{itemize}
+    \item Consider SDE for particle $X(t) \in \mathbb{R}$
+    \begin{align*}
+        dX = -V'(X)dt + \sqrt{2D}dB \\
+        \text{Set } D>0 \text{ is a constant} 
+    \end{align*}
+    \item $V(X)$ is called a potential.
+    \item Can interpret this SDE as "GO in direction of $-V'(X)$ plus noise."
+    \item Drift: $-V'(X)dt$ moves particle into wells.
+    \item Diffusion: adds random kicks to the particle as it rolls.
+\end{itemize}
+Let $p(x,t)$ be the pdf of $X(t) \in \mathbb{R}$
+\begin{align*}
+    \mathbb{P}(X(t) < x) = \int_{-\infty}^{x} p(y,t)dy
+\end{align*}
+Note: $p(x,t) \rightarrow 0$ as $|x|\rightarrow \infty$  \\ \\ 
+What happens to $p(x,t)$ as $t\rightarrow \infty$? \\
+Recall: Ito's lemma \\
+
+For any function $f$
+\begin{align*}
+    d(f(X)) &= \left( -V'f' + Df'' \right)dt + f'\sqrt{2D}dB \\
+    d(\mathbb{E}f(X)) &= \mathbb{E} (-V'f' + Df'')dt + 0 \\
+    \frac{d}{dt} (\mathbb{E}f(X(t))) &=  \mathbb{E}(-V'f' + Df'') \tag{$\ast$}
+\end{align*}
+\underline{Remarks}:
+\begin{itemize}
+    \item If $f,V'f',Df''$ all have the same form, then we get an ODE which 
+    we can solve.
+    \item E.g. if $f,V'f',Df'' \propto X^2$ then we would have an ODE for 
+    $y(t) = \mathbb{E}(X(t)^2)$
+    \item This is not always possible, so our strategy is to use $p(x,t)$ to 
+    write down both sides of $(\ast)$
+\end{itemize}
+LHS: 
+\begin{align*}
+    \frac{d}{dt}(\mathbb{E}(f(X))) &= \frac{d}{dt} \left[ \int_{-\infty}^{+\infty} f(x)p(x,t)dx \right] \\
+    &= \int_{-\infty}^{+\infty} f(x)\frac{\partial p}{\partial t} dx
+\end{align*}
+RHS:
+\begin{align*}
+    \mathbb{E}(-Vf'+Df'') &= \int_{-\infty}^{+\infty} \big(-V'(x)f'(x) + Df''(x)\big)p(x,t)dx
+\end{align*}
+
+Goal: write as integral against $f$:
+\begin{align*}
+    \int \boxed{\quad}\ f(x)dx = \int f(x) \frac{\partial p}{\partial t}dx
+\end{align*}
+
+We can achieve this with integration by parts:
+\begin{align*}
+    \text{RHS} &= -\int_{-\infty}^{+\infty} V'pf'dx + \int_{-\infty}^{+\infty} Dpf''dx \\
+    &= [-V'p\cdot f]^\infty_{-\infty} + \int_{-\infty}^{+\infty} (V'p)'fdx + [Dpf']^\infty_{-\infty} - \int_{-\infty}^{\infty} Dp'f'dx
+\end{align*}
+Note that $p(x,t) \rightarrow 0$ as $x \rightarrow \pm \infty$ and $p' = \frac{\partial p}{\partial x}$
+\begin{align*}
+    \text{RHS} &= 0 + \int_{-\infty}^{+\infty} (V'p)'fdx + 0 - \int_{-\infty}^{\infty} Dp'f'dx \\
+    &= \int_{-\infty}^{\infty}(V'p)'fdx - [Dp'f]^\infty_{-\infty} + \int_{-\infty}^{\infty}Dp''fdx
+\end{align*}
+Note that $[Dp'f]^\infty_{-\infty} = 0$ if we assume $p' = \frac{\partial p}{\partial x} \rightarrow 0$ 
+as $x \rightarrow \pm \infty$
+\begin{align*}
+    \text{RHS} &= \int_{-\infty}^{\infty}(V'p)'fdx + \int_{-\infty}^{\infty}Dp''fdx \\
+    &= \int_{-\infty}^{\infty}(V'p+Dp')'fdx \\
+    &= \frac{\partial}{\partial x} (V'(x)p(x,t) + D \frac{\partial p}{\partial x}) \\
+    \text{LHS} &= \int_{-\infty}^{\infty} \frac{\partial p}{\partial t} fdx, \quad \text{for any }f \\
+    \Rightarrow \frac{\partial p}{\partial t} &= \frac{\partial}{\partial x} (V'p + D \frac{\partial p}{\partial x})
+\end{align*}
+This is the Fokker-Planck equation (FPE) \\
+E.g. For 
+
 \end{document}
