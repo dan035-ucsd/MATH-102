@@ -1330,4 +1330,123 @@ several linkage rules, but the authors especially recommend the following.
     clusters and uses this measure to determine which clusters to fuse next.
 \end{itemize}
 
+\section{Review}
+\textbf{Base definitions.}
+\begin{itemize}
+    \item RSS = residual sum of squares, for prediction model $f(X)$ 
+    \begin{align*}
+        \sum_{i=1}^{n}(y_i - f(X_i))^2
+    \end{align*}
+    \item MSE = mean square error
+    \begin{align*}
+        \frac 1n \sum_{i=1}^{n}(y_i - f(X_i))^2 = \frac 1n \text{RSS}
+    \end{align*}
+    \item TSS = total sum of squares
+    \begin{align*}
+        \sum_{i=1}^{n}(y_i-\bar y)^2
+    \end{align*}
+    \item $R^2$ = \% of variance explained
+    \begin{align*}
+        1 - \frac{\text{RSS}}{\text{TSS}}
+    \end{align*}
+    \item $r^2$ = square correlation coefficient between $X$ and $y$
+    \begin{align*}
+        \frac{\left[ \sum_{i=1}^{n}(X_i - \bar X)(y_i - \bar y) \right]^2}{\sum_{i=1}^{n}(X_i - \bar X)^2 \sum_{i=1}^{n}(y_i - \bar y)^2}
+    \end{align*}
+\end{itemize}
+\textbf{Main topics.} 
+\begin{enumerate}
+    \item Multiple linear regression 
+    \begin{itemize}
+        \item Simple linear regression
+        \item Ridge regression
+        \item Lasso
+        \item Polynomial regression
+        \item Ordered categorical variables
+        \item Cubic splines
+    \end{itemize}
+    \item Logistic regression
+    \item Support vector machines
+    \item Gaussian mixture models
+    \item Tree-based classifiers
+    \item Neural nets
+    \item PCA
+    \item Clustering
+\end{enumerate}
+\textbf{Multiple linear regression.}
+\begin{enumerate}
+    \item Write down the model, count the variables 
+    \begin{align*}
+        f(X) = \beta_0 + \sum_{j=1}^{p} \beta_j X_j
+    \end{align*}
+    \# number of free parameters = $p+1$ \\
+    1 intercept $\beta_0$
+    $p$ coefficients $\beta_1, \dots, \beta_p$
+    \item Know the loss/objective function we are minimizing when we optimize the 
+    free parameters on a computer.
+    \begin{enumerate}
+        \item Choose $\hat \beta_0, \hat \beta_1, \dots, \hat \beta_p$ to minimize
+        RSS $\sum_{i=1}^{n}(y_i - f(X_i))^2$
+        \item Minimize RSS $+\ \lambda \sum_{j=1}^{p} \hat \beta_j^2$ (ridge regression)
+        \item Minimize RSS $+\ \lambda \sum_{j=1}^{p} |\hat \beta_j|$ (lasso)
+    \end{enumerate}
+    We often use $\lambda \in [0,\infty]$ to denote the non-negative "penalty parameter"
+\end{enumerate}
+\underline{Question}: When do we get coefficients exactly = 0 for a regularization parameter $\lambda < \infty$?
+\begin{itemize}
+    \item Lasso
+    \item Support vector machine 
+    \item NOT ridge regression
+\end{itemize}
+\underline{Simple linear regression} \\
+Multiple linear regression with 1 predictor
+\begin{align*}
+    f(X) = \beta_0 + \beta_1 X
+\end{align*} 
+Minimizing RSS can be done explicitly
+\begin{align*}
+    \hat \beta_0 &= \bar y - \hat \beta_1 \bar X \\
+    \hat \beta_1 &= \hat{r}_{xy} \frac{\hat \sigma_y}{\hat \sigma_x} \\
+    &= \frac{\sum_{i=1}^{n}(X_i - \bar X)(y_i - \bar y)}{\sum_{i=1}^{n}(X_i - \bar X)^2}
+\end{align*}
+Sometimes when $X$ is a scalar, there's no general relationship between $R^2$ and $r^2$ BUT \\
+$\begin{cases}
+    \text{for simple linear regression} &R^2 = r^2 \\
+    \text{for multiple linear regression} &R^2 \ge r^2_{yx}
+\end{cases}$ \\
+Where $r^2$ is square correlation coefficient between $y$ and any $X_j$. Also note that
+more variables means better model. \\ \\
+\underline{Nonlinear prediction} \\
+When $X$ is scalar, we often do nonlinear prediction $\rightarrow$ multiple linear 
+regression with new nonlinear functions of $X$ that we define ourselves.
+\begin{enumerate}
+    \item Polynomial regression $f(X) = \beta_0 + \beta_1X + \dots + \beta_\alpha X^d$ \\
+    where $d$ is the degree of the polynomial and there are $\alpha + 1$ free parameters
+    \item Ordered categorical variables
+    \begin{align*}
+        f(X) =& \beta_1 \mathbb{I}\{X \le \xi_1\} + \beta_2 \mathbb{I}\{\xi_1 < X \le \xi_2\} + \dots + \beta_k\mathbb{I}\{\xi_{k-1} < X \le \xi_k\}  \\
+        &+ \beta_{k+1}\mathbb{I}\{X > \xi_k\}
+    \end{align*}
+    \item Cubic splines 
+    \begin{align*}
+        f(X) = \beta_0 + \beta_1X + \beta_2X^2 + \beta_3X^3 + \sum_{j=1}^{K}\beta_{j+3}(X-\xi_j)^3_+
+    \end{align*}
+    Here we have $k+4$ free parameters.
+\end{enumerate}
+\underline{Cubic splines} \\
+Choose $f(X)$ to minimize RSS +$\ \lambda\int_{-\infty}^{\infty}|f''(t)|^2dt$ (smoothing splines) \\
+This results in a cubic spline model where \\
+$\begin{cases}
+    \text{Knots } \xi_1 < \xi_2 < \dots < \xi_n \text{ are ordered data pts } X_i \text{ for } i = 1,\dots, n \\
+    f(X) \text{ is linear for } X \le \xi_1 \\
+    f(X) \text{ is linear for } X \ge \xi_n
+\end{cases}$ \\ \\
+\underline{Question}: when does cubic splines perfectly fit all the data points? \\
+When $\lambda = 0$ and only the \\
+$\begin{cases}
+    \text{Best test accuracy for intermediate } \lambda \in (0,\infty) \\
+    \text{As } \lambda \downarrow 0, f(X) \rightarrow \text{Cubic splines model that perfectly fits data }(X_i, y_i) \text{ for } i = 1,\dots,n \\
+    \text{As } \lambda \uparrow \infty, f''(X) \rightarrow 0
+\end{cases}$
+
 \end{document}
