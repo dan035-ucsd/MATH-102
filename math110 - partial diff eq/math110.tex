@@ -1,0 +1,190 @@
+\documentclass[12pt, letterpaper]{article} 
+
+\usepackage{amsmath, amssymb, amsthm, enumerate, graphicx}
+
+\title{MATH 110}
+\author{Dani Nguyen}
+\date{Spring 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{}
+\subsection{Lecture 1 - Introduction to PDEs}
+\textbf{What is a ODE?} Recall that an ordinary differential equation (ODE) are 
+equations for functions of a single variable, $u(t),\ t \in \mathbb{R}$
+\begin{align*}
+    \frac{du}{dt} = u (1-u) \ \text{ is an ODE}
+\end{align*}
+Here we call $t$ the independent variable and $u$ the state/dependent variable.
+In general, an ODE has the form $F(t) = (t,u,\frac{du}{dt},\frac{d^2u}{dt^2},\dots)$ 
+\\ \\
+Note that the state variable can have many components.
+\begin{align*}
+    \mathbf{u}(t) = \begin{bmatrix}
+        u_1(t) \\ u_2(t)
+    \end{bmatrix} \in \mathbb{R}^2
+\end{align*}
+then 
+\begin{align*}
+    \frac{du}{dt} = \mathbf{u}\ \text{ is an ODE}
+\end{align*}
+\textbf{What is a PDE?} A PDE is an equation for a function with more than 1 
+independent variable, e.g. $u(x,y)$.
+\begin{align*}
+    \text{Notation: } & u_x = \frac{\partial u}{\partial x} = \partial_x u \\
+    & u_y = \frac{\partial u}{\partial y} = \partial_y u \\ 
+    & \text{etc.}
+\end{align*}
+\underline{Examples of PDEs}
+\begin{itemize}
+    \item Heat/diffusion equation for $u(x,t)$ \begin{align*}
+        u_t = ku_{xx} \quad k \text{ constant}
+    \end{align*}
+    \item Wave equation for $u(x,t)$ \begin{align*}
+        u_{tt} = c^2u_{xx} \quad c \text{ constant}
+    \end{align*}
+    \item Laplace's equation for $u(x,y)$ \begin{align*}
+        u_{xx} + u_{yy} = 0
+    \end{align*}
+\end{itemize}
+\boxed{\text{ex}} Consider the heat flow in a bar of length $l$ 
+\begin{itemize}
+    \item $u(x,t)$ is the temperature of the bar at position $x$, time $t$
+    \item Suppose the ends are held at temperature 0, and the initial temperature
+    is $\phi(x)$
+    \item The temperature evolves according to the heat equation $u_t = ku_{xx}$
+    where $t \ge 0, 0 \le x \le l$, $k $ constant.
+\end{itemize}
+We also have:
+\begin{itemize}
+    \item Boundary conditions (BCs): 
+    \begin{align*}
+        u(0,t) = u(l,t) = 0\quad \forall t
+    \end{align*}
+    \item Initial conditions (ICs):
+    \begin{align*}
+        u(x,0) = \phi(x)
+    \end{align*}
+\end{itemize}
+\underline{Remarks}
+\begin{itemize}
+    \item The order of the PDE is the order of the highest derivative that occurs.
+    \item The heat equation above is $2^{\text{nd}}$ order
+    \item A general $2^{\text{nd}}$ order PDE for $u(x,t)$ is: 
+    \begin{align*}
+        G(x,t,u,u_x,u_t,u_{xx},u_{tt},u_{xt}) = 0
+    \end{align*}
+    \item A PDE in the above form is \underline{linear} if $G$ is a linear function of 
+    $u$ and all of its derivatives. It is nonlinear otherwise.
+    \item A linear PDE is \underline{homogeneous} if  every term contains $u$ or some 
+    derivative of $u$. It is nonhomogeneous/inhomogeneous otherwise.
+\end{itemize}
+\boxed{\text{ex}} Consider the linearity and homogeneity of the following equations.
+\begin{enumerate}
+    \item $u_t + e^{x^2t}u_{xt} = 0$ \\
+    is a linear and homogeneous PDE.
+    \item $u_t + 3xu_{xx} = \frac tx$ \\
+    is a linear and inhomogeneous PDE because of the $\frac tx$ term.
+    \item $u_t + uu_x = 0$ \\
+    is a nonlinear PDE because of the $uu_x$ term.
+    \item $u_{tt} + u_{x} + sin(u) = 0$ \\
+    is nonlinear because of the $sin(u)$ term.
+\end{enumerate}
+\underline{Operating notation \& linearity} \\ 
+We can write the heat equation $u_t - ku_{xx} = 0$ as $Lu = 0$ where 
+\begin{align*}
+    L = (\partial_t - k\partial_x^2)
+\end{align*}
+We call $L$ the differential operator. $L$ acts on (smooth) functions $u(x,t)$ to produce
+a new function.
+\begin{align*}
+    L(u) = Lu &= (\delta_t - k\partial_x^2)u \\
+    &= u_t - ku_{xx}
+\end{align*}
+$L$ is a \underline{linear} operator iff 
+\begin{align*}
+    L(u+v) &= Lu + Lv \\
+    &\ \forall \text{ functions } u,v
+\end{align*}
+and 
+\begin{align*}
+    L(cu) &= cLu \\
+    &\ \forall \text{ constants } c \in \mathbb{R} \\
+    &\ \forall \text{ functions } u
+\end{align*}
+\boxed{\text{ex}} Check if the heat equation has a linear differential operator.
+\begin{enumerate}
+    \item \begin{align*}
+        L(u + v) &= (\partial_t + k\partial^2_x)(u+v) \\
+        &= u_t + ku_{xx} + v_t + k v_{xx} \\
+        &= Lu + Lv \quad \checkmark
+    \end{align*}
+    \item \begin{align*}
+        L(cu) &= cu_t + cku_{xx} \\
+        &= cLu \text{ for constant } c \quad \checkmark
+    \end{align*}
+\end{enumerate}
+\underline{Remarks} 
+\begin{itemize}
+    \item If $L$ is a linear operator then $Lu = f$ is a linear PDE
+    \begin{align*}
+        \underbrace{u_t + ku_{xx}}_{Lu} = \underbrace{e^{x^2t}}_{f(x,t)} \text{ is linear}
+    \end{align*}
+    \item If $L$ is a linear operator then the PDE $Lu = f$ is 
+    \begin{itemize}
+        \item homogeneous if $f = 0$
+        \item inhomogeneous if $f \ne 0$ 
+    \end{itemize}
+    \item A linear, homogeneous PDE $Lu = 0$ has the superposition principle
+    \item If $u_1, u_2$ are solutions to the PDE then $au_1 + bu_2$ is a solution for 
+    constants $a,b$.
+    \begin{align*}
+        Lu_1 = Lu_2 = 0 \\
+        \Rightarrow L(au_1 + bu_2) = 0
+    \end{align*}
+    \item The distinction between linear \& nonlinear PDEs is very important.
+\end{itemize}
+\underline{Solutions to PDEs}
+\begin{itemize}
+    \item A solution to a PDE is a function $u$ in which satisfies the PDE and any BCs/ICs upon
+    direct substitution.
+    \item The general solution to an ODE involves arbitrary constants. The general solution to 
+    a PDE involves arbitrary functions.
+    \item Typically, we are interested in specific solutions.
+\end{itemize}
+\boxed{\text{ex}} Consider the heat equation   $u_t - u_{xx} = 0$.
+\begin{align*}
+    u_1(x,t) &= x^2 + 2t \text{ is a soln} \\
+    \rightarrow \partial_t u_1 - \partial_x^2 u_1 &= 2-2 = 0 \\
+    u_2(x,t) &= e^{-t} \sin x \text{ is a soln} \\
+    \rightarrow \partial_t u_2 - \partial^2_xu_2 &= -e^{-t}\sin x + e^{-t} \sin x = 0
+\end{align*}
+\boxed{\text{ex}} Consider the equation $u_x = tx$ (1st order, linear, inhomogeneous)
+\begin{align*}
+    Lu = f \text{ with } L &= \partial_x  \\
+    f(x,t)&= tx
+\end{align*}
+We can solve this by direct integration on both sides wrt $x$.
+\begin{align*}
+    u(x,t) = \frac 12 tx^2 + A(t)
+\end{align*}
+Where $A(t)$ is an arbitrary function of $t$ \\
+\boxed{\text{ex}} Consider the equation $u_{tt} - 4u = 0$ (2nd order, linear, homogeneous)
+\begin{align*}
+    Lu &= f \\
+    \rightarrow L &= (\partial^2_t - 4) \\
+    f(x,t) &= 0
+\end{align*}
+There is no explicit $x$-dependence
+\begin{itemize}
+    \item We can treat this as an ODE with $x$ as a parameter.
+    \item 'Constants' depend on $x$
+    \item General solution: 
+    \begin{align*}
+        u(x,t) = A(x)e^{-2t} + B(x)e^{2t}
+    \end{align*}
+\end{itemize}
+
+\end{document}
