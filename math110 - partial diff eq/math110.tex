@@ -188,6 +188,178 @@ There is no explicit $x$-dependence
 \end{itemize}
 
 \subsection{Lecture 2 - }
+\underline{Recap}:
+\begin{itemize}
+    \item Heat equation for $u(x,t)$ 
+    \begin{align*}
+        u_t - ku_{xx} = 0, \quad k > 0, \text{constant}
+    \end{align*}
+    \item We can write the heat equation as $Lu = 0$, where $L = (\partial_t - k \partial_x^2)$ 
+    is a differential operator.
+    \item L is linear $\leftrightarrow$ $L(u+v) = Lu + Lv$ and $L(cu) = cLu\ \forall $ 
+    functions $u,v, $ constant $c$
+    \item PDE: $Lu = f$ is linear if $L$ is linear 
+    \item Linear PDE: $Lu = f$ is homogeneous if $f = 0$, inhomogeneous otherwise.
+\end{itemize}
+\underline{First-order linear PDE} \\
+Consider functions $u(x,y)$
+\begin{align*}
+    u:\mathbb{R}^2 \rightarrow \mathbb{R}
+\end{align*}
+Often we think of $x,y$ as spatial variable and $t$ as time variables. The simplest PDE we 
+can have following this is:
+\begin{align*}
+    u_x = 0
+\end{align*}
+Which is 1st-order, linear, homogeneous. Also note that there is no explicit $y$-dependence. 
+Therefore we can treat this like an ODE, and solve with direct integration of both sides.
+\begin{align*}
+    u(x,y) = f(y)
+\end{align*}
+where $f(y)$ is an arbitrary function of $y$. \\ \\
+Now consider $au_x + bu_y = 0$, which is a 1st-order, linear, homogeneous PDE with constants 
+$a,b \in \mathbb{R}$.
+\begin{align*}
+    \text{Let } V &= (a,b) \in \mathbb{R}^2 \\
+    \text{Recall } \nabla u &= (u_x,u_y) \\
+    \text{Then} V \cdot \nabla u &= (a,b) \cdot (u_x,u_y) \\
+    &= au_x + bu_y = 0
+\end{align*}
+$\Rightarrow$ Directional derivative in direction $V$ is 0. \\
+$\Rightarrow$ $u$ is constant on lines parallel to $V$. \\ \\
+Let $V^\perp = (b,-a)$, so that $V \cdot V^\perp = 0$. \\
+Lines parallel to $V$ satisfy 
+\begin{align*}
+    V^\perp \cdot (x,y) &= \text{constant} \\
+    \Rightarrow bx - ay &= \text{constant}
+\end{align*}
+Then $u$ is constant on lines parallel to $V$.
+\begin{align*}
+    \Rightarrow u(x,y) = f(bx-ay) \\
+    \text{for an arbitrary function of }f
+\end{align*}
+\underline{Check}:
+\begin{align*}
+    &(a\partial_x + b\partial_y)\ f(bx - ay) \\
+    &= abf' - baf' = 0 \\
+    &\Rightarrow f' \text{ is a derivative of } f:\mathbb{R} \rightarrow \mathbb{R}
+\end{align*}
+\textbf{Characteristic Coordinates.} In this example, the lines parallel to $V$ are 
+called characteristics. Here $u$ is constant along the characteristics. \\ \\
+We can write points $(x,y)$ in characteristic coordinates $(\xi, \eta)$. Where  
+$\xi$ is the $x$-intercept of the characteristic line, and $\eta$ is 
+the distance along that line to the point $(x,y)$. 
+\begin{align*}
+    \text{So } x &= \xi + a\eta = x(\xi,\eta) \\
+    y &= b\eta = y(\xi,\eta)  
+\end{align*}
+Transform PDE to $(\xi, \eta)$ coordinates. \\ \\
+Chain rule:
+\begin{align*}
+    \frac{\partial u}{\partial\eta} &= \frac{\partial u}{\partial x} \cdot 
+    \frac{\partial x}{\partial \eta} + \frac{\partial u}{\partial y} \cdot 
+    \frac{\partial y }{\partial \eta} \\
+    \Rightarrow u_\eta &= au_x + bu_y = 0
+\end{align*}
+Using characteristic coordinates $(\xi,\eta)$, we've transformed to the PDE 
+$u_\eta = 0$ for $u(\xi,\eta)$. \\ \\
+\underline{Solution}: 
+\begin{align*}
+    u &= f(\xi) \\
+    \text{where } \xi &= \frac 1b (bx - ay) \\
+    \Rightarrow u &= g(bx - ay)
+\end{align*}
+Where g is an arbitrary function. \\ \\
+\underline{Remarks}: 
+\begin{itemize}
+    \item $\eta$ is coordinates along characteristics
+    \item $u$ is constant on characteristics $\Rightarrow$ $u_\eta = 0$
+    \item $\xi$ labels different characteristics. There are other choices for $\xi$
+    but any choice $\tilde \xi$ would have $\tilde \xi = h(\xi)$
+\end{itemize}
+\underline{Method of Characteristics} \\
+Method for solving PDEs of form 
+\begin{align*}
+    a(x,y) u_x + b(x,y) u_y = 0 \quad \text{for } u(x,y)
+\end{align*}
+Idea: Let $A(x,y) = (a(x,y),b(x,y))$ \\
+The directional derivative $A \cdot \nabla u = 0  \\
+\Rightarrow u$ is constant along curves w/ slope $A$.
+\begin{itemize}
+    \item These are characteristic curves.
+    \item Find coord $\eta$ along chars
+    \item Find coord $\xi$ which labels chars
+    \item PDE transforms to $u_\eta = 0, $ general soln: $u = f(\xi)$
+\end{itemize}
+\boxed{\text{ex}} $u_x + yu_y = 0$ \\
+The directional derivative along $(1,y)$ are 0. \\
+The chars $(x(\eta), y(\eta))$ satisfy 
+\begin{align*}
+    \frac{dx}{d\eta} = 1,\ \frac{dy}{d\eta} = y
+\end{align*}
+At $\eta = 0$, take $(x(0), y(0)) = (0,\xi)$ \\
+Solve: 
+\begin{align*}
+    \frac{dx}{d\eta} &= 1,\ x(0) = 0 \\
+    \Rightarrow x &= \eta \\
+    \frac{dy}{d\eta} &= y,\ y(0) = \xi \\
+    \Rightarrow y &= \xi e^\eta 
+\end{align*}
+This follows that $\xi = ye^{-x}$. \\
+\begin{align*}
+    \Rightarrow u_\eta &= u_x \frac{\partial x}{\partial \eta} + u_y\frac{\partial y}{\partial \eta} \\
+    &= u_x + \xi e^\eta u_y \\
+    &= u_x + yu_y = 0 \\
+    \Rightarrow u_\eta &= 0 \\
+    \Rightarrow u &= f(\xi) = f(ye^{-x}) \text{with arbitrary function }f
+\end{align*}
+\underline{General solution}:\\
+Suppose we are given $u(0,y) = y^2$ \\
+\begin{align*}
+    &\Rightarrow \text{Specific solution} \\
+    &u(0,y) = f(y) = y^2 \\ 
+    &\Rightarrow u(x,y) = (ye^{-x})^2
+\end{align*}
+Alternatively, from parametric equations,
+\begin{align*}
+    &\frac{dx}{d\eta} = 1 \qquad \frac{dy}{d\eta} = y \\
+    &\Rightarrow \frac{dy}{dx} = y  \\
+    &\Rightarrow y = Ce^{x}
+\end{align*}
+\begin{align*}
+    &\Rightarrow u \text{is constant along chars.} \\
+    &\Rightarrow u(x,Ce^x) = u(0,C) \\
+    &= u(0,ye^{-x}) \\
+    &= f(e^{-x}y) \text{ for arbitrary }f
+\end{align*}
+\boxed{\text{ex}} $u_x + 2xy^2u_y = 0$ \\
+Characteristic curves: $(x(\eta), y(\eta))$ \\
+\begin{align*}
+    \frac{dx}{d\eta} = 1 &\qquad \frac{dy}{d\eta} = 2xy^2 \\
+    &\frac{dy}{dx} = 2xy^2
+\end{align*} 
+\begin{align*}
+    \int \frac{1}{y^2}dy &= \int 2xdx \\
+    -\frac{1}{y} &= x^2 - c \\
+    y &= \frac{1}{c-x^2} \\ 
+\end{align*}
+$u$ is constant along chars. \\
+$\Rightarrow u(x,y) = f(c) = f(x^2 + \frac 1y)$ is the general soln. \\ \\
+\underline{Advection, transport}\\
+Consider $u(x,t)$ describing quantity $u$ at position $x$, time $t$.
+\begin{align*}
+    u_t + cu_x = 0 \quad (c>0)
+\end{align*}
+Chars: $(t(\eta), x(\eta))$ satisfy 
+\begin{align*}
+    \frac{dt}{d\eta} = 1 &\qquad \frac{dx}{d\eta} = c \\
+    &\Rightarrow \frac{dx}{dt} = c \Rightarrow x = ct + \xi 
+\end{align*}
+General solution:
+\begin{align*}
+    u = f(\xi) = f(x-ct)
+\end{align*}
+
 
 
 \end{document}
