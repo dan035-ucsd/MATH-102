@@ -11,7 +11,161 @@
 \tableofcontents
 
 \section{}
-\subsection{Lecture 1 - Review}
+\subsection{Lecture 1 - Gradient Systems}
 Function of several variables:
 
+\subsection{Lecture 2 - Introduction to PDEs}
+\underline{Conservation Laws} \\
+This is used to describe: bacterial movement in a petridish, nerve signal traveling 
+through an axon, heat diffusion in a rod, cars on the highway. \\ \\ 
+We start with the following assumptions:
+\begin{itemize}
+    \item Motion happens in 1D.
+    \item Cross-sectional area is constant.
+\end{itemize}
+Consider a 1D tube, with particles inside. How do we describe the change of 
+concentration of particles?
+\begin{align*}
+    \begin{matrix}
+    \text{change in pop between } \\ x \text{ and } x + \Delta x
+    \end{matrix} = 
+    \begin{matrix}
+        \text{rate of entry into} \\ (x,x+\Delta x) \\ \text{per unit time}
+    \end{matrix} - 
+    \begin{matrix}
+        \text{rate of exit into} \\ (x,x+\Delta x) \\ \text{per unit time}
+    \end{matrix}
+\end{align*}
+\underline{Define}
+\begin{itemize}
+    \item $c(x,t) = $ concentration of particles at $x$ at time $t$
+    \item $J(x,t) = $ flux of particles at $(x,t) = $ \# of particles
+    crossing a unit area at $x$ in the positive direction, per unit time.
+    \item $A = $ cross-sectional area of the tube.
+    \item $\Delta V = $ volume of our segment = $A\cdot \Delta x$  
+\end{itemize}
+We have 
+\begin{align*}
+    \frac{\partial}{\partial t} (\underbrace{c(x,t)\cdot A\cdot \Delta x}_{\text{\# of particles}})
+    &= J(x,t)A - J(x+\Delta x,t)A \\
+    \frac{\partial c}{\partial t} &= \frac{J(x,t) - J(x+\Delta x, t)}{\Delta x} \\
+    \lim_{\Delta x \rightarrow 0} \frac{\partial c}{\partial t} &= \lim_{\Delta x \rightarrow 0}\frac{J(x,t) - J(x+\Delta x, t)}{\Delta x} \\
+    \frac{\partial c}{\partial t} &= -\frac{\partial J}{\partial x}\ \leftarrow \text{Conservation of mass}
+\end{align*}
+Consider a new term,
+\begin{align*}
+    \begin{matrix}
+    \Delta \text{pop between } \\ x \text{ and } x + \Delta x
+    \end{matrix} = 
+    \begin{matrix}
+        \text{rate of entry into} \\ (x,x+\Delta x) \\ \text{per unit time}
+    \end{matrix} - 
+    \begin{matrix}
+        \text{rate of exit into} \\ (x,x+\Delta x) \\ \text{per unit time}
+    \end{matrix}
+    \pm \begin{matrix}
+        \text{rate of local} \\ \text{creation} \\ \text{or degradation}
+    \end{matrix}
+\end{align*}
+We now have
+\begin{itemize}
+    \item $\sigma(x,t) = $ \# of particles created/removed per unit volume at time $t$   
+\end{itemize}
+Now our conservation laws become
+\begin{align*}
+    \frac{\partial c}{\partial t} &= -\frac{\partial J}{\partial x} \pm \sigma(x,t)
+\end{align*}
+To generalize to 2D or 3D:
+\begin{align*}
+    \frac{\partial c}{\partial t} &= -\vec{\nabla} \vec{J} \pm \sigma(\vec x, t) \\
+    \text{Now we have } c &= c(\vec{x}, t) \\
+    \sigma &= \sigma(\vec{x}, t) \\
+    \vec{J} &= (J_x, J_y, J_z) \\
+    \vec{\nabla} &= (\frac{\partial}{\partial x}, \frac{\partial}{\partial y}, \frac{\partial}{\partial z})
+\end{align*}
+So we have 
+\begin{align*}
+    \frac{\partial c}{\partial t} = - (\frac{\partial J_x}{\partial x} + \frac{\partial J_y}{\partial y} + \frac{\partial J_z}{\partial z}) \pm \sigma (x,y,z,t)
+\end{align*}
+\boxed{\text{ex}} Consider a moving fluid + organisms that move with the flow (not actively). 
+Suppose that the velocity of the fluid is given by 
+\begin{align*}
+    \vec{v}(x,y,z,t)
+\end{align*}
+Let $c(x,y,z,t) = $ concentration of organism. \\ \\
+What is the flux? 
+\begin{align*}
+    \vec{J} &= c\cdot \vec{V} \quad \text{Assume } \sigma = 0 \\
+    \Rightarrow \frac{\partial c}{\partial t} &= - \left(\frac{\partial cV_x}{\partial x} + \frac{\partial cV_y}{\partial y} + \frac{\partial cV_z}{\partial z}\right) 
+\end{align*}
+In 1D: 
+\begin{align*}
+    \frac{\partial c}{\partial t} &= - \frac{\partial}{\partial x} (cV) \\
+    &= - \frac{\partial c}{\partial x} V - \frac{\partial V}{\partial x} c
+\end{align*}
+What kind of PDE is this?
+\begin{itemize}
+    \item 1st order
+    \item 2 variables: $x,t$
+    \item Linear
+    \item Transport equation
+\end{itemize}
+\boxed{\text{ex}} Attraction/repulsion. Suppose that $\psi$ is a source of attraction for the
+bacteria. The motion is determined by the gradient of $\psi$. \\
+In 1D: $\psi = \psi(x,t),\ J = \frac{\partial \psi}{\partial x}$ 
+\begin{align*}
+    J = c\alpha\vec{\nabla}\psi
+\end{align*}
+We have 
+\begin{align*}
+    \frac{\partial c}{\partial t} &= - \frac{\partial J}{\partial X} \\
+    \frac{\partial c}{\partial t} &= - \frac{\partial}{\partial t} \left(c\alpha \frac{\partial \psi}{\psi x}\right)
+\end{align*}
+$\psi$ is given.
+\begin{align*}
+    \frac{\partial c}{\partial t} = - \alpha \frac{\partial c}{\partial x}\cdot \frac{\partial \psi}{\partial x} - \alpha c \frac{\partial c}{\partial x} \cdot \frac{\partial^2 \psi}{\partial x^2}
+\end{align*}
+This is 1st order, linear PDE in 2 variables. \\ \\
+\boxed{\text{ex}} Temperature of a heated rod. \\
+Here we define $c(x,t)$ as concentration of energy/temperature. And since heat spreads
+from hot to cold, we get the following.
+\begin{center}
+    \boxed{\text{Fick's Law}: J = -D \cdot \frac{\partial c}{\partial x}}
+\end{center}
+Then we have
+\begin{align*}
+    \frac{\partial c}{\partial t} &= - \frac{\partial}{\partial x} \left( -D \frac{\partial c}{\partial x} \right)\\
+    &= D \frac{\partial^2 c}{\partial x^2}\ \leftarrow \text{Heat equation}
+\end{align*}
+In higher dimensions: 
+\begin{align*}
+    \frac{\partial c}{\partial t} &= \vec{\nabla}(D\vec{\nabla}c) \\
+    &= D \left( \frac{\partial^2 c}{\partial x^2} + \frac{\partial^2 c}{\partial y^2} + \frac{\partial^2 c}{\partial z^2}\right)
+\end{align*}
+\boxed{\text{ex}} Random motion of particles. \\
+Denote $\lambda_r$ as the amount of particles jumping from $x \rightarrow x+\Delta x$ \\
+Denote $\lambda_l$ as the amount of particles jumping from $x \rightarrow x-\Delta x$ \\
+Denote $c(x,t) = $ \# of particles within $(x,x+\Delta x)$ at time $t$: 
+\begin{align*}
+    c(x,t+\Delta t) = c(x,t) + \lambda_r\cdot c(x-\Delta x,t) + \lambda_l \cdot c(x+\Delta x,t) - \lambda_lc(x,t) - \lambda_rc(x,t)
+\end{align*}
+Using Taylor Series:
+\begin{align*}
+    c(x,t+\Delta t) &= c(x,t) + \frac{\partial c}{\partial t} \Delta t + \frac 12 \frac{\partial^2 c}{\partial t^2}(\Delta t)^2 + \dots \\
+    c(x+\Delta x,t) &= c(x,t) + \frac{\partial c}{\partial x} \Delta x + \frac 12 \frac{\partial^2 c}{\partial x^2}(\Delta x)^2 + \dots \\
+    c(x-\Delta x,t) &= c(x,t) - \frac{\partial c}{\partial x} \Delta x + \frac 12 \frac{\partial^2 c}{\partial x^2}(\Delta x)^2 + \dots \\
+\end{align*}
+We can simplify using $\lambda_r = \lambda_l = \lambda$, then we have 
+\begin{align*}
+    c + \frac{\partial c}{\partial t} \Delta t + \frac{\partial^2 c}{\partial t^2}  \frac {(\Delta t)^2}2 + \dots &= c \\
+    &+ \lambda \left(c + \frac{\partial c}{\partial x} \Delta x + \frac 12 \frac{\partial^2 c}{\partial x^2}(\Delta x)^2 \right) \\
+    &+ \lambda \left(c - \frac{\partial c}{\partial x} \Delta x + \frac 12 \frac{\partial^2 c}{\partial x^2}(\Delta x)^2 \right) \\
+    &- \lambda c - \lambda c \\
+    \frac{\partial c}{\partial t}\Delta t + \frac{\partial^2 c}{\partial t^2}\frac{(\Delta t)^2}2 &= \lambda \frac{\partial^2c}{\partial x^2}(\Delta x)^2 
+\end{align*}
+Call $\lim_{\Delta x \rightarrow 0, \Delta t \rightarrow 0} \frac{(\Delta x)^2}{\Delta t} \equiv K$ and ignore second order time term as we take the limit.
+\begin{align*}
+    \frac{\partial c}{\partial t} \Delta t &= \lambda (\Delta x)^2\cdot \frac{\partial^2 c}{\partial x^2} \\
+    \frac{\partial c}{\partial t} &= \lambda K\cdot \frac{\partial^2 c}{\partial x^2} 
+\end{align*}
 \end{document}
