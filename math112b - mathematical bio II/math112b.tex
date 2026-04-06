@@ -17,7 +17,39 @@
 
 \section{}
 \subsection{Lecture 1 - Gradient Systems}
-Function of several variables:
+\underline{Notation}: for a function with two variables
+\begin{align*}
+    \frac{\partial f}{\partial x} &= \lim_{\Delta x \rightarrow 0} 
+    \frac{f(x+\Delta x,y) - f(x,y)}{\Delta x} \\
+    \frac{\partial f}{\partial y} &= \lim_{\Delta y \rightarrow 0} 
+    \frac{f(x,y+\Delta y) - f(x,y)}{\Delta y}
+\end{align*}
+\textbf{Linearity}.
+\begin{align}
+    \frac{\partial}{\partial x} cf &= c \frac{\partial}{\partial x}f \\
+    \frac{\partial}{\partial x} (f+g) &= \frac{\partial}{\partial x} f + 
+    \frac{\partial}{\partial x} g
+\end{align}
+\textbf{Gradient}. For $f = f(x,y)$, define the gradient as the following:
+\begin{align*}
+    \vec{\nabla} f = \left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}\right)
+\end{align*}
+\underline{Properties}:
+\begin{enumerate}
+    \item Magnitude: $|\vec{\nabla}f| = \sqrt{f_x^2 + f_y^2}$
+    \item Direction: $\vec{u} = \frac{\vec{\nabla}f}{|\vec{\nabla}f|} = $ 
+    unit vector in the $(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y})$
+    direction.
+    \item $\vec{\nabla}f$ at point $(x_0,y_0)$ is $\perp$ to the level set at
+    point $(x_0,y_0)$.
+    \item $\vec{\nabla}f$ is defined at all the points $(x,y)$ where partials exists.
+    \item A collection of all $\vec{\nabla}f$ is a vector field called gradient field.
+    \item One could verify $F(M(x,y),N(x,y))$ is a gradient field by verifying
+    \begin{align*}
+        \boxed{\frac{\partial M}{\partial y} = \frac{\partial N}{\partial y}}
+    \end{align*}
+    where $F = \vec{\nabla} f$
+\end{enumerate}
 
 \subsection{Lecture 2 - Introduction to PDEs}
 \underline{Conservation Laws} \\

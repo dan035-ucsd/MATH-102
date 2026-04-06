@@ -24,16 +24,17 @@
     Therefore $L$ is a linear operator.
     \item $L = (\partial_x + u_y\partial_y)$
     \begin{align*}
-        L(u + v) &= (\partial_x + u_y\partial_y)(u+v) \\
-        &= u_x + v_x + (u_y)^2 + u_yv_y \\
-        &\ne (u_x + (u_y)^2) + (v_x + (v_y)^2) = Lu + Lv 
+        L(u + v) &= (\partial_x + (u_y + v_y)\partial_y)(u+v) \\
+        &= u_x + v_x + (u_y + v_y)u_y + (u_y + v_y)v_y \\
+        &= u_x + v_x + u_y^2 + 2u_yv_y + v_y^2 \\
+        &\ne u_x + u_y^2 + v_x + v_y^2 = Lu + Lv
     \end{align*}
     Therefore, $L$ is NOT a linear operator.
     \item $L = (\partial_x + \partial_y + \frac 1u)$
     \begin{align*}
-        L(u + v) &= (\partial_x + \partial_y + \frac 1u)(u+v) \\
-        &= u_x + v_x + u_y + v_y + 1 + \frac vu \\
-        &\ne (u_x + u_y + 1) + (v_x + v_y + \frac vu) = Lu + Lv
+        L(u + v) &= (\partial_x + \partial_y + \frac 1{u+v})(u+v) \\
+        &= u_x + v_x + u_y + v_y + 1\\
+        &\ne (u_x + u_y + 1) + (v_x + v_y + 1) = Lu + Lv
     \end{align*}
     Therefore, $L$ is NOT a linear operator.
     \item $L = (\cos(x)\partial_{xxy} + \arctan(\frac yx)\partial_y)$
@@ -50,16 +51,38 @@
 \end{enumerate}
 
 \noindent \textbf{Question 2} \\
+Suppose that $v$ and $w$ are solutions to the inhomogeneous linear PDE $Lu = g$. 
+Then we have
+\begin{align*}
+    Lv = g && Lw = g
+\end{align*}
+Take their difference
+\begin{align*}
+    Lv - Lw = g - g \\
+    L(v-w) = 0
+\end{align*}
+Since the PDE is linear, $v-w$ is a solution to the homogeneous equation $Lu = 0$. \\
 
 \noindent \textbf{Question 3}
 \begin{enumerate}[(a)]
     \item \begin{align*}
         u_x &= 0 \\
-        u &= A(y)
+        u &= f(y)
     \end{align*}
     \item \begin{align*}
         u_x &= x^2 + y \\
-        u &= \frac 13 x^3
+        u &= \frac 13 x^3 + yx + f(y)
+    \end{align*}
+    \item \begin{align*}
+        u_{yy} + u &= 0 \\
+        u &= -u_{yy} \\
+        &= f(x)\cos(y) + g(x)\sin(y)    
+    \end{align*}
+    \item \begin{align*}
+        u_{xy} + u_y &= 0 \\
+        u_y &= - u_{xy} \\
+        u &= - u_x \\
+        u &= \cos(x) + f(y)
     \end{align*}
 \end{enumerate}
 
