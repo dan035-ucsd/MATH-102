@@ -1,0 +1,79 @@
+\documentclass[12pt, letterpaper]{article} 
+\addtolength{\topmargin}{-30pt}
+\usepackage{amsmath, amssymb, amsthm, enumerate, graphicx, fancyhdr}
+\pagestyle{fancy}
+
+\begin{document}
+\graphicspath{ {./} }
+
+\fancyhead[L]{\textbf{Math 110 HW 1}}
+\fancyhead[C]{\textbf{Spring 2026}}
+\fancyhead[R]{\textbf{Dani Nguyen}}
+
+\noindent \textbf{Question 1}
+\begin{enumerate}[(a)]
+    \item $L = (\partial_x + x\partial_y)$
+    \begin{align*}
+        L(u + v) &= (\partial_x + x\partial_y)(u+v) \\
+        &= u_x + v_x + xu_y + xv_y \\
+        &= Lu + Lv \\
+        L(cu) &= (\partial_x + x\partial_y)(cu) \\
+        &= cu_x + cxu_y \\
+        &= c(u_x + xu_y) \\
+        &= cLu
+    \end{align*}
+    Therefore $L$ is a linear operator.
+    \item $L = (\partial_x + u_y\partial_y)$
+    \begin{align*}
+        L(u + v) &= (\partial_x + u_y\partial_y)(u+v) \\
+        &= u_x + v_x + (u_y)^2 + u_yv_y \\
+        &\ne (u_x + (u_y)^2) + (v_x + (v_y)^2) = Lu + Lv 
+    \end{align*}
+    Therefore, $L$ is NOT a linear operator.
+    \item $L = (\partial_x + \partial_y + \frac 1u)$
+    \begin{align*}
+        L(u + v) &= (\partial_x + \partial_y + \frac 1u)(u+v) \\
+        &= u_x + v_x + u_y + v_y + 1 + \frac vu \\
+        &\ne (u_x + u_y + 1) + (v_x + v_y + \frac vu) = Lu + Lv
+    \end{align*}
+    Therefore, $L$ is NOT a linear operator.
+    \item $L = (\cos(x)\partial_{xxy} + \arctan(\frac yx)\partial_y)$
+    \begin{align*}
+        L(u+v) &= (\cos(x)\partial_{xxy} + \arctan(\frac yx)\partial_y)(u+v) \\
+        &= \cos(x)u_{xxy} + \arctan(\frac yx)u_y + \cos(x)v_{xxy} + \arctan(\frac yx)v_y \\
+        &= Lu + Lv \\
+        L(cu) &= (\cos(x)\partial_{xxy} + \arctan(\frac yx)\partial_y)(cu)\\
+        &= c\cos(x)u_{xxy} + c\arctan(\frac yx)u_y \\
+        &= c(\cos(x)u_{xxy} + \arctan(\frac yx)u_y) \\
+        &= cLu
+    \end{align*}
+    Therefore, $L$ is a linear operator.
+\end{enumerate}
+
+\noindent \textbf{Question 2} \\
+
+\noindent \textbf{Question 3}
+\begin{enumerate}[(a)]
+    \item \begin{align*}
+        u_x &= 0 \\
+        u &= A(y)
+    \end{align*}
+    \item \begin{align*}
+        u_x &= x^2 + y \\
+        u &= \frac 13 x^3
+    \end{align*}
+\end{enumerate}
+
+\noindent \textbf{Question 4}
+\begin{enumerate}[(a)]
+    \item 
+\end{enumerate}
+
+\noindent \textbf{Question 5}
+\begin{enumerate}[(a)]
+    \item 
+\end{enumerate}
+
+\noindent \textbf{Question 6}
+
+\end{document}
