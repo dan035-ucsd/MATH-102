@@ -131,7 +131,15 @@ Since the PDE is linear, $v-w$ is a solution to the homogeneous equation $Lu = 0
 
 \noindent \textbf{Question 6}
 \begin{align*}
-    u_x + yu_y = -u
+    u_x + yu_y &= -u \\
+    u_\eta &= u_x \cdot \frac{\partial x}{\partial \eta} + u_y \cdot \frac{\partial y}{\partial \eta} \\
+    \frac{\partial x}{\partial \eta} &= 1 \qquad \qquad \frac{\partial y}{\partial \eta} = y \\
+    x &= \eta \qquad \qquad\ \ y = \xi e^\eta \\
+    &\qquad y(x) = \xi e^x \\
+    &\qquad \xi = ye^{-x} \\
+    &\qquad u_\eta = -u \\
+    &\qquad u = f(\xi)e^{-\eta} \\
+    &\qquad u = f(ye^{-x})e^{-x}
 \end{align*}
 
 \end{document}
