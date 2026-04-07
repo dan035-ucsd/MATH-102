@@ -333,7 +333,15 @@ Use boundary condition:
 \end{align*}
 To solve PDEs, we need additional techniques. \\ \\
 Suppose $f(x)$ defined on $[0,\pi]$. This function can be represented as a sum of sines and cosines.
-
+\begin{align*}
+    f(x) = \sum_{n=1}^{\infty} b_n \sin nx
+\end{align*}
+where $b_n = \frac{2}{\pi} \int_{0}^{\pi} f(x) \sin nx dx$ and\\
+\begin{align*}
+    f(x) = \frac{a_0}{2} + \sum_{n=1}^{\infty}a_n \cos nx
+\end{align*}
+where $a_n = \frac 2\pi \int_{0}^{\pi} f(x) \cos nx dx$. \\
+This is known as sine and cosine series representation.
 \subsection{Lecture 4 - }
 
 
