@@ -506,12 +506,12 @@ which can be solved as an ODE \\ \\
 \end{align*}
 \begin{align*}
     \Rightarrow \frac{d}{dt} \int_{a}^{b}u(x,t)Adx &= A \phi(a,t) - A \phi(b,t) + \int_{a}^{b}f(x,t)Adx \\
-    \Rightarrow \int_{a}^{b} u_t Adx &= \int_{a}^{b}\phi_x Adx + \int_{a}^{b}fAdx \\
-    \Rightarrow \int_{a}^{b}(u_t - \phi_x - f)dx &= 0 \\
+    \Rightarrow \int_{a}^{b} u_t Adx &= -\int_{a}^{b}\phi_x Adx + \int_{a}^{b}fAdx \\
+    \Rightarrow \int_{a}^{b}(u_t + \phi_x - f)dx &= 0 \\
 \end{align*}
 This is true for any domain $[a,b]$
 \begin{align*}
-    u_t &= \phi + f \text{ where}\\
+    u_t + \phi = f \text{ where}\\
     \begin{matrix}
         \text{change in} \\ \text{quantity}
     \end{matrix}\ &= \ \text{net flux + net creation}
