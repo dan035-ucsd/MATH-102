@@ -51,7 +51,7 @@
     where $F = \vec{\nabla} f$
 \end{enumerate}
 
-\subsection{Lecture 2 - Introduction to PDEs}
+\subsection{Lecture 2 - Conservation Laws}
 \underline{Conservation Laws} \\
 This is used to describe: bacterial movement in a petridish, nerve signal traveling 
 through an axon, heat diffusion in a rod, cars on the highway. \\ \\ 
@@ -205,4 +205,138 @@ Call $\lim_{\Delta x \rightarrow 0, \Delta t \rightarrow 0} \frac{(\Delta x)^2}{
     \frac{\partial c}{\partial t} \Delta t &= \lambda (\Delta x)^2\cdot \frac{\partial^2 c}{\partial x^2} \\
     \frac{\partial c}{\partial t} &= \lambda K\cdot \frac{\partial^2 c}{\partial x^2}\ \leftarrow \text{Diffusion equation}
 \end{align*}
+\subsection{Lecture 3 - Conservation Laws cont.}
+Recall
+\begin{align*}
+    \frac{\partial c}{\partial t} = -\frac{\partial J}{\partial x} + \sigma(x,t)
+\end{align*}
+\boxed{\text{ex}} Propagation of Action Potential along an axon (neural cell). Let 
+\begin{itemize}
+    \item $x = $ the distance along the axon. 
+    \item $q(x,t) = $ the charge density per unit length.
+    \item $J(x,t) = $ flux of charged particles
+    \item $\sigma(x,t) = $ rate of charge entering/leaving 
+\end{itemize}
+We have the following transport equation for the charge:
+\begin{align*}
+    \frac{\partial q}{\partial t} = - \frac{\partial J}{\partial x} + \sigma(x,t)
+\end{align*}
+So what is $J(x,t)$? It is the electrical current. \\ \\
+For $J(x,t)$, we use Ohm's Law:
+\begin{align*}
+    J = -a \frac{\partial V}{\partial x}
+\end{align*}
+where $a$ is a constant and $\frac{\partial V}{\partial x}$ is the voltage gradient. \\ \\
+This relates charge to voltage:
+\begin{align*}
+    q - bV
+\end{align*}
+where $q$ is charge, $b$ is a constant, $V$ is voltage. \\ \\
+We then have
+\begin{align*}
+    &\frac{\partial}{\partial t}(bV) = -\frac{\partial}{\partial x} (-a \frac{\partial V}{\partial x}) + \sigma (x,t)\cdot \frac 1b \\
+    & \quad\ \underbrace{\frac{\partial V}{\partial t} = \frac ab \frac{\partial^2 V}{\partial x^2}}_{\text{diffusion eq}} + \frac{\sigma(x,t)}{b}
+\end{align*}
+Generalize this to 2d or 3d 
+\begin{align*}
+    \frac{\partial c}{\partial t} = D \left(\frac{\partial^2 c}{\partial x^2} + \frac{\partial^2 c}{\partial y^2} + \frac{\partial^2 c}{\partial z^2}\right) \tag{\text{diffusion eq}}
+\end{align*}
+\underline{Del operator}: (note that $\vec{\nabla} u = \text{grad } u$)
+\begin{align*}
+    \vec{\nabla} &= \left( \frac{\partial}{\partial x} , \frac{\partial}{\partial y} , \frac{\partial}{\partial z} \right) \\
+    u(x,y,z) \rightarrow \vec{\nabla} &\rightarrow \left( \frac{\partial u}{\partial x} , \frac{\partial u}{\partial y} , \frac{\partial u}{\partial z} \right) \\
+    \text{scalar} \rightarrow \vec{\nabla} &\rightarrow \text{vector}
+\end{align*}
+\underline{Divergence}: \\
+Consider the dot product with $\vec{V} = (V_x, V_y, V_z)$, we have
+\begin{align*}
+    \vec{\nabla} \cdot \vec{V} = \frac{\partial V_x}{\partial x} + \frac{\partial V_y}{\partial y} + \frac{\partial V_z}{\partial z} &= \text{divergence of } V \\
+    \text{vector} \rightarrow \text{div} &\rightarrow \text{scalar}
+\end{align*}
+\underline{Laplacian}: \\
+Consider the combination of div and grad
+\begin{align*}
+    \vec \nabla ( \vec \nabla u)
+\end{align*}
+where $\vec \nabla u = \left( \frac{\partial u}{\partial x} , \frac{\partial u}{\partial y} , \frac{\partial u}{\partial z} \right)$. We have
+\begin{align*}
+    \underbrace{\vec \nabla \cdot \left( \frac{\partial u}{\partial x} , \frac{\partial u}{\partial y} , \frac{\partial u}{\partial z} \right)}_{\text{div }\cdot\text{ grad } u} &= \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2} \right) = \underbrace{\Delta u}_{\text{Laplacian }u} \\
+    \Delta &= \left( \frac{\partial^2 }{\partial x^2} + \frac{\partial^2 }{\partial y^2} + \frac{\partial^2}{\partial z^2} \right)
+\end{align*}
+Back to the diffusion equation
+\begin{align*}
+    \frac{\partial c}{\partial t} &= D\Delta c \tag{diffusion eq} \\
+    \frac{\partial c}{\partial t} &= D\Delta c + \sigma \tag{reaction-diffusion eq} \\
+\end{align*}
+where $D$ is the diffusion coefficient. \\ \\
+This begs the question, what are the units of $D$?
+\begin{align*}
+    \frac{c}{\text{time}} &= D \cdot \frac{c}{\text{space}^2} \\
+    D &= \frac{\text{space}^2}{\text{time}}
+\end{align*}
+\boxed{\text{ex}} How quickly can a cell get oxygen from blood? (for O$_2$, $D \approx 0.2 \text{cm}^2/\text{sec}$)
+\begin{enumerate}
+    \item The approximate distance through which diffusion works in a given time is $\propto \sqrt{Dt}$
+    \item The approximate time it takes to diffuse a distance $d$ is $\propto \frac{d^2}{D}$
+\end{enumerate}
+\begin{center}
+    Time it takes O$_2$ to diffuse \\
+    \begin{tabular}{c | c}
+        \hline 
+        Distance & Diffusion time \\
+        \hline 
+        $1\ \mu$m & $10^{-3}$ sec \\
+        $10\ \mu$m & $0.1$ sec \\
+        $1$ mm & $10^3$ sec $\approx$ 15 mins \\
+        $1$ cm & $10^5$ sec $\approx$ 25 hr \\
+        $1$ m & $10^8$ sec $\approx$ 27 yrs \\
+    \end{tabular}
+\end{center}
+Role of diffusion in cancer: 
+
+Cells in the core of the tumor die due to lack of oxygen, forming a necrotic core. There was a 
+paper by Judah Folkman in 1971, that a tumor can only grow up to 2mm in diameter (physics). This 
+leads to tumors developing methods to deliver oxygen to its core like angiogenesis. \\ \\
+Consider the diffusion equation in 1d:
+\begin{align*}
+    \frac{\partial u}{\partial t} = D \frac{\partial^2 u}{\partial x^2},\ 0 < x < l,\ t > 0
+\end{align*}
+We wish to find $u(x,t)$. Set the initial condition to $u(x,0) = f(x)$. Set the boundary condition
+to $u(0,t) = u(l,t) = 0,\ t>0$, this is also known as Dirichlet boundary condition. \\ \\
+Alternatively, we could have the Neumann boundary condition, which states that 
+$\frac{\partial }{\partial x}u(0,t) = \frac{\partial }{\partial x}u(l,t) = 0$. This means no
+flux boundary (insulating). \\ \\ 
+\boxed{\text{ex}} Consider $\frac{\partial u }{\partial t} = D \frac{\partial^2 u}{\partial x^2},\ 
+0 < x < 1,\ t > 0$. With initial condition $u(x,0) = f(x) = 2x^2$. With boundary condition 
+$\begin{cases}
+    u(0,t) = 0 \\
+    u(1,t) = 2
+\end{cases}$. Find the long term behavior $\lim_{t\rightarrow\infty} u(x,t)$. \\ \\ 
+\underline{Assume} that as $t \rightarrow \infty$, the solution comes to a fixed profile. 
+\begin{align*}
+    \frac{\partial u}{\partial t} = D \frac{\partial^2 u}{\partial x^2} = 0 \\
+    \text{As } t \rightarrow \infty,\ \frac{\partial u}{\partial t} = 0
+\end{align*}
+We have a boundary value problem: $\begin{cases}
+    D \frac{\partial^2 u }{\partial x^2} = 0 \Rightarrow u(x) = cx + b\\
+    u(0) = 0 \\
+    u(1) = 2
+    \end{cases}$
+\begin{align*}
+    \frac{\partial^2 u}{\partial x^2} = 0 \Rightarrow \frac{dV}{dx} = 0 \Rightarrow V(x) = c \\
+\end{align*}
+Use boundary condition:
+\begin{align*}
+    u(0) &= c\cdot 0 + b = 0 \Rightarrow b = 0 \\
+    u(1) &= c\cdot 1 + 0 = 2 \Rightarrow c = 2 \\
+    \Rightarrow u(x) &= 2x 
+\end{align*}
+To solve PDEs, we need additional techniques. \\ \\
+Suppose $f(x)$ defined on $[0,\pi]$. This function can be represented as a sum of sines and cosines.
+
+\subsection{Lecture 4 - }
+
+
+
+
 \end{document}
