@@ -366,6 +366,197 @@ General solution:
 \begin{align*}
     u = f(\xi) = f(x-ct)
 \end{align*}
+\subsection{Lecture 3 - Conservation Laws}
+\underline{Recap}:
+\begin{itemize}
+    \item Solve PDEs of the form $a(x,y)u_x + b(x,y)u_y = 0$
+    \item The char curves $(x(\eta),y(\eta))$ satisfy \begin{align*}
+        \frac{dx}{d\eta} = a(x,y) \qquad \frac{dy}{d\eta} = b(x,y)
+    \end{align*}
+    \item $u$ is constant along chars.
+\end{itemize}
+\boxed{\text{ex}} Given $\frac{1}{x^2} u_x + u_y = 0$
+\begin{align*}
+    \frac{dx}{d\eta} = \frac{1}{x^2} \qquad \frac{dy}{d\eta} = 1 
+\end{align*} 
+\underline{Method 1}: divide to get parametric eq.
+\begin{align*}
+    \frac{dy}{dx} &= x^2 \\
+    y &= \frac 13 x^3 + \xi
+\end{align*}
+where constant $\xi$ labels the char. \\ \\
+The general solution is $u = f(\xi) = f(y-\frac 13 x^3)$ for an arbitrary function $f$. This 
+can be confirmed by plugging $u$ back into the PDE. \\ \\
+\underline{Method 2}: solve parametric equations.
+\begin{align*}
+    &\frac{dx}{d\eta} = \frac{1}{x^2} \qquad \frac{dy}{d\eta} = 1 \\
+    &\Rightarrow \int x^2 dx = d\eta \qquad y = \eta + B \\
+    &\Rightarrow \frac{1}{3} x^3 = \eta + A \qquad y = \eta + B
+\end{align*}
+We can absorb the two constants into one $\xi$
+\begin{align*}
+    &\Rightarrow \frac 13 x^3 = \eta + \xi \qquad y = \eta \\
+    &\Rightarrow y = \frac 13 x^3 - \xi
+\end{align*}
+We should check that the chars cover the whole plane, i.e. no chars have been 'missed', via 
+sketching or finding 
+\begin{align*}
+    \eta &= \eta(x,y) \\
+    \xi &= \xi(x,y)
+\end{align*} 
+Coord transformation is also useful
+\begin{align*}
+    \begin{matrix}
+        \frac 13 x^3 = \eta + \xi \\
+        y = \eta
+    \end{matrix}\ \Rightarrow \ 
+    \begin{matrix}
+        x = (3\eta + 3\xi)^\frac 13 \\
+        y = \eta
+    \end{matrix}
+\end{align*}
+This transform our PDE
+\begin{align*}
+    \frac 1{x^2}u_x + u_y = 0\ &\Leftrightarrow\ u_\eta = 0 \\
+    \text{Gen soln: } u &= f(\xi) \\
+    &= f(\frac 13 x^3 - y)
+\end{align*}
+with arbitrary function $f$ \\ \\
+\boxed{\text{ex}} Advection \\
+Consider function $u(x,t)$ describing a quantity $u$ at position $x$ and time $t$
+\begin{align*}
+    u_t + cu_x = 0 \tag{\text{Advection}}
+\end{align*}
+with constant $c > 0$ \\
+Chars $(t(\eta), x(\eta))$ satisfy 
+\begin{align*}
+    \frac{dt}{d\eta} = 1 \qquad \frac{dx}{d\eta} = c
+\end{align*}
+Solve 
+\begin{align*}
+    t &= \eta + A \\
+    x &= c\eta + B
+\end{align*}
+Absorb into one constant using $A = 0, B = \xi$
+\begin{align*}
+    \Rightarrow t &= \eta \\
+    x &=c\eta + \xi \\
+    \Rightarrow x &= ct + \xi
+\end{align*}
+By inverting, $\eta = t,\ \xi = x - ct$. \\
+Now we have an transformed PDE
+\begin{align*}
+    u_\eta= u_t + cu_x = 0
+\end{align*}
+General solution is 
+\begin{align*}
+    u(x,t) &= f(\xi) \\
+    &= f(x-ct) 
+\end{align*}
+for an arbitrary $f$. \\ \\
+Suppose we had initial condition $u(x,o) = \phi (x)$, then $u(x,0) = f(x) = \phi(x) \Rightarrow$
+solution is $u(x,t) = \phi(a-ct)$. \\ \\
+\underline{Remarks}: \\
+We can solve more complicated PDEs using chars, for example,
+\begin{align*}
+    u_t + cu_x = f(u)
+\end{align*}
+Transform to coords $(\xi,\eta)$ with $t = \eta$, $x = c\eta + \xi$
+\begin{align*}
+    u\eta = f(u)
+\end{align*}
+which can be solved as an ODE \\ \\
+\textbf{Conservation Laws.} (Logan 1.2)
+\begin{itemize}
+    \item Where do PDEs come from?
+    \item For a conserved quantity:
+    \begin{align*}
+        \begin{matrix}
+            \text{rate of change} \\ \text{in domain}
+        \end{matrix}\ \implies\
+        \begin{matrix}
+            \text{net flow into domain} \\ \text{+ creation in domain}
+        \end{matrix} \\
+        \text{e.g. Animal population in a fixed region} 
+    \end{align*}
+\end{itemize}
+\underline{Quantitatively}
+\begin{itemize}
+    \item Let $u(x,t)$ be density of some quantity in 1d domain.
+    \item The amount of quantity in section $dx$ is $u(x,t)Adx$.
+    \item Let $\phi(x,t)$ be the flux, which is the amount of quantity crossing section $x$
+    at time $t$.
+    \item $A\phi(x,t)$ is amount of quantity passing $x$ at time $t$
+    \item Let $f(x,t)$ be the rate at which quantity is created.
+    \item $f(x,t)Adx$ is amount of quantity created in width $dx$ per unit time.
+\end{itemize}
+\underline{Remarks}:
+\begin{itemize}
+    \item $\phi(x,t) > 0 \implies $ flux is L to R 
+    \item $\phi(x,t) < 0 \implies $ flux is R to L 
+    \item $f(x,t) > 0$ is source at $x$ (creation)
+    \item $f(x,t) < 0$ is sink at $x$ (destroyed)
+\end{itemize}
+\underline{Balance}: 
+\begin{align*}
+    \begin{matrix}
+        \text{change in} \\ \text{quantity in} \\ \text{section} [a,b]
+    \end{matrix}\ =\ 
+    \text{flux} + \text{creation}
+\end{align*}
+\begin{align*}
+    \Rightarrow \frac{d}{dt} \int_{a}^{b}u(x,t)Adx &= A \phi(a,t) - A \phi(b,t) + \int_{a}^{b}f(x,t)Adx \\
+    \Rightarrow \int_{a}^{b} u_t Adx &= \int_{a}^{b}\phi_x Adx + \int_{a}^{b}fAdx \\
+    \Rightarrow \int_{a}^{b}(u_t - \phi_x - f)dx &= 0 \\
+\end{align*}
+This is true for any domain $[a,b]$
+\begin{align*}
+    u_t &= \phi + f \text{ where}\\
+    \begin{matrix}
+        \text{change in} \\ \text{quantity}
+    \end{matrix}\ &= \ \text{net flux + net creation}
+\end{align*}
+\underline{Remarks}: \\
+Can get a PDE for $u$ by
+\begin{itemize}
+    \item Specifying $f(x,t)$
+    \item Choosing a relationship between $\phi$ and $u,u_x,$ etc. This is called constitutive law.
+    \item E.g. $\phi = cu \rightarrow$ advection.
+\end{itemize}
+\underline{Diffusion}:
+\begin{itemize}
+    \item Conservation law with no sources \begin{align*}
+        u_t + \phi_x = 0
+    \end{align*}
+    \item Suppose $u(x,t)$ is density of a gas of particles. Then
+    \begin{itemize}
+        \item Particles move from high $u$ to low $u$.
+        \item Flux increase with density gradient.
+        \item Fick's law: 
+        \begin{align*}
+            \phi(x,t) = -Du_x
+        \end{align*}
+        where $D>0$ is diffusion constant.
+        \item This gives the diffusion equation
+        \begin{align*}
+            u_t = Du_{xx}
+        \end{align*}
+        which is the same as the heat equation.
+    \end{itemize}
+\end{itemize}
+\underline{Remark}:
+\begin{itemize}
+    \item Can combine diffusion with other effects. \\
+    e.g. Advection-diffusion eq.
+    \begin{align*}
+        \text{flux: } \phi = cu - Du_x
+    \end{align*}
+    \underline{Balance}: 
+    \begin{align*}
+        u_t + \phi_x &= 0 \\
+        u_t + cu_x &= Du_xx
+    \end{align*}
+\end{itemize}
 
 
 
