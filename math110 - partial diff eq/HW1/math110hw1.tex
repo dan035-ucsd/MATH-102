@@ -106,7 +106,7 @@ Since the PDE is linear, $v-w$ is a solution to the homogeneous equation $Lu = 0
         ydy &= - xdx \\
         \frac 12 y^2 &= -\frac 12 x^2 \\
         y &= \pm ix + \xi \\
-        u(\xi) &= y \pm ix
+        u(\xi) &= f(y \pm ix)
     \end{align*}
 \end{enumerate}
 
@@ -117,13 +117,14 @@ Since the PDE is linear, $v-w$ is a solution to the homogeneous equation $Lu = 0
         \frac{dx}{d\eta} = y &\qquad \frac{dy}{d\eta} = x \\
         \frac{dy}{dx} &= \frac xy \\
         ydy &= xdx \\
-        \frac 12 y^2 &= \frac 12 x^2 \\
-        y &= \pm x + \xi \\
-        u(\xi) &= y \pm x
+        \frac 12 y^2 &= \frac 12 x^2 + \xi \\
+        y^2 &= x^2 + \xi \\
+        u(\xi) &= f(y^2 - x^2)
     \end{align*}
     \item Given $u(0,y) = y^2$
     \begin{align*}
-        math
+        u(0,y) &= f(y^2) = y^2 \\
+        u(x,y) &= (y^2 - x^2)^2
     \end{align*}
 \end{enumerate}
 
