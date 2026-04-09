@@ -760,12 +760,17 @@ Can consider higher dimensions for $u(x,y,t)$ \\ \\
 \underline{Preview}: Vibrations and waves \\
 Consider the 1d wave equation for $u(x,t)$:
 \begin{align*}
-    u_{tt} = Cu_{xx}
+    u_{tt} = C^2u_{xx}
 \end{align*}
 This describes, for example, waves on a string. $C$ has dimensions length/time and 
-is the speed of waves. 2nd-order in time $\rightarrow$ waves (contrasts with 1st-order in time 
-$\rightarrow$ diffusion).
-
+is the speed of waves. 2nd-order in time $\rightarrow$ waves (contrasts with 1st-order 
+in time $\rightarrow$ diffusion). \\ \\
+We have the string fixed at length $x = 0, L$ and $u(x,t)$ is the height of the string
+at time $t$. And we have the following equation of motion for the string
+\begin{align*}
+    u_{tt} = \sqrt \frac{T}{\rho}u_{xx}
+\end{align*}
+where $T$ is string tension, and $\rho$ is the density of string.
 
 \subsection{Lecture 5 - Wave Equation}
 
