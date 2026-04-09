@@ -342,9 +342,215 @@ where $b_n = \frac{2}{\pi} \int_{0}^{\pi} f(x) \sin nx dx$ and
 \end{align*}
 where $a_n = \frac 2\pi \int_{0}^{\pi} f(x) \cos nx dx$. \\
 This is known as sine and cosine series representation.
-\subsection{Lecture 4 - }
-
-
+\subsection{Lecture 4 - Solving The Diffusion Equation}
+Given \begin{align*}
+    \frac{\partial u}{\partial t} = D \frac{\partial^2 u}{\partial x^2} \tag{1}\\
+    0 < x < \pi \\
+    t > 0
+\end{align*}
+and the following IC and BCs (Dirichlet) 
+\begin{align*}
+    u(x,0) &= f(x) = x(\pi -x) \tag{2}\\
+    u(0,t) &= 0 \tag{3}\\
+    u(\pi,t) &= 0 \tag{4}
+\end{align*}
+\underline{Use the Method of Separation of variables}. \\
+Goal: find $u(x,t)$ \\
+Assumption: $u(x,t) = X(x)\cdot T(t)$ \\
+Substitute into $(1)$
+\begin{align*}
+    \frac{\partial}{\partial t}(XT) &= D \frac{\partial^2}{\partial x^2}(XT) \\
+    XT' &= DTX'' \\
+    \frac{T'}{DT} &= \frac{X''}{X} = -\lambda \text{ const}
+\end{align*}
+Using $(3),(4)$:
+\begin{align*}
+    u(0,t) = X(0) \cdot T(t) = 0 \\
+    \Rightarrow X(0) = 0
+\end{align*}
+From $(4)$:
+\begin{align*}
+    u(\pi, t) = X(\pi)T(t) = 0 \\
+    \Rightarrow X(\pi) = 0
+\end{align*}
+So we have the following
+\begin{align*}
+    X'' + \lambda X = 0 \\
+    \begin{cases}
+        X(0) = 0 \\
+        X(\pi) = 0
+    \end{cases} 
+    \tag{$\ast$}
+\end{align*}
+For time, let us use $(2)$:
+\begin{align*}
+    u(x,0) = X(x) T(0) = f(x) \\
+    \text{But } T(0) \ne \frac{f(x)}{X(x)}
+\end{align*}
+So we have the following 
+\begin{align*}
+    T' = -\lambda D T\ \text{ with no init cond}\tag{$\ast \ast$}
+\end{align*}
+Now consider the case where $\lambda < 0$
+\begin{align*}
+    X'' - |\lambda| X = 0
+\end{align*}
+Take $X(x) = e^{px}$
+\begin{align*}
+    p^2 - |\lambda| &= 0 \\
+    p &= \pm \sqrt{|\lambda|}
+\end{align*}
+We have the following general solution to $X(x)$
+\begin{align*}
+    X(x) &= Ae^{\sqrt{|\lambda|}x} + Be^{-\sqrt{|\lambda|}x} \\
+    &\text{using BC} \\
+    X(0) &= Ae^0 + Be^0 = 0 \\
+    B &= -A \\
+    X(\pi) &= Ae^{\sqrt{|\lambda|}\pi} - Ae^{-\sqrt{|\lambda|}\pi} = 0 \\
+    A\left(e^{\sqrt{|\lambda|}\pi} - e^{-\sqrt{|\lambda|}\pi}\right) &= 0 \\
+    e^{\sqrt{|\lambda|}\pi} &= e^{-\sqrt{|\lambda|}\pi} \\
+    e^{2\sqrt{|\lambda|}\pi} &= 1
+\end{align*}
+This is only possible if $\lambda = 0$, but $\lambda < 0$.
+\begin{align*}
+    &\Rightarrow A = B = 0 \\
+    &\Rightarrow X(x) = 0 \\
+    &\text{No nontrivial solution.}
+\end{align*}
+Now consider the case where $\lambda = 0$
+\begin{align*}
+    X'' &= 0 \\
+    X(x) &= Ax + B \\
+    X(0) &= B = 0 \\
+    X(\pi) &= A\pi = 0 \Rightarrow A=0 \\
+    &\text{No nontrivial solution.} 
+\end{align*}
+Now consider the case where $\lambda > 0$
+\begin{align*}
+    X'' + |\lambda|X = 0
+\end{align*}
+We have the following general solution
+\begin{align*}
+    X(x) &= A\cos(\sqrt{\lambda}x) + B\sin(\sqrt{\lambda}x) \\
+    X(0) &= A = 0 \\
+    X(\pi) &= B\sin(\sqrt{x} \pi) = 0
+\end{align*}
+Can we have $\sin(\sqrt \lambda \pi) = 0$? \\
+If $\sqrt \lambda \pi = k\pi \Rightarrow \sin(\sqrt \lambda \pi) = 0$!
+\begin{align*}
+    \sqrt \lambda &= k,\ k=1,2,3,\dots \\
+    \lambda_k &= k^2
+\end{align*}
+Realize that nontrivial solution are possible if $\lambda_k = k^2,\ k=1,2,3,\dots$, where
+$\lambda_k$ are eigenvalues.
+\begin{align*}
+    X(x) &= B\sin(\sqrt \lambda \pi) \\
+    X_k(x) &= \underbrace{B\sin(k\pi)}_{\text{eigenfunction}}
+\end{align*}
+Recall $(\ast \ast)$
+\begin{align*}
+    T' &= -\lambda DT \\
+    &= -\lambda_k DT \\
+    &= -k^2 DT \\
+    T_k (t) &=T_0 e^{-k^2DT}
+\end{align*}
+These satisfy $(1),(3),(4)$ but not $(2)$, therefore these are partial solutions.
+\begin{align*}
+    U_k(x,t) = X(x) \cdot T(t) = \text{const} \cdot \sin(kx) \cdot e^{-Dk^2T}
+\end{align*}
+Look for the full solution as 
+\begin{align*}
+    u(x,t) &= \sum_{k=1}^{\infty} C_k\cdot u_k(x,t) \\
+    &= \sum_{k=1}^{\infty} C_k \cdot \sin(kx) \cdot e^{-k^2 DT}
+\end{align*}
+where $C_k$ is unknown. \\ \\
+We need to find $C_k$ such that $u(x,0) = f(x) = x(\pi - x)$ 
+\begin{align*}
+    u(x,0) = \sum_{k=1 }^{\infty} C_k \sin(kx)\cdot 1 = f(x)
+\end{align*}
+Find $C_k$
+\begin{align*}
+    C_k &= \frac 2\pi \int_{0}^{\pi}f(x)\sin(kx)dx \\
+    &= \frac 2\pi \int_{0}^{\pi}x(\pi-x)\sin(kx)dx \\
+    &= \frac{4(1-\cos(k\pi))}{k^3\pi} \\
+    &= \begin{cases}
+        0 & k \text{ even} \\
+        \frac{8}{k^3\pi} & k \text{ odd}
+    \end{cases}
+\end{align*}
+Therefore,
+\begin{align*}
+    u(x,t) &= \sum_{k=1}^{\infty} C_k \sin(kx) e^{-k^2DT} \\
+    \Rightarrow \lim_{T\rightarrow \infty} u(x,t) &= 0
+\end{align*}
+Try solving the diffusion equation using Neumann BC.
+\begin{align*}
+    \frac{\partial u}{\partial x}(0,t) = \frac{\partial u}{\partial x} (\pi,t) = 0
+\end{align*}
+We have 
+\begin{align*}
+    \begin{cases}
+        X'' + \lambda X = 0 \\
+        X'(0) = 0 \\
+        X'(\pi) = 0
+    \end{cases} \tag{$\ast$}
+\end{align*}
+This gives an eigenvalue problem:
+\begin{enumerate}
+    \item $\lambda < 0 \Rightarrow $ no nontrivial solution.
+    \item $\lambda = 0$, $X'' = 0$
+    \begin{align*}
+        X(x) &= Ax + B \\
+        X'(x) &= A \\
+        X'(0) &= A = 0 \\
+        X'(\pi) &= A = 0
+    \end{align*}
+    Here we do have a nontrivial solution: $X(x) = B = $ const 
+    \item $\lambda > 0$, $X(x) = A\cos\sqrt \lambda x + B \sin \sqrt \lambda x$
+    \begin{align*}
+        X'(x) &= -\sqrt \lambda A \sin \sqrt{\lambda} x + \sqrt \lambda B \cos \sqrt \lambda x \\
+        X'(0) &= - \sqrt \lambda A \cdot 0 + \sqrt \lambda B \cdot 1 = 0 \\
+        &\Rightarrow B = 0 \\
+        X'(\pi) &= -\sqrt \lambda A \sin \sqrt \lambda \pi = 0  \\
+        \sin \sqrt \lambda \pi &= 0 \text{ if } \sqrt \lambda \pi = k\pi \\
+        &\Rightarrow \lambda = k^2 \text{ works !}
+    \end{align*}
+    We have the following eigenfunction:
+    \begin{align*}
+        X_k (x) = A\cos \sqrt \lambda x = A \cos kx\\
+        k = 0,1,2,\dots
+    \end{align*}
+    and the following partial solution:
+    \begin{align*}
+        u_k(x,t) = \cos kx \cdot e^{-k^2Dt}
+    \end{align*}
+    Again this satisfies $(1),(3),(4)$. Construct
+    \begin{align*}
+        u(x,t) &= \sum_{k=0}^{\infty} C_ku_k(x,t)  \\
+        &= \sum_{k=0}^{\infty} C_0 \cos (kx) e^{-k^2Dt}
+    \end{align*} 
+    We need to have $u(x,0) = f(x)$, so we want 
+    \begin{align*}
+        \sum_{k=0}^{\infty} C_k \cos kx = f(x)
+    \end{align*}
+    Find $C_k$
+    \begin{align*}
+        C_k &= \frac{2}{\pi}\int_{0}^{\pi}f(x)\cos kx dx \\
+        &= \frac 2\pi \int_{0}^{\pi} x(\pi-x) \cos kx dx \\
+        &= -\frac{2}{k^2} (\cos k\pi + 1) = \begin{cases}
+            -\frac{4}{k^2} & k \text{ even} \\
+            0 & k \text{ odd}
+        \end{cases} \\
+        C_0 &= \frac 12 \cdot \frac 2\pi \int_{0}^{\pi} \pi(x-\pi) dx = \frac{\pi^2}{3}
+    \end{align*}
+    So we have
+    \begin{align*}
+        u(x,t) &= C_0 + \sum_{k=1}^{\infty} C_k \cos kx \cdot e^{-k^2Dt} \\
+        \lim_{t\rightarrow \infty} u(x,t) &= C_0  \\
+        &= \frac{1}{\pi} \int_{0}^{\pi}\pi(x-\pi) \\
+        &= \frac 1\pi \int_{0}^{\pi}f(x) dx = f_{\text{avg}}
+    \end{align*}
+\end{enumerate}
 
 
 \end{document}
