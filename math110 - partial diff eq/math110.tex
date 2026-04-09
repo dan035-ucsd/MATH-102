@@ -558,6 +558,215 @@ Can get a PDE for $u$ by
     \end{align*}
 \end{itemize}
 
+\subsection{Lecture 4 - Diffusion Equation}
+\underline{Recap}:
+\begin{itemize}
+    \item Conservation Laws (Logan 1.2)
+    \item Density: $u(x,t)$
+    \item Flux: $\phi(x,t)$ (movement of $u$)
+    \item Sources: $f(x,t)$ (creation of $u$)
+    \item Balance in domain $[a,b]$
+    \begin{align*}
+        \frac{d}{dt}\int_{a}^{b}Au(x,t)dx &= A\phi(a,t) - A\phi(b,t) + \int_{a}^{b}Af(x,t)dx \\
+        \int_{a}^{b}u_tdx &= - \int_{a}^{b}\phi_xdx + \int_{a}^{b}fdx \\
+        \int_{a}^{b}(u_t + \phi_x - f)dx &= 0
+    \end{align*}
+    This holds for any $[a,b]$
+    \begin{align*}
+        u_t + \phi_x &= f \\
+        \begin{matrix}
+            \text{change in} \\ \text{quantity}
+        \end{matrix}
+         + \text{flux} &= \text{source}
+    \end{align*}
+\end{itemize}
+\textbf{Diffusion equation}. \\
+Suppose $u(x,t)$ is density/concentration of substance. We have Fick's Law for flux:
+\begin{align*}
+    \phi(x,t) = -Du_x,\ D > 0
+\end{align*}
+\begin{itemize}
+    \item Movement from high $u$ to low $u$
+    \item Steeper gradient gives higher flux 
+\end{itemize}
+Conservation/balance Law: 
+\begin{align*}
+    u_t + \phi_x &= 0 \\
+    \Rightarrow u_t &= Du_{xx} \tag{Diffusion/heat eq}
+\end{align*}
+\underline{Remarks}:
+\begin{itemize}
+    \item $D$ is called diffusivity or thermal conductivity.
+    \item Some physical settings have a non-constant diffusivity $D(x)$
+    \begin{align*}
+        \phi = - D(x)u_x
+    \end{align*}
+    This yields the PDE
+    \begin{align*}
+        u_t &= (Du_x)_x \\
+        &= D'u_x + Du_{xx} \\
+        \text{where } D' &= \frac{dD}{dx}
+    \end{align*}
+    \item Can also find nonlinear diffusion equations where $D = D(u)$
+    \begin{align*}
+        u_t = (D(u)u_x)_x
+    \end{align*}
+    \item We can combine diffusion with other terms, e.g. diffusion-advection
+    \begin{align*}
+        u_t + cu_x = Du_{xx} \\
+        \phi(x,t) = - Du_x + cu
+    \end{align*}
+\end{itemize}
+\underline{Dimensions/units}:\\
+Suppose $u(x,t)$ is temperature, then 
+\begin{align*}
+    [u] &= \text{temp} \\
+    [u_t] &= \frac{\text{temp}}{\text{time}} \\
+    [u_{xx}] = \frac{\text{temp}}{\text{length}^2}
+\end{align*}
+So $u_t = Du_{xx}$
+\begin{align*}
+    \Rightarrow[D] = \frac{\text{length}^2}{\text{time}}
+\end{align*}
+Consider heat flow in a region of length $L$. The time-scale $T$ for temperature change is 
+\begin{align*}
+    T = \frac{L^2}{D} \ \text{so } \ D = \frac{L^2}{T}
+\end{align*}
+\textbf{Boundary \& Initial Conditions}.
+Diffusion eqs usually have BCs and ICs. Consider heat flow in 1d with domain $0<x<l$. \\ \\
+IC has form 
+\begin{align*}
+    u(x,0) = u_0(x)
+\end{align*}
+where $u_0(x)$ is initial temperature profile. \\ \\
+There are 3 types of common BCs.
+\begin{enumerate}
+    \item Dirichlet BCs \\
+    Specify $u$ at the boundary.
+    \begin{align*}
+        u(0,t) &= g_1(t) \\
+        u(l,t) &= g_2(t)
+    \end{align*}
+    where $g_1,g_2$ are given i.e. $u$ is known at boundary.
+    \item Neumann BCs \\
+    Specify $u_x$ at the boundary.
+    \begin{align*}
+        u_x(0,t) &= h_1(t) \\
+        u_x(l,t) &= h_2(t)
+    \end{align*}
+    where $h_1, h_2$ are given, i.e. flux is known at boundary.
+    \item Robin BCs \\
+    Specify $u,u_x$ given at boundary.
+    \begin{align*}
+        au(0,t) + bu_x(0,t) = \psi_1(t) \\
+        au(l,t) + bu_x(l,t) = \psi_2(t) 
+    \end{align*}
+    where $\psi_1, \psi_2$ are given. E.g. Newton's Law of Cooling states that heat flow 
+    $\propto$ temp difference between object and environment.
+    \begin{align*}
+        bu_x(0,t) &= - au(0,t) + \psi_1(t) \\
+        \text{flux} &= \text{object} + \text{environment}
+    \end{align*}
+\end{enumerate}
+\underline{Remarks}:
+\begin{itemize}
+    \item A well-posed problem is a PDE with ICs and BCs s.t. it has a unique solution with 
+    a correct physical meaning (stability).
+    \item The above terminology for BCs applies to general PDEs.
+\end{itemize}
+\textbf{Steady-state solutions}. Many time-dependent PDEs have solutions which approach steady 
+states $u = u(x)$, which are time-independent. E.g. diffusion/heat equation:
+\begin{align*}
+    u_t = Du_{xx}
+\end{align*}
+Steady state solution $u(x)$ has $u_t = 0$, so 
+\begin{align*}
+    Du'' = 0 \quad (u' = u_x)
+\end{align*}
+This gives a 2nd-order ODE, where 
+\begin{align*}
+    u(x) = Ax + B
+\end{align*}
+for constants $A,B$ set by BCs. \\ \\
+\boxed{\text{ex}} Consider the diffusion-decay equation
+\begin{align*}
+    u_t = Du_{xx} - ru \\
+    0 < x < L,\ t,D,r > 0
+\end{align*}
+$u$ has the flux $\phi = - Du_x$ and is destroyed at rate $ru$. Take BCs: 
+\begin{align*}
+    u(0,t) &= 0 \\ 
+    -Du_x(L,t) &= -1 \\
+    t > 0
+\end{align*}
+and IC
+\begin{align*}
+    u(x,0) = g(x) \\
+    0 < x < L
+\end{align*}
+\underline{Remarks}: \\
+This model could describe a diffusing pollutant ($Du_{xx}$) which decays at rate $ru$.
+\begin{align*}
+    \text{At }0:&\ u(0,t) = 0 \\
+    &\Rightarrow u\text{ is held at 0} \\
+    \text{At }L:& -Du_x(L,t) = -1 \\
+    &\Rightarrow \text{constant flux of }u \text{ into domain}
+\end{align*}
+Steady state problem:
+\begin{align*}
+    u = u(x), \text{ so } u_t = 0
+\end{align*}
+BVP:
+\begin{align*}
+    Du'' - ru = 0 \\ 0 < x < L
+\end{align*}
+BCs: $u(0) = 0$, $u'(L) = \frac{1}{D}$ \\
+Here we ignore IC and assume transients have decayed. \\
+Solution of BVP:
+\begin{align*}
+    u'' = \frac rD u \\
+    u(0) = 0,\ u'(L) = \frac 1D
+\end{align*}
+General solution:
+\begin{align*}
+    u = A\sinh\left(x\sqrt{\frac{r}{D}}\right) + B\cosh\left(x\sqrt{\frac{r}{D}}\right) \\
+    \text{consts } A,B
+\end{align*}
+BC1: 
+\begin{align*}
+    u(0) &= 0 \\
+    \Rightarrow B &= 0 \\
+    \Rightarrow u(x) &= A\sinh\left(x\sqrt{\frac{r}{D}}\right)
+\end{align*} 
+BC2: 
+\begin{align*}
+    u'(L) &= \frac 1D \\
+    \Rightarrow A \sqrt\frac{r}{D} \cosh \left(L \sqrt{\frac{r}{D}}\right) &= \frac 1D \\
+    \Rightarrow u(x) &=  \frac{\sinh\left( x \sqrt \frac rD\right)}{\sqrt{rD} \cosh\left(L \sqrt \frac rD\right)}
+\end{align*}
+\underline{Remarks}:
+\begin{itemize}
+    \item An ODE BVP may not have a solution. Physically the PDE may not have a steady 
+    state solution.
+    \item The steady state solution could be unstable in general. (Here it turns out that 
+    $\lim_{t\rightarrow \infty} u(x,t) \rightarrow $ steady state.)
+\end{itemize}
+\textbf{Summary}. Diffusion in 1d, for $u(x,t)$
+\begin{align*}
+    u_t = Du_{xx} \\
+    D > 0
+\end{align*}
+Can consider higher dimensions for $u(x,y,t)$ \\ \\
+\underline{Preview}: Vibrations and waves \\
+Consider the 1d wave equation for $u(x,t)$:
+\begin{align*}
+    u_{tt} = Cu_{xx}
+\end{align*}
+This describes, for example, waves on a string. $C$ has dimensions length/time and 
+is the speed of waves. 2nd-order in time $\rightarrow$ waves (contrasts with 1st-order in time 
+$\rightarrow$ diffusion).
 
+
+\subsection{Lecture 5 - Wave Equation}
 
 \end{document}
