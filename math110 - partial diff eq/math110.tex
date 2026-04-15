@@ -774,5 +774,146 @@ at time $t$. And we have the following equation of motion for the string
 where $T$ is string tension, and $\rho$ is the density of string.
 
 \subsection{Lecture 5 - Wave Equation}
-
+\underline{Recap}:
+\begin{itemize}
+    \item Diffusion: $u_t = Du_{xx}$, $D > 0$
+    \item Wave: $u_{tt} = c^2u_{xx}$, $c$ is speed 
+\end{itemize}
+\textbf{Vibrations of a string}.
+\begin{itemize}
+    \item String fixed at $x=0, x=l$.
+    \item $u(x,t)$ is the height of the string at time $t$, position $x$
+    \item Density $\rho = \frac{\text{mass}}{\text{length}}$
+\end{itemize}
+\underline{Assumptions}:
+\begin{itemize}
+    \item Small deflections, i.e. $|u_x|$ is small.
+    \item Only force acting on string is tension (no gravity, damping, etc.)
+    \item No horizontal motion of string (only vertical)
+\end{itemize}
+Let $T(x,t)$ be the tension, $T$ acts tangent to the string. \\
+Let $\theta(x,t)$ be the angle of the tangent to the string, so
+\begin{align*}
+    \cos \theta = \frac{1}{\sqrt{1+u_x^2}}  && \sin \theta = \frac{u_x}{\sqrt{1+u_x^2}}
+\end{align*}
+So $T$ is the tension force along the string. Therefore, total force on the string 
+in region $[a,b]$ is
+\begin{align*}
+    \text{horiz:}\quad &T\cos\theta\big\vert^b_a = \frac{T}{\sqrt{1+u_x^2}}\Big\vert^b_a \\ \\
+    \text{vert:}\quad &T\sin\theta\big\vert^b_a = \frac{Tu_x}{\sqrt{1+u_x^2}}\Big\vert^b_a
+\end{align*}
+We can simplify this using the small deflection assumption, $|u_x| \ll 1$ 
+\begin{align*}
+    \text{Taylor series}: (1+u^2_x)^\frac 12 &= 1 + \frac 12 u_x^2 - \frac 18 u _x^4 + \dots\\
+    &\approx 1
+\end{align*}
+where each $u_x$ term gets smaller. \\ \\
+So the forces become
+\begin{align*}
+    \text{horiz}: \quad &T\cos\theta\big\vert^b_a \approx T \big\vert^b_a = \int_{a}^{b}T_xdx \\
+    \text{vert}: \quad &T\sin\theta\big|^b_a \approx Tu_x \big|^b_a = \int_{a}^{b}(Tu_x)_xdx
+\end{align*}
+The accelerations are
+\begin{align*}
+    \text{horiz}: \quad &0 \quad \text{(by assumption)} \\
+    \text{vert}: \quad &\int_{a}^{b}u_{tt}dx
+\end{align*} 
+Using Newton's 2nd Law, $F = ma$
+\begin{align*}
+    \text{horiz}: \quad &\int_{a}^{b} T_xdx = 0 \\
+    \text{vert}: \quad & \int_{a}^{b} (Tu_x)_xdx = \int_a^b \rho u_{tt}dx
+\end{align*}
+This holds for all intervals $[a,b]$  \\
+$\Rightarrow T_x = 0$ so $T(x,t) = T(t)$ \\ 
+and $(Tu_x)_x = Tu_{xx}$
+\begin{align*}
+    \text{vert}: Tu_{xx} &= \rho u_{tt} \\
+    \Rightarrow u_tt &= c^2u_{xx} \text{ for } c = \sqrt{\frac T\rho}
+\end{align*}
+\underline{Remarks}:
+\begin{itemize}
+    \item Typically assume $T(t)$ is also time-independent so 
+    $T = $ const, and speed $c = \sqrt{\frac T\rho}$ is const.
+    \item For constant $c$, the general solution is 
+    \begin{align*}
+        u(x,t) = F(x-ct) + G(x+ct)
+    \end{align*}
+    where $F$ is a right-moving wave, and $G$ is a left-moving wave
+    \item For a plucked string, our BCs are 
+    \begin{align*}
+        u(0,t) = u(l,t) = 0 
+    \end{align*}
+    \item To get a specific solution, we need \underline{2 ICs}, since
+    the equation is 2nd order in time. E.g. we need
+    \begin{align*}
+        \text{Init position}: u(x,0) &= f(x) \\
+        \text{Init velocity}: u(x,0) &= g(x) \\
+        \text{for}\ 0 < x &< l
+    \end{align*}
+    \item There are many variations, e.g.:
+    \begin{itemize}
+        \item Air resistance term, $ru_t$:
+        \begin{align*}
+            u_{tt} - c^2u_{xx} + ru_t = 0
+        \end{align*}
+        \item External force, $f(x,t)$:
+        \begin{align*}
+            u_{tt} - c^2u_{xx} = f(x,t)
+        \end{align*}
+    \end{itemize}
+\end{itemize}
+\textbf{Standing waves}. Consider a vibrating string
+\begin{align*}
+    u_{tt} &= c^2u_{xx} \\
+    \text{BCs}: u(0,t) &= u(l,t) = 0 
+\end{align*}
+Standing waves are solutions of the form 
+\begin{align*}
+    u(x,t) =& \phi(x)\cos\omega t \\
+    \text{or }& \phi(x) \sin\omega t \\
+    \text{or in general }& \phi(x)e^{i\omega t}
+\end{align*}
+Each part of the string oscillates with:
+\begin{itemize}
+    \item Same freq $\omega$, in phase.
+    \item Different amplitude $\phi(x)$
+\end{itemize}
+Solutions only exist for certain $\omega$
+\begin{align*}
+    \text{substitute } u &= \phi(x) \cos\omega t \text{ into wave eq} \\
+    - \omega^2 \phi \cos \omega t &= c^2 \phi'' \cos\omega t \\
+    \text{with } \phi(0)\cos\omega t &= \phi(l) \cos \omega t = 0\ \forall \ t
+\end{align*}
+This gives us an ODE BVP:
+\begin{align*}
+    \phi '' = -\frac{\omega^2}{c^2} \phi,\ \phi(0) = \phi(l)= 0
+\end{align*}
+We have the following general solution
+\begin{align*}
+    \phi(x) = A\cos\frac{\omega x}{c} + B\sin\frac{\omega x}{c}
+\end{align*}
+BC1: $\phi(0) = A = 0$ 
+\begin{align*}
+    \phi(x) = B \sin \frac{\omega x}{c}
+\end{align*}
+BC2: $\phi(l) = B \sin \frac{\omega l }{c}$
+\begin{align*}
+    B = 0 \text{ or } \sin\frac{\omega l}{c} = 0
+\end{align*}
+If $B = 0$ then $\phi(x) = 0$ and $u(x,t) = 0$. We are interested in nonzero 
+solutions so we need $\sin \frac{\omega l}{c} = 0$ \\ \\
+\underline{Note}: $l$ and $c$ are fixed by the problem, $\omega$ is the 
+frequency of the standing wave. The condition $\sin \frac{\omega l}{c} = 0$
+means the allowed frequencies $\omega$ of a standing wave satisfy 
+$\sin\frac{\omega l}{c} = 0$
+\begin{align*}
+    \Rightarrow \frac{\omega l}{c} = n\pi \text{ for } n \in \mathbb{Z}
+\end{align*}
+Allowed frequencies: $\omega_n = \frac{n\pi c}{l}$ \\
+Modes: $\phi_n(x) = \sin\omega_n x = \sin \left(\frac{n\pi x}{l}\right),\ n \in \mathbb{Z}$
+\begin{itemize}
+    \item $B\phi_n(x)$ satisfies the BVP for any constant $B$, modes defined
+    up to a multiplicative constant.
+    \item 
+\end{itemize}
 \end{document}
