@@ -974,6 +974,177 @@ with the following BCs
     \phi(0) = \phi(l) = 0 \\
     \Rightarrow \text{standing wave solutions}
 \end{align*}
-
+\subsection{Lecture 6 - Higher Dimensional PDEs}
+\underline{Recap}:
+\begin{itemize}
+    \item 1st order PDEs, characteristics, change of coords.
+    \item 2nd order PDEs (1 space dimension), diffusion/heat eq, with advection, decay, etc.
+    \begin{align*}
+        u_t = Du_{xx}
+    \end{align*}
+    \item Steady state solutions
+    \item Wave equation
+    \begin{align*}
+        u_{tt} = c^2u_{xx}
+    \end{align*}
+    \item Standing waves, with BCs and ICs. 
+    \item Dirichlet ($u$ is known on boundary), and Neumann ($u_x$ is known on boundary).
+    \item ODEs: separation of variables, homogeneous solutions, 2nd order constant coefficients.
+\end{itemize}
+Higher dimensional PDEs (Logan 1.7) 
+\begin{itemize}
+    \item Most physical processes occur in more than 1d.
+    \item We can generalize 1d derivations using vector calculus.
+\end{itemize}
+\textbf{Heat flow in 2d/3d}. 2d and 3d are similar, so we work in 3d. Consider heat flow in 
+domain $\Omega \subseteq \mathbb{R}^3$. 
+\begin{itemize}
+    \item Let $u(x,y,z,t)$ be the temperature at point $(x,y,z) \in \Omega$ at time $t$. 
+    \item Let $Cu$ be the thermal energy density.
+    \item Let $\Phi(x,y,z,t)$ be the energy flux vector, i.e. $\Phi$ is the vector field describing 
+    heat flow.
+    \item The rate of heat flow across a surface element, $dS$ is $\Phi \cdot dS$ 
+    \item Recall that $dS = n \cdot dA$, where $n$ is the normal vector, and $dA$ is the area element.
+    \item In 2d, flow across a line element is $\Phi \cdot n dl$
+    \item Let $f(x,y,z,t)$ be the rate at which heat is produced.
+    \item Consider thermal energy in subdomain $B \subseteq \Omega$
+\end{itemize}
+\underline{Conservation/balance}:
+\begin{align*}
+    \frac{d}{dt} \int_{B} CudV &= - \int_{\partial B} \Phi \cdot dS + \int_{B}fdV \\ \\
+    \begin{matrix}
+        \text{change in} \\ \text{energy} 
+    \end{matrix} &= 
+    \begin{matrix}
+        \text{flux out} \\ \partial B\text{ is boundary}
+    \end{matrix} + \text{sources/sinks}
+\end{align*}
+\underline{Remark}: this applies to virtually every spatially varying density. \\ \\
+Using the \underline{divergence theorem}, we can get the PDE. \\
+Let $\vec F$ be a (smooth) vector field in region $B \subseteq \mathbb{R}^3$. Then 
+\begin{align*}
+    \int_{\partial B} F \cdot dS = \int_{B} \nabla \cdot F dB
+\end{align*}
+where $\vec F = (F_1,F_2,F_3)$ and $\nabla \cdot F = \partial_x F_1 + \partial_y F_2 + \partial_z F_3$ \\ \\
+Apply this to conservation equation:
+\begin{align*}
+    \frac{d}{dt} \int_{B}CudV &= - \int_{\partial B} \Phi \cdot dS + \int_{B}fdV \\
+    \int_{B} Cu_t dV &= - \int_{B} \nabla \cdot \Phi dV + \int_{B} fdV
+\end{align*}
+This is true for any $B \subseteq \Omega$
+\begin{align*}
+    \Rightarrow Cu_t = - \nabla \cdot \Phi + f
+\end{align*}
+To get a PDE for $u$, we need a relationship between $\Phi$ and $u$. In 1 space dimension, we had 
+$u = u(x,t)$, $\phi(x,t)$, and $\phi = -Ku_x$ with constant $K > 0$ (in 1d, $\phi$ is effectively 
+a scalar). \\ \\ 
+Fick's Law in higher dimensions:
+\begin{align*}
+    \Phi &= -K \nabla u \quad (\text{constant } K > 0) \\
+    \nabla u &= (u_x, u_y, u_z)
+\end{align*}
+This gives the PDE 
+\begin{align*}
+    Cu_t &= - \nabla \cdot \Phi + f \\
+    &= K\nabla \cdot (\nabla u)
+\end{align*}
+where
+\begin{align*}
+    \nabla \cdot (\nabla u) &= \nabla \cdot (u_x,u_y,u_z) \\
+    &= u_{xx} + u_{yy} + u_{zz} \\
+    &:= \nabla ^2 u \quad (\text{Laplacian of }u)
+\end{align*}
+This gives the PDE 
+\begin{align*}
+    Cu_t = K \nabla^2u + f \\
+    \text{for } (x,y,z) \in \Omega
+\end{align*}
+\underline{Definition}: The Laplacian \\
+Let $u$ be a scalar function which depends on space and possibly time. The Laplacian 
+of $u$, $\nabla^2u$ is the sum of 2nd derivatives with respect to space (in Cartesian
+coords). \\ \\
+\underline{Remarks}:
+\begin{itemize}
+    \item The Laplacian $\nabla^2$ is a linear differential operator.
+    \item We've only defined $\nabla^2$ for scalar functions.
+    \item Laplacian of $u$ is sometimes written as $\Delta u$
+    \begin{align*}
+        \text{e.g. } \Delta u = \nabla^2 u = \nabla\cdot(\nabla u)
+    \end{align*}
+\end{itemize}
+\underline{Heat/diffusion eq in higher dimensions}.
+\begin{align*}
+    u_t = D \nabla^2 u,\ \text{constant } D > 0
+\end{align*}
+for $u = u(x,y,z,t)$ and $(x,y,z) \in \Omega \subseteq \mathbb{R}^3$  \\ \\
+\underline{Heat/diffusion eq with heat source}.
+\begin{align*}
+    u_t = D \nabla^2 u + f
+\end{align*}
+for $f = f(x,y,z,t)$ \\ \\
+\underline{Remarks}:
+\begin{itemize}
+    \item The time-independent cases also give important equations \\
+    Poisson equation:
+    \begin{align*}
+        \nabla^2 u = - f\quad \in \Omega \\
+        u = u(x,y,z)
+    \end{align*}
+    Laplace equation:
+    \begin{align*}
+        \nabla^2 u = 0\quad \in \Omega \\
+        u = u(x,y,z)
+    \end{align*}
+    Wave equation:
+    \begin{align*}
+        u_tt = c^2 \nabla^2 u \quad \in \Omega
+    \end{align*}
+    \item These equations are fundamental for describing spatially varying quantities 
+    in 2d, 3d. E.g. fluid flow, vibrations, quantum mechanics, electromagnetism.
+\end{itemize}
+\underline{Boundary Conditions}. Just like in 1d, PDEs in higher dimensions need BCs. \\
+Consider the heat equation $u_t = D \nabla^2 u$ in 1d, where $\Omega = [0,L] \subseteq \mathbb{R}$
+\begin{itemize}
+    \item Dirichlet BCs: $\begin{cases}
+        u(0,t) = g_1(t) \\
+        u(L,t) = g_2(t)
+    \end{cases}$ i.e. $u$ is known on boundary.
+    \item Neumann BCs:$\begin{cases}
+        u_x(0,t) = g_1(t) \\
+        u_x(L,t) = g_2(t)
+    \end{cases}$ i.e. $u_x$ is known on boundary (flux).
+\end{itemize}
+In 2d, we have the area $\Omega \in \mathbb{R}^2$ and $\partial \Omega$ is the boundary (curve).
+\begin{itemize}
+    \item Dirichlet BC: $u(x,y,t) = g(x,y,t)$ for $(x,y) \in \partial \Omega$ (boundary). \\
+    This can be written as 
+    \begin{align*}
+        u\big|_{\partial \Omega} = g
+    \end{align*}
+    i.e. $u$ is known on boundary.
+    \item Neumann BC: $n(x,y) \cdot \nabla u(x,y) = g(x,y,t)$ for $(x,y) \in \partial \Omega$ 
+    where $n$ is the unit normal to $\partial \Omega$ at $(x,y)$. \\
+    This can be written as
+    \begin{align*}
+        \vec n \cdot \nabla u \big|_{\partial \Omega} = g
+    \end{align*}
+    i.e. flux out of domain $n\cdot \nabla u$ is known.
+\end{itemize}
+\boxed{\text{ex}} Vibrating drum. \\ 
+A drum occupies region $\Omega \subseteq \mathbb{R}^2$, $u(x,y,t)$ is height of the drum, and 
+the drum is clamped on its boundary.
+\begin{align*}
+    u\big|_{\partial \Omega} = 0 \quad (\text{Dirichlet BC})
+\end{align*}
+The height of the drum obeys 
+\begin{align*}
+    u_{tt} = c^2 \nabla^2 u\ \text{ on } \Omega \\
+    u\big|_{\partial \Omega} = 0 
+\end{align*}
+where $c^2 = \frac{T}{\rho} = \frac{\text{tension}}{\text{density}}$ \\ \\ 
+Standing wave solutions:
+\begin{align*}
+    \nabla^2 u = -\frac{\omega^2}{c^2}u,\quad u\big|_{\partial \Omega} = 0
+\end{align*}
 
 \end{document}
