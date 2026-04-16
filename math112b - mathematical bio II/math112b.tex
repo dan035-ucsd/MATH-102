@@ -551,6 +551,142 @@ This gives an eigenvalue problem:
         &= \frac 1\pi \int_{0}^{\pi}f(x) dx = f_{\text{avg}}
     \end{align*}
 \end{enumerate}
-
-
+\subsection{Lecture 6 - Chemotaxis}
+Comparing solutions to diffusion and reaction-diffusion equations.
+\begin{align*}
+    u_t &= Du_{xx} \\
+    u(x,t) & \propto \frac{1}{2(\pi D t)^\frac 12}\exp\left(-\frac{x^2}{4Dt}\right) \\
+    &\text{Spread: } x \propto \sqrt{t}
+\end{align*}
+For the reaction-diffusion equation
+\begin{align*}
+    u_t &= Du_{xx} + ru \\
+    u(x,t) &\propto \frac{1}{2(\pi Dt)^\frac 12}\exp\left(rt - \frac{x^2}{4Dt}\right)  \\
+    &\text{Spread: } x \propto t
+\end{align*}
+\underline{Spread of muskrats}.
+This phenomenon is in 2d. Calculate the area $A(t)$, then take $\sqrt{A(t)}$ to get a linear 
+size. We can then plot this as a function of $t$, and get a positive linear relationship. \\ \\
+Without space, we have the following equations for growth:
+\begin{align*}
+    u_t &= ru \tag{exponential}\\
+    u_t &= ru(1-\frac uK) \tag{logistic}\\
+    u_t &= ru(1-\frac uK)-p\frac{u^2}{1+u^2}\tag{predation}
+\end{align*}
+We also apply this to reaction-diffusion equation (growth with space)
+\begin{align*}
+    u_t &= D\Delta u + ru(1-\frac{u}{K}) \\
+    u_t &= D\Delta u + ru(1-\frac{u}{K}) - p \frac{u^2}{1+u^2}
+\end{align*}
+\underline{Chemotaxis}: A system of 2 reaction-diffusion equations.
+\begin{itemize}
+    \item $b(x,t)$ = concentration of bacteria
+    \item $s(x,t)$ = concentration of substrate
+    \item $f(s)$ = growth of bacteria
+    \item $Y$ = yield
+    \item $k_c$ = bacterial death rate
+\end{itemize}
+We have the following system
+\begin{align*}
+    b_t &= \mu b_{xx} + f(s)b - k_cb\\
+    s_t &= Ds_{xx} - \frac 1Y f(s)b 
+\end{align*}
+To solve this system analytically, we have to simplify. Consider a similar system
+\begin{align*}
+    B_t = - \frac{\partial}{\partial x}(\chi B c_x) + \frac{\partial}{\partial x} (\mu B_x)
+\end{align*}
+\begin{itemize}
+    \item $B(x,t)$ = concentration of bacteria 
+    \item $c(x,t)$ = concentration of substrate
+    \item $\chi$ = chemotactic constant
+    \item $J_{\text{chemo}} = \chi B c_x$ = chemotactic flux
+    \item $J_{\text{diffusion}} = - \mu B_x$ = diffusion flux
+\end{itemize}
+So we have 
+\begin{align*}
+    B_t = -\chi (B_x c_x + B c_{xx}) + \underbrace{\mu B_{xx}}_{\text{diff}}
+\end{align*}
+Impose boundary conditions: assume $x \in [0,L]$ and no flux at boundary ($J_{\text{chem}}+J_{\text{diff}} = 0$).
+\begin{align*}
+    B_x(0,t) = B_x(L,t) = 0 
+\end{align*}
+Solve the PDE in steady state (take $B_t = 0$)
+\begin{align*}
+    \frac{\partial}{\partial x} \left(-\chi B c_x + \mu B_x\right) &= 0 \tag{conservation law} \\
+    \Rightarrow - \chi B c_x + \mu B_x &= \gamma = J_{\text{tot}}
+\end{align*}
+What is $\gamma$? \\
+We know that $J(0,t) = J(L,t) = 0 \Rightarrow J_{\text{tot}}(x,t) = 0$
+\begin{align*}
+    J_{\text{tot}} &= - \chi B c_x + \mu B_x = 0 \\
+    \Rightarrow \chi c_x &= \frac \mu B B_x  \\
+    \chi c(x) &= \mu \ln B(x) + K \\
+    B(x) &= K\exp\left(\frac{\chi c(x)}{\mu}\right)
+\end{align*}
+\boxed{\text{ex}} 2 bacterial populations, $u(x,t)$ and $v(x,t)$. They disperse in response to 
+the total density, $u+v$. 
+\begin{align*}
+    u(x,t) \text{ has flux } q = -k_1 \frac{\partial}{\partial x}(u+v) \\
+    v(x,t) \text{ has flux } w = -k_2 \frac{\partial}{\partial x}(u+v) \\
+\end{align*}
+So we have 
+\begin{align*}
+    u_t = - (qu)_x \\
+    v_t = - (wv)_x
+\end{align*}
+and 
+\begin{align*}
+    u_t = k_1 \frac{\partial}{\partial x}\left(u \frac{\partial}{\partial x}(u+v)\right)\\
+    v_t = k_2 \frac{\partial}{\partial x}\left(v \frac{\partial}{\partial x}(u+v)\right)
+\end{align*}
+Solve in steady state: $\frac{\partial}{\partial t} \rightarrow 0$
+\begin{align*}
+    u_t = v_t &= 0 \\
+    \frac{\partial}{\partial x}\left(u\frac{\partial}{\partial x}(u+v)\right) &= 0 
+    \Rightarrow u \frac{\partial}{\partial x}(u+v) = c_1 \\
+    \frac{\partial}{\partial x}\left(v\frac{\partial}{\partial x}(u+v)\right) &= 0 
+    \Rightarrow v \frac{\partial}{\partial x}(u+v) = c_2
+\end{align*}
+Case 1: $c_1 = c_2 = 0$
+\begin{align*}
+    u\cdot \frac{\partial}{\partial x}(u+v) = 0 \Rightarrow u = 0 \text{ or } \frac{\partial}{\partial x}(u+v) = 0 \\
+    v\cdot \frac{\partial}{\partial x}(u+v) = 0 \Rightarrow v = 0 \text{ or } \frac{\partial}{\partial x}(u+v) = 0
+\end{align*}
+Possible solutions: 
+\begin{enumerate}
+    \item[1a)] $u = 0$ and $v = k_2$ or $v = 0$ and $u = k_1$
+    \item[2a)] $u \ne 0$ and $v\ne 0$ $\Rightarrow \frac{\partial}{\partial x}(u+v) = 0 \Rightarrow u = K - v$
+\end{enumerate}
+Case 2: $c_1 \ne 0, c_2 \ne 0$
+\begin{align*}
+    \frac{\partial}{\partial x} (u+v) = \frac{c_1}{u} = \frac{c_2}{v} \\
+    \Rightarrow u = \frac{c_1}{c_2} v 
+\end{align*}
+We can integrate this and get 
+\begin{align*}
+    \left(1+ \frac{c_1}{c_2}\right)v_x &= \frac{c_2}{v} \\
+    \Rightarrow \int vdv &= \int \frac{c_2}{1 + \frac{c_1}{c_2}} dx \\
+    \frac{v^2}{2} &= \left(\frac{c_2}{1+\frac{c_1}{c_2}}\right) x + K \\
+    v &= \left( 2x \frac{c_2}{1 + \frac{c_1}{c_2}} + K \right)^\frac 12 \\
+    \Rightarrow u &= \frac{c_1}{c_2} v
+\end{align*}
+So far we have used several ways to reduce PDEs to ODEs: 
+\begin{itemize}
+    \item Separation of variables / sine and cosine series (bounded domain, IVP, BVP)
+    \item Fourier transform (infinite domain)
+    \item Looked at steady states 
+    \begin{align*}
+        u_t = 0\quad (\text{convergence?})
+    \end{align*}
+    \item Traveling wave solution, reduces to an ODE.
+\end{itemize}
+\boxed{\text{ex}} Traveling wave
+\begin{align*}
+    f(x) = 1 - x^2
+\end{align*}
+Replace $x \rightarrow x - vt \equiv z$ where $v$ is some constant. Now we have
+\begin{align*}
+    f(z) = f(x - vt) \equiv F(x,t)
+\end{align*}
+which is a function of 2 variables.
 \end{document}
