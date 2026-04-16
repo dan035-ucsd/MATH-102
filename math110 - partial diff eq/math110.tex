@@ -914,6 +914,66 @@ Modes: $\phi_n(x) = \sin\omega_n x = \sin \left(\frac{n\pi x}{l}\right),\ n \in 
 \begin{itemize}
     \item $B\phi_n(x)$ satisfies the BVP for any constant $B$, modes defined
     up to a multiplicative constant.
-    \item 
+    \item $n=0$ gives $\phi_n = 0$ so it is trivial.
+    \item $n<0$ gives the same mode as $n>0$ up to a sign: $\phi_n(x) = - \phi_{-n}(x)$
+    \item We can take the modes to have $n>0$
+    \begin{align*}
+        \phi_n(x) = \sin\left(\frac{n\pi x}{l}\right),\ n = 1,2,3,\dots
+    \end{align*}
 \end{itemize}
+The standing waves are 
+    \begin{align*}
+        u_n(x,t) &= \cos\left(\frac{n\pi ct}{l}\right)\sin \left(\frac{n\pi x}{l}\right) \\
+        &= \cos(\omega_n t)\phi_n(x),\ n = 1,2,3,\dots
+    \end{align*}
+\underline{Remarks}:
+\begin{itemize}
+    \item The BVP problem is an eigenvalue problem. The frequencies $\omega_n$
+    are the $c$-values and modes $\phi_n$ are eigenfunctions.
+    \item Eigenfunctions $\phi_n$ are defined up to a constant multiplier,
+    like eigenvectors.
+    \item The frequencies $\omega_n$ are the fundamental frequencies of the string.
+\end{itemize}
+\underline{Quantum Mechanics} (Logan 1.6) \\
+Consider a particle in 1d. Classically, the particle has a position $x\in \mathbb{R}$.
+In quantum mechanics, the state of the particle is a function $\Psi(x,t)\in \mathbb{C}$
+called the wave function. The probability density of finding the particle at $x$ is 
+$|\Psi(x,t)|^2$. $\Psi$ obeys the Schrödinger equation (SE):
+\begin{align*}
+    i\hbar \Psi_t &= -\frac{\hbar^2}{2m}\Psi_{xx} \quad (\text{free particle}) \\
+    \text{where } &\hbar \text{ is Planck's constant} \\
+    &m \text{ is particle mass}
+\end{align*}
+If the 'energy cost' of being at position $x$ is $V(x)$, then the SE is 
+\begin{align*}
+    i\hbar \Psi_t = -\frac{\hbar^2}{2m} \Psi_{xx}+V(x)\Psi
+\end{align*}
+\underline{Remarks}:
+\begin{itemize}
+    \item The particle is typically more likely to be at places where $V(x)$ is lower.
+    \item Probability is conserved
+    \begin{align*}
+        \int_{-\infty}^{\infty}|\Psi|^2dx = 1 \ \forall t
+    \end{align*}
+    \item Looking for solutions of the form 
+    \begin{align*}
+        \Psi(x,t) = e^{-iEt/\hbar}\cdot \phi(x)
+    \end{align*}
+    gives the following time=independent SE:
+    \begin{align*}
+        E\phi = -\frac{\hbar^2}{2m}\phi'' + V(x)\phi
+    \end{align*}
+    Where $E$ has the interpretation of 'energy'
+\end{itemize}
+For a particle in a '1d box,' $0 < x < l$, we have 
+\begin{align*}
+    E\phi = -\frac{\hbar^2}{2m}\phi'',\ 0 < x < l
+\end{align*}
+with the following BCs
+\begin{align*}
+    \phi(0) = \phi(l) = 0 \\
+    \Rightarrow \text{standing wave solutions}
+\end{align*}
+
+
 \end{document}
