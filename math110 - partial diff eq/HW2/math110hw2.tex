@@ -1,0 +1,109 @@
+\documentclass[12pt, letterpaper]{article} 
+\usepackage{amsmath, amssymb, amsthm, enumerate, graphicx, fancyhdr}
+\pagestyle{fancy}
+
+\begin{document}
+\graphicspath{ {./} }
+
+\fancyhead[L]{\textbf{Math 110 HW 2}}
+\fancyhead[C]{\textbf{Spring 2026}}
+\fancyhead[R]{\textbf{Dani Nguyen}}
+
+\noindent \textbf{Question 1} \\
+Given $u(x,0) = x^2$, we want  
+\begin{align*}
+    u_t = u(x,0)_{xx} = 2     
+\end{align*}
+Integrating with respect to  $t$, we get $u = 2t + C$. Since $u(x,0) = x^2$,
+we take $C = 0$. So we have
+\begin{align*}
+    u(x,t) = x^2 + 2t
+\end{align*}
+
+\noindent \textbf{Question 2} 
+\begin{enumerate}[(a)]
+    \item Given $u_t = Du_{xx} + f$. We have $u_t$ meaning the rate of 
+    change in temperature of the rod over time, $Du_{xx}$ means the heat
+    flux of the rod, and $f$ means the heat source.
+    \item \begin{enumerate}[(i)]
+        \item Given $f(x) = 1$ with BCs $u(0,t)=0$, $u(l,t)=1$
+        \begin{align*}
+            u_t = Du_{xx} + 1
+        \end{align*}
+        Since the steady state solution is time independent, $u_t = 0$
+        \begin{align*}
+            Du_{xx} &= -1 \\
+            u_{xx} &= - \frac 1D \\
+            u_x &= -\frac 1Dx + f(t) \\
+            u &= -\frac{x^2}{2D} + ax + b
+        \end{align*}
+        Using BCs $u(0,t)=0$, $u(l,t)=1$
+        \begin{align*}
+            u(0) &= -\frac{0^2}{2D} + a\cdot 0 + b \Rightarrow b = 0 \\
+            u(l) &= -\frac{l^2}{2D} + al = 0 \\
+            \Rightarrow \frac{l^2}{2D} &= al \\
+            \frac{l}{2D} &= a \\
+            \Rightarrow u(x) &= -\frac{x^2}{2D} + \frac{lx}{2D}
+        \end{align*}
+        \item Given $f(x) = \begin{cases}
+            0 & 0 < x < l/2 \\
+            H & l/2 < x < l
+        \end{cases}$ with BCs $u(0,t) = 0, u(l,t) = 0$  \\
+        We have $Du_{xx} = 0$ for $0 < x < l/2$ 
+        \begin{align*}
+            Du_{xx} &= 0 \\
+            Du_x &=  a \\
+            Du &= ax + b \\
+            u &= \frac aD x + \frac bD
+        \end{align*}
+        and $Du_{xx} = -H$ for $l/2 < x < l$
+        \begin{align*}
+            Du_{xx} &= -H \\
+            Du_x &= -Hx + c \\
+            Du &= -\frac{Hx^2}{2} + cx + e \\
+            u &= -\frac{Hx^2}{2D} + \frac cD x + \frac eD
+        \end{align*}
+        With our BCs, we have
+        \begin{align*}
+            u(0) = \frac aD \cdot 0 + \frac bD &= 0 \\
+            \Rightarrow \frac bD &= 0 \\
+            u(l) = -\frac{Hl^2}{2D} + \frac cDl + \frac eD &= 0 \\
+            \Rightarrow \frac{e}{D} &= \frac{Hl^2}{2D} - \frac cDl
+        \end{align*}
+        Considering the rod is continuous, we have two more constraints, where 
+        heat $u(x)$ and flux $-Du_x$ are continuous at $\frac l2$. With heat, we have
+        \begin{align*}
+            u(\frac l2-) &= u(\frac l2+) \\
+            \frac{al}{2D} &= -\frac{Hl^2}{8D} + \frac{cl}{2D} + \frac{Hl^2}{2D} - \frac {cl}{D} \\
+            \frac{al}{2D} &= \frac{3Hl^2}{8D} - \frac{cl}{2D} \\
+            \frac aD &= \frac{3Hl}{4D} - \frac{c}{D}
+        \end{align*}
+        With heat flux, we have
+        \begin{align*}
+            -Du_x(\frac l2-) &= -Du_x(\frac l2+) \\
+            u_x(\frac l2-) &= u_x(\frac l2+) \\
+            \frac aD &= -\frac{Hl}{2D} + \frac cD
+        \end{align*}
+        Combining the two, we get
+        \begin{align*}
+            \frac{3Hl}{4D} - \frac cD &= -\frac{Hl}{2D} + \frac cD \\
+            \frac{5Hl}{4D} &= \frac{2c}{D} \\
+            \frac{5Hl}{8D} &= \frac cD \\
+            \Rightarrow \frac aD &= -\frac{Hl}{2D} + \frac{5Hl}{8D} \\
+            &= \frac{Hl}{8D} \\
+            \Rightarrow \frac eD &= \frac{Hl^2}{2D} - \frac{5Hl^2}{8D} \\
+            &= -\frac{Hl^2}{8D} \\
+        \end{align*}
+        And so our solutions are
+        \begin{align*}
+            \begin{cases}
+                u = \displaystyle\frac{Hl}{8D}x  & 0 < x < \frac l2\\
+                u = -\displaystyle\frac{Hx^2}{2D} + \frac{5Hl}{8D}x - \frac{Hl^2}{8D} & \frac l2 < x < l
+            \end{cases}
+        \end{align*}
+    \end{enumerate}
+\end{enumerate}
+
+\noindent \textbf{Question 3} \\
+
+\end{document}
