@@ -689,4 +689,147 @@ Replace $x \rightarrow x - vt \equiv z$ where $v$ is some constant. Now we have
     f(z) = f(x - vt) \equiv F(x,t)
 \end{align*}
 which is a function of 2 variables.
+
+\subsection{Lecture 7 - Traveling Waves}
+\boxed{\text{ex}} Consider $f(x) = 1- x^2$, $z = x -vt$, where $v$ is some constant
+$> 0$.
+\begin{align*}
+    F(x,t) = f(z) = 1 - (x - vt)^2
+\end{align*}
+Take snapshots at certain time intervals:
+\begin{center}
+    \begin{tabular}{c | c} 
+        $t$ & $f(z)$ \\
+        \hline
+        $t = 0$ & $f(x)$ \\
+        $t = 1$ & $f(x-1)$ \\
+        $t = 2$ & $f(x-2)$ \\
+        $\vdots$ & $\vdots$ 
+    \end{tabular}
+\end{center}
+We get a traveling wave at rate $v$ units per time $t$ to the right. If $v$ is 
+negative, it moves to the left. \\ \\ 
+Consider the Reaction-diffusion equation that describes the spread of a gene 
+in a population. Consider also 2 alleles, $a$ and $A$. Call $p(x,t)$ the frequency
+of individuals with the $a$ allele. We have 
+\begin{align*}
+    p_t = Dp_{xx} + \alpha p(1-p) \\
+    0 \le p(x,t) \le 1
+\end{align*}
+where $D$ is the diffusion constant, and $\alpha$ is the degree of advantage 
+presented by type $a$. This is derived from Hardy-Weinberg genetics. This is also 
+a 2nd order nonlinear PDE, which means it is difficult to solve. We will look for 
+special solutions in the form of a traveling wave. \\ \\
+Assume that $p(x,t) = P(z)$, where $z = x- vt$ for some constant $v$. This reduces 
+the PDE to an ODE.
+\begin{align*}
+    f(x-vt) &= F(z) \\
+    f_x &= F_z z_x \\
+    &= F_z \\
+    f_{xx} &= F_{zz} \\
+    f_t &= F_z z_t \\
+    &= -v F_z
+\end{align*}
+So we have 
+\begin{align*}
+    -v P_z = D P_{zz} + \alpha P (1-P)
+\end{align*}
+Now we have a 2nd order ODE, call $\frac{dP}{dz} = -S$
+\begin{align*}
+    &vS = D S_z + \alpha P(1-P) \\
+    &\begin{cases}
+        P_z = -S \\
+        S_z = -\frac{\alpha}{D} P(1-P) + \frac{vS}{D}
+    \end{cases}
+\end{align*}
+Use nullclines:
+\begin{align*}
+    &P \text{ nullclines}: S = 0 \\
+    &S \text{ nullclines}:
+        - \frac{\alpha}{D} P(1-P) + \frac{vS}{D} = 0 \\
+    &s = \frac{\alpha}{v} P(1-P)
+\end{align*}
+If we plot these nullclines we get the intersection of these nullclines at 
+\begin{align*}
+    &(P,S) = (0,0) \text{ and} \\
+    &(P,S) = (1,0) 
+\end{align*}
+We now perform stability analysis:
+\begin{align*}
+    J = \begin{bmatrix}
+        0 & -1 \\
+        \frac{\alpha}{D}(1-2P) & -\frac{v}{D}
+    \end{bmatrix}
+\end{align*}
+For $(0,0)$, $\lambda$ is real if $\frac{v^2}{D^2} - \frac{4\alpha}{D} > 0$ 
+\begin{align*}
+    (\frac{v}{D})^2 &> \frac{4\alpha}{D} \\
+    \frac{v}{D} &> 2\sqrt{\frac{\alpha}{D}} \\
+    v &\ge 2\sqrt{\alpha D} \tag{$\ast$}
+\end{align*}
+Recall that the equilibrium is stable if Det$J > 0$ and Tr$J < 0$.
+\begin{align*}
+    J(1,0) = \begin{bmatrix}
+        0 & -1 \\
+        -\frac{\alpha}{D} & -\frac{v}{D}
+    \end{bmatrix} \\
+    \text{Tr}J = -\frac{v}{D} < 0 \\
+    \text{Det}J = - \frac{\alpha}{D} < 0 \\
+    \text{unstable !}
+\end{align*}
+There is a trajectory that connects $(1,0)$ which is unstable, with $(0,0)$, which
+is stable. It is called a \underline{heteroclinic orbit}. 
+\begin{align*}
+    \text{Corresponds to } \begin{cases}
+        \text{as } z \rightarrow +\infty \text{ approach (0,0)} \\
+        \text{as } z \rightarrow -\infty \text{ approach (1,0)}
+    \end{cases}
+\end{align*}
+Note here that $z$ is NOT time. \\ \\
+The heteroclinic orbit is the only important orbit. If $(\ast)$ is violated, the 
+eigenvalues of $(0,0)$ have an imaginary part, resulting in a stable spiral. This 
+causes the heteroclinic orbit to cross into negative values of $P$, which does not 
+make sense. \\ \\
+We can draw a function of $P(z)$ and $z$, which looks like a "negative logistic growth"
+function. By reintroducing $z = x - vt$, we get a moving wave, describing the 
+spread of the advantageous allele over space and time. \\ \\
+With much work, one can show that the velocity of spread $v$, is given by
+\begin{align*}
+    v = 2\sqrt{\alpha D}
+\end{align*}
+\subsubsection{Turing Instability}
+Consider the Belousov-Zhabotinsky reaction in 1d where there is 2 substances whose 
+concentration is given by 
+\begin{align*}
+    u_1(x,t) \text{ and } u_2(x,t)
+\end{align*}
+We have 
+\begin{align*}
+    \begin{cases}
+        \displaystyle\frac{\partial u_1}{\partial t} = f_1(u_1,u_2) + D_1 \frac{\partial^2u_1}{\partial x^2} \\ \\
+        \displaystyle\frac{\partial u_2}{\partial t} = \underbrace{f_1(u_1,u_2)}_{\text{reaction}} + \underbrace{D_2 \frac{\partial^2u_2}{\partial x^2}}_{\text{diffusion}}
+    \end{cases}
+\end{align*}
+We have a system of 2 reaction-diffusion equations. Before spatial analysis, 
+consider the non-spatial part.
+\begin{align*}
+    \begin{cases}
+        \displaystyle\frac{\partial u_1}{\partial t} = f_1(u_1,u_2) \\ \\
+        \displaystyle\frac{\partial u_2}{\partial t} = f_1(u_1,u_2)
+    \end{cases}
+\end{align*}
+\boxed{\text{ex}} Consider $\begin{cases}
+f_1 = - u_1^3 + e^{u_2} \\
+f_2 = -4 u_1 + e^{u_2}
+\end{cases}$ \\
+Find steady states of the above system:
+\begin{align*}
+    e^{u_2} &= u_1^3 \\
+    4u_1 - u^3_1 &= 0 \\
+    u_1(4-u_1^2) &= 0 \\
+    u_1(2-u_1)(2+u_1) &= 0 \\
+    \Rightarrow u_1 &= 0,2,-2
+\end{align*}
+$u_1 = 0,-2$ does not make sense because we have $e^{u_2} = 4u_1$
+
 \end{document}
