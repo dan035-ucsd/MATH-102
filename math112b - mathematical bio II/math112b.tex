@@ -832,4 +832,139 @@ Find steady states of the above system:
 \end{align*}
 $u_1 = 0,-2$ does not make sense because we have $e^{u_2} = 4u_1$
 
+\subsection{Lecture 8 - Turing Instability}
+Recall our system of reaction-diffusion equations
+\begin{align*}
+    \begin{cases}
+        \displaystyle\frac{\partial u_1}{\partial t} = f_1(u_1,u_2) + D_1 \frac{\partial^2 u_1}{\partial x^2} \\
+        \displaystyle\frac{\partial u_2}{\partial t} = f_2(u_1,u_2) + D_2 \frac{\partial^2 u_2}{\partial x^2}
+    \end{cases}
+\end{align*}
+We start with a system without diffusion, find solutions, study their stability, add diffusion back,
+see what happens. So first we consider
+\begin{align*}
+    \begin{cases}
+        \displaystyle\frac{\partial u_1}{\partial t} = f_1(u_1,u_2) \\
+        \displaystyle\frac{\partial u_2}{\partial t} = f_2(u_1,u_2)
+    \end{cases} \tag{$\ast$}
+\end{align*}
+Suppose there is a solution
+\begin{align*}
+    u_1(t) = u_{1b} \qquad u_2(t) = u_{2b}
+\end{align*}
+where $u_{1b}$ and $u_{2b}$ are constants and are the equilibrium of $(\ast)$. This means that 
+they satisfy $(\ast)$. \\ \\
+To study stability of $(\ast)$, we need the Jacobian evaluated at $(u_{1b},u_{2b})$. \\ 
+Call 
+\begin{align*}
+    a_{11} = \frac{\partial f_1}{\partial u_1} \Big|_{(u_{1b},u_{2b})} \qquad a_{12} = \frac{\partial f_1}{\partial u_2} \Big|_{(u_{1b},u_{2b})} \\
+    a_{21} = \frac{\partial f_2}{\partial u_1} \Big|_{(u_{1b},u_{2b})} \qquad a_{22} = \frac{\partial f_2}{\partial u_2} \Big|_{(u_{1b},u_{2b})}
+\end{align*}
+Consider a perturbation of the equilibrium:
+\begin{align*}
+    u_1(t) = u_{1b} + v_1(t) \qquad u_2(t) = u_{2b} + v_2(t)
+\end{align*}
+Then we have $\begin{cases}
+    \dot v_1 = a_{11} v_1 + a_{12}v_2 \\
+    \dot v_2 = a_{21} v_1 + a_{22}v_2
+\end{cases}$ \\ \\
+We need to calculate eigenvalues. Stability is defined by eigenvalues of matrix 
+\begin{center}
+    $A = \begin{bmatrix}
+    a_{11} & a_{12} \\ a_{21} & a_{22}
+    \end{bmatrix}$
+\end{center}
+It is stable if Tr$A < 0$ and Det$A > 0$. Let us assume that this equilibrium is stable, 
+that is, Tr$A < 0$ and Det$A > 0$. \\ \\
+How can we study the stability of the spatial system (with diffusion)? \\ \\
+Again, we perturb $(u_{1b}, u_{2b})$, but now 
+\begin{align*}
+    u_1(x,t) = u_{1b} + v_1(x,t) \\
+    u_2(x,t) = u_{2b} + v_2(x,t)
+\end{align*}
+Substitute this back into the original system.
+\begin{align*}
+    \frac{\partial u_1}{\partial t} = \frac{\partial}{\partial t}(u_{1b} + v_1) = \frac{\partial v_1}{\partial t} \\
+    \frac{\partial^2 u_1}{\partial x^2} = \frac{\partial^2}{\partial x^2} (u_1b + v_1) = \frac{\partial^2 v_1}{\partial x^2}
+\end{align*}
+We use Taylor series
+\begin{align*}
+    f_1(u_1,u_2) &= f_1(u_{1b} + v_1, u_{2b} + v_2) \\
+    &\approx f_1(u_{1b},u_{2b}) + \frac{\partial f_1}{\partial u_1} v_1 + \frac{\partial f_1}{\partial u_2} v_2 + \dots
+\end{align*}
+So we have 
+\begin{align*}
+    \begin{cases}
+        \frac{\partial v_1}{\partial t} = a_{11} v_1 + a_{12}v_2 + D_1 \frac{\partial^2 v_1}{\partial x^2} \\
+        \frac{\partial v_2}{\partial t} = a_{21} v_1 + a_{22}v_2 + D_2 \frac{\partial^2 v_2}{\partial x^2}
+    \end{cases}
+\end{align*}
+Now we use the Fourier transform, with $v_1 \mapsto \hat v_1$ and $v_2 \mapsto \hat v_2$
+\begin{align*}
+    \hat v_1 (k,t) = \int_{-\infty}^{\infty} v_1 (x,t) e^{-ikx}dx \\
+    \hat v_2 (k,t) = \int_{-\infty}^{\infty} v_2 (x,t) e^{-ikx}dx
+\end{align*}
+The back transform here is 
+\begin{align*}
+    v_1(x,t) = \frac{1}{2\pi} \int_{-\infty}^{\infty} \hat v_1 (k,t) e^{ikx} dk \\
+    v_2(x,t) = \frac{1}{2\pi} \int_{-\infty}^{\infty} \hat v_2 (k,t) e^{ikx} dk
+\end{align*}
+We have 
+\begin{align*}
+    \int_{-\infty}^{\infty} \frac{\partial v_1}{\partial t} e^{-ikx}dx &= \frac{\partial}{\partial t} \int_{-\infty}^{\infty} v_1e^{-ikx}dx  \\
+    &= \frac{\partial \hat v}{\partial t} \\
+    &= \int_{-\infty}^{\infty} (a_{11} v_1 + a_{12} v_2) e^{-ikx} dx + D_1 \int_{-\infty}^{\infty}\frac{\partial^2 v_1}{\partial x^2} e^{-ikx}dx \\
+    &= a_{11} \int_{-\infty}^{\infty} v_1 e^{-ikx} dx + a_{12} \int_{-\infty}^{\infty} v_2 e^{-ikx} dx - D_1 k^2\hat v_1 \\
+    &= a_{11} \hat v_1 + a_{12} \hat v_2 - D_1 k^2 \hat v_1
+\end{align*}
+We now have a system of linear ODEs!
+\begin{align*}
+    \frac{\partial \hat v_1}{\partial t} = a_{11} \hat v_1 + a_{12} \hat v_2 - D_1 k^2 \hat v_1 \\
+    \frac{\partial \hat v_2}{\partial t} = a_{21} \hat v_1 + a_{22} \hat v_2 - D_2 k^2 \hat v_2
+\end{align*}
+Our new Jacobian is 
+\begin{align*}
+    A(k) = \begin{bmatrix}
+        a_{11}-D_1k^2 & a_{12} \\
+        a_{21} & a_{22} - D_2 k^2
+    \end{bmatrix}
+\end{align*}
+For each $k$, we can determine the long-term evolution (growth vs decay) of $\hat v(k,t)$
+using the Jacobian above. \\ \\
+For stability, (that is, $\hat v(k,t) \rightarrow 0$), we need Tr$A(k) < 0$ and Det$A(k) > 0$. \\
+For instability, one or both should be violated. 
+\begin{align*}
+    \text{Tr}A(k) = a_{11} - k^2D_1 + a_{22} - k^2D_2 < 0\quad \underline{\text{always}}
+\end{align*}
+The only way to make this unstable is to make Det$A(k) < 0$
+\begin{align*}
+    \text{Det}A(k) = (a_{11}-k^2D_1)(a_{22}-k^2D_2)-a_{12}a_{21} \equiv F(q)
+\end{align*} 
+Call $k^2 \equiv q$.
+\begin{align*}
+    F(q) &= D_1D_2q^2 - (a_{11}D_2 + a_{22}D_1)q + a_{11}a_{22} - a_{12}a_{21}  \\
+    &= D_1D_2 q^2 - (a_{11}D_2 + a_{22}D_1)q + \text{Det} A
+\end{align*}
+To find the minimum of $F(q)$
+\begin{align*}
+    F_q &= 2qD_1D_2 - (a_{11}D_2 + a_{22}D_1) = 0 \\
+    \Rightarrow q_{\text{min}} &= \frac{a_{11}D_2 + a_{22}D_1}{2D_1D_2}
+\end{align*}
+We want this quantity above to be greater than 0 AND we want $F(q_{\text{min}}) < 0$
+\begin{align*}
+    F(q_{\text{min}}) = D_1a_{22} + D_2a_{11} > 2\sqrt{D_1D_2 (a_{11}a_{22} - a_{12}a_{21})}
+\end{align*}
+This above is the condition for instability of solution $(u_{1b},u_{2b})$ in the presence 
+of diffusion. Beautiful! \\ \\ 
+A weaker but necessary condition for Turing instability.
+\begin{align*}
+    D_1a_{22} + D_2 a_{11} > 0
+\end{align*}
+Recall that $a_{11} + a_{22} < 0$. With these conditions, it must follow that they have different 
+signs.
+\begin{align*}
+    D_1 a_{22} - D_2|a_{11}| > 0 \Rightarrow \frac{D_2}{D_1} < \frac{a_{22}}{|a_{11}|}
+\end{align*}
+
+
 \end{document}
