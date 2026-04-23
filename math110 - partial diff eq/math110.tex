@@ -15,7 +15,7 @@
 \fancyhead[C]{\textbf{Spring 2026}}
 \fancyhead[R]{\textbf{Dani Nguyen}}
 
-\section{}
+\section{First Order PDEs}
 \subsection{Lecture 1 - Introduction to PDEs}
 \textbf{What is a ODE?} Recall that an ordinary differential equation (ODE) are 
 equations for functions of a single variable, $u(t),\ t \in \mathbb{R}$
@@ -559,6 +559,7 @@ Can get a PDE for $u$ by
     \end{align*}
 \end{itemize}
 
+\section{Intro to Heat, Wave, Laplace's equations}
 \subsection{Lecture 4 - Diffusion Equation}
 \underline{Recap}:
 \begin{itemize}
@@ -1145,6 +1146,183 @@ where $c^2 = \frac{T}{\rho} = \frac{\text{tension}}{\text{density}}$ \\ \\
 Standing wave solutions:
 \begin{align*}
     \nabla^2 u = -\frac{\omega^2}{c^2}u,\quad u\big|_{\partial \Omega} = 0
+\end{align*}
+
+\section{Unbounded Domains}
+\subsection{Lecture 7 - Classification \& Unbounded Heat Equation}
+\underline{Recap}:
+\begin{itemize}
+    \item Characteristics: 1st order PDEs
+    \item Conservation laws and derivations for PDEs.
+    \item Special solutions: steady states and standing waves.
+    \item The Laplacian, $\nabla^2$, which acts on spatial variables, e.g. for $u = u(x,y)$ 
+    or $u(x,y,t)$, we have $\nabla^2 u = u_{xx} + u_{yy}$.
+\end{itemize}
+Consider Laplace's equation for $u = u(x,y)$
+\begin{align*}
+    \nabla^2 u = u_{xx} + u_{yy} = 0
+\end{align*}
+Functions which satisfy $\nabla^2 u = 0$ are called \underline{harmonic}, e.g. $x+y,\ xy,\ 
+x^2-y^2$. 
+\begin{itemize}
+    \item Laplace's equation comes with a domain $\Omega \subseteq \mathbb{R}^2$
+    \begin{align*}
+        \nabla^2 u = 0, \text{ for } (x,y) \in \Omega
+    \end{align*}
+    Note that $\Omega = \mathbb{R}^2$ is a possibility
+    \item Laplace's equation also comes with BCs:
+    \begin{itemize}
+        \item Dirichlet BCs: Specify $u$ on $\partial \Omega$
+        \item Neumann BCs: Specify $n\cdot \nabla u$ on $\partial \Omega$
+    \end{itemize}
+    where $\partial \Omega$ is the boundary of $\Omega$ and $\vec{n}$ is the outward unit normal 
+    to $\partial \Omega$
+\end{itemize} 
+\textbf{Classification of PDEs}. We have 3 main PDEs for functions of 2 variables.
+\begin{enumerate}[1)]
+    \item Diffusion: $u = u(x,t)$
+    \begin{align*}
+        u_t - ku_{xx} = 0,\quad k > 0
+    \end{align*}
+    \item Wave: $u = u(x.t)$
+    \begin{align*}
+        u_{tt} - c^2u_{xx} = 0
+    \end{align*}
+    \item Laplace: $u = u(x,y)$
+    \begin{align*}
+        u_{xx} + u_{yy} = 0
+    \end{align*}
+\end{enumerate}
+\underline{Remarks}:
+\begin{itemize}
+    \item 1) and 2) are evolution equations which specify how $u$ changes in time. Typically, 
+    prescribe an initial state, along with BCs, ask for state at time $t$.
+    \item We think of 3) as a static problem.
+    \item Choosing $t$ to be a 'time' variable in 1) and 2), but not in 3), is not as arbitrary 
+    as it seems.
+\end{itemize}
+\underline{Classification}: \\
+Let $u(x,y)$ be a function of 2 variables. Here we think $x,y,$ as general variables (not 
+necessarily space or time). Consider a 2nd order PDE of the form:
+\begin{align*}
+    Au_{xx} + Bu_{xy} + Cu_{yy} + F(x,y,u,u_x, u_y) = 0 
+\end{align*}
+where $A,B,C$ are constants and $F$ is some arbitrary function. \\ \\ 
+The \underline{discriminant} of this PDE is 
+\begin{align*}
+    \boxed{D = B^2 - 4AC}
+\end{align*}
+A PDE is called $\begin{cases}
+    \text{hyperbolic if } D > 0 \\
+    \text{parabolic if } D = 0 \\
+    \text{elliptic if } D < 0
+\end{cases}$ \\
+E.g.:
+\begin{enumerate}[1)]
+    \item Heat equation $u_t - ku_{xx} = 0$, $k > 0$. Setting $y = t$ and comparing, we get 
+    $A = -k,\ B = 0,\ C = 0 \Rightarrow D = B^2 -4AC = 0$. This means the heat equation is 
+    parabolic.
+    \item Wave equation $u_{tt} - c^2u_{xx} = 0$. Setting $y = t$ gives $A = -c^2,\ B = 0,
+    \ C = 1 \Rightarrow D = B^2 - 4AC = 4c^2 > 0$. This means the wave equation is hyperbolic.
+    \item Laplace's equation $u_{xx} + u_{yy} = 0$. This gives $A = 1,\ B = 0,\ C = 1 
+    \Rightarrow D = B^2 -4AC = -4 < 0$. This means Laplace's equation is elliptic.
+\end{enumerate}
+\underline{Remarks}:
+\begin{itemize}
+    \item PDEs of the same class have similar behavior, e.g. hyperbolic equations are wave-time.
+    \item Terminology comes from conic sections.
+    \item In general, the coefficients $A,B,C$ can be functions of $(x,y)$, in which case, the 
+    PDE class could vary over the plane.
+\end{itemize}
+Having set up our 3 main classes of PDEs, we will proceed to solve them.
+\textbf{Unbounded Domains}.
+\begin{itemize}
+    \item Infinite or semi-infinite domains are easier because BCs are looser.
+    \item We start with the heat equation.
+\end{itemize}
+\underline{Cauchy Problem}: (Logan 2.1) \\
+Consider the heat equation for $u(x,t)$ on the real line:
+\begin{align*}
+    u_t = ku_{xx},\ k > 0 \\
+    t > 0 \\
+    x \in \mathbb{R} 
+\end{align*}
+We have IC $u(x,0) = \phi(x)$ with $x \in \mathbb{R}$. What about BCs?
+\begin{itemize}
+    \item For infinite domains, we typically also have some decay conditions. Take $u_x 
+    \rightarrow 0$ as $x \rightarrow \pm \infty$.
+    \item This is a pure IC problem, or a Cauchy problem.
+\end{itemize}
+Given a solution to the heat equation, we can generate more solutions. E.g. Suppose $G(x,t)$
+solves the heat equation. 
+\begin{align*}
+    G_t - kG_{xx} = 0 \\
+   \text{or } (\partial_t -k\partial^2_x) G = 0 
+\end{align*}
+Then $G_x$ also solves the heat equation:
+\begin{align*}
+    (\partial_t -k\partial^2_x) G_x &= G_{xt} - kG_{xxx} \\
+    &= (G_t - kG_{xx})_x \\
+    &= 0
+\end{align*}
+So if $G$ solves the heat equation then $G_x$ also solves the heat equation. It turns out that 
+$G(x-y,t)$ also solves the heat equation.
+\begin{align*}
+    (\partial_t -k\partial^2_x) G(x-y,t) = 0 
+\end{align*}
+and or any function $\psi(y)$,
+\begin{align*}
+    \int_{-\infty}^{+\infty} G(x-y, t) \psi(y)dy
+\end{align*}
+solves the heat equation. \\ \\ 
+\boxed{\text{ex}} $w(x,t) = 2kt + x^2$ solves $w_t - kw_{xx} = 0$. Consider $w_x$ as a solution.
+\begin{align*}
+    w_x = 2x
+\end{align*}
+This also solves the heat equation. Now consider $w(x-y,t) = 2kt - (x-y)^2$
+\begin{align*}
+    &\partial_t w(x-y,t) = 2k \\
+    &\partial_{x}^2 w(x-y,t) = 2
+\end{align*}
+What about $\int w(x-y,t) \psi(y)dy$? This will be in HW3. \\ \\ 
+Returning to the Cauchy problem, we have 
+\begin{align*}
+    u_t - ku_{xx} = 0 \\
+    k,t > 0,\ x \in \mathbb{R} \\
+    u(x,0) = \phi(x) \\
+    u_x \rightarrow 0, \text{ as } x \rightarrow \pm \infty
+\end{align*}
+\underline{Strategy}: First solve special case where $\phi$ is a step-function then use above
+moves to generate general solutions for any $\phi$. \\ \\
+For step-function $\phi$ we have:
+\begin{align*}
+    u_t - ku_{xx} = 0 \\
+    k,t > 0,\ x \in \mathbb{R} \\
+    u(x,0) = \begin{cases}
+        \alpha & x > 0 \\
+        0 & x < 0
+    \end{cases}
+\end{align*}
+\underline{Dimensional analysis}: The variables, constants here are: $x,t,u,k,\alpha$. We
+can interpret 
+\begin{center}
+    $\begin{matrix}
+    [u] = \text{temp} & [x] = \text{length} \\
+    [\alpha] = \text{temp} & [t] = \text{time}
+\end{matrix}$
+\end{center}
+We also have 
+\begin{center}
+    $\begin{matrix}
+        [u_t] = \frac{\text{temp}}{\text{time}} & [u_{xx}] = \frac{\text{temp}}{\text{length}^2}
+    \end{matrix}$
+    \\ and $[k] = [\frac{u_t}{u_{xx}}] = \frac{\text{length}^2}{\text{time}}$
+\end{center}
+There are two dimensionless quantities:
+\begin{align*}
+    &\frac{u}{\alpha}\ \text{ from temperature parameters} \\
+    &\frac{x}{\sqrt{4kt}}\ \text{ from length, time} \\
+    &\Rightarrow \frac{u(x,t)}{\alpha} = f\left(\frac{x}{\sqrt{4kt}}\right) 
 \end{align*}
 
 \end{document}
