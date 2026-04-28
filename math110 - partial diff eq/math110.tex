@@ -1314,9 +1314,9 @@ can interpret
 We also have 
 \begin{center}
     $\begin{matrix}
-        [u_t] = \frac{\text{temp}}{\text{time}} & [u_{xx}] = \frac{\text{temp}}{\text{length}^2}
+        [u_t] = \displaystyle\frac{\text{temp}}{\text{time}} & [u_{xx}] = \displaystyle\frac{\text{temp}}{\text{length}^2}
     \end{matrix}$
-    \\ and $[k] = [\frac{u_t}{u_{xx}}] = \frac{\text{length}^2}{\text{time}}$
+    \\ and $[k] = [\displaystyle\frac{u_t}{u_{xx}}] = \frac{\text{length}^2}{\text{time}}$
 \end{center}
 There are two dimensionless quantities:
 \begin{align*}
@@ -1324,5 +1324,169 @@ There are two dimensionless quantities:
     &\frac{x}{\sqrt{4kt}}\ \text{ from length, time} \\
     &\Rightarrow \frac{u(x,t)}{\alpha} = f\left(\frac{x}{\sqrt{4kt}}\right) 
 \end{align*}
+\subsection{Lecture 8 - Cauchy Problem}
+\underline{Recap}:
+\begin{itemize}
+    \item Cauchy problem for heat equation (Logan 2.1)
+    \item Goal: solve for $u(x,t)$
+    \begin{align*}
+        u_t - ku_{xx} = 0.\ k > 0 \\
+        x \in \mathbb{R},\ t > 0 \tag{$\ast$}\\
+        \text{IC: }\ u(x,0) = \phi(x)
+    \end{align*}
+    \item Decay conditions, e.g. $u,u_x \rightarrow 0 $ as $x \rightarrow \pm \infty$ \\
+    Here $u$ is bounded, therefore $\phi(x)$ is bounded.
+    \item The solution will look like $\phi(x)$ 'spreading out' over time.
+\end{itemize}
+How to solve the Cauchy problem?
+\begin{enumerate}
+    \item First find solution when $u(x,0)$ is a step-function.
+    \item Take linear combinations \& translates of this solution to solve the general
+    Cauchy problem $(\ast)$.
+\end{enumerate}
+So for the Cauchy problem above, we have 
+\begin{enumerate}
+    \item Step-function ICs
+    \begin{align*}
+        u_t - ku_{xx} = 0 \\
+        x \in \mathbb{R}, t > 0  \\
+        u(x,0) = \begin{cases}
+            \alpha & x > 0 \\
+            0 & x < 0
+        \end{cases}
+    \end{align*}
+    Use \underline{dimensional analysis} as with last lecture, we continue with 
+    \begin{align*}
+        \frac{u(x,t)}{\alpha} = f\left(\frac{x}{\sqrt{4kt}}\right) 
+    \end{align*}
+    \underline{Remarks}:
+    \begin{itemize}
+        \item Any choice of dimensions for $u, x, t$ would give us this equation above.
+        \item Having obtained this expression, we 'forget' about dimensions and set $\alpha = 1$.
+        \begin{align*}
+            \Rightarrow u(x,t) &= f\left(\frac{x}{\sqrt{4kt}}\right) \\
+            &= f(z) \\
+            \text{for } z(x,t) &= \frac{x}{\sqrt{4kt}}
+        \end{align*}
+        \item Trick: substitute $u(x,t) = f(z)$ into heat eq. and hope that we get an ODE for $f$
+        \item We don't know if this will work, the above argument is slippery, full explanation 
+        involves 'symmetry.'
+    \end{itemize}
+    Now we transform the heat PDE into an ODE, recall that we have 
+    \begin{align*}
+        u_t - ku_{xx} &= 0 \\
+        u(x,0) &= \begin{cases}
+            1 & x > 0 \\
+            0 & x < 0
+        \end{cases}
+    \end{align*}
+    We look for solutions of the form $u(x,t) = f(z(x,t))$ where 
+    $z(x,t) = \displaystyle\frac{x}{\sqrt{4kt}}$.\\ 
+    We compute that 
+    \begin{align*}
+        u_t &= f'(z) \frac{\partial z }{\partial t} \\
+        &= -\frac 12 \cdot \frac{x}{\sqrt{4kt^3}}f'(z) \\
+        &= \frac{-z}{2t} f'(z) \\
+        u_x &= f'(z) \frac{\partial z}{\partial x} \\
+        &= \frac{1}{\sqrt{4kt}}f'(z) \\
+        u_{xx} &= \frac{1}{4kt}f''(z)
+    \end{align*}
+    So in all we have 
+    \begin{align*}
+        \frac{-z}{2t} f'(z) - k\frac{1}{4kt}f''(z) &= 0 \\
+    \frac{-z}{2t} f'(z) - \frac{1}{4t}f''(z) &= 0 \\
+        f'' + 2zf' &= 0
+    \end{align*}
+    We've reduced the PDE to an ODE for $f(z)$. If we got an expression which involved other
+    functions of $x,t$, we would NOT have an ODE. \\ \\ The solutions of the ODE above is
+    \begin{align*}
+        f'' + 2zf' &= 0 \\
+        \text{Set }h(z) &= f'(z) \\
+        \frac{dh}{dz} &= -2zh \\
+        \int \frac 1h dh &= \int -2 zdz \\
+        \ln h &= -z^2 + c \\
+        h(z) &= c_1e^{-z^2} \\
+        f'(z) &= c_1e^{-z^2} \\
+        f(z) &= c_1 \int_{0}^{z}e^{-s^2}ds + c_2 
+    \end{align*}
+    We plug $z = \frac{x}{\sqrt{4kt}}$ into the expression above
+    \begin{align*}
+        u(x,t) = \int_{0}^{\frac{x}{\sqrt{4kt}}} e^{-s^2}ds + c_2 \tag{$\ast \ast$}
+    \end{align*}
+    Now we use the IC $u(x,0) = \begin{cases}
+        1 & x > 0 \\
+        0 & x < 0
+    \end{cases}$
+    Fix $x > 0$ and send $t \rightarrow 0$ in $(\ast \ast)$ so that 
+    $\frac{x}{\sqrt{4kt}} \rightarrow \infty$. Now we have the following 
+    \begin{align*}
+        1 = u(x,0) = c_1 \int_{0}^{\infty} e^{-s^2} ds + c_2
+    \end{align*}
+    Now fix $x < 0$ and send $t \rightarrow 0$ so that $\frac{x}{\sqrt{4kt}} \rightarrow - \infty$.
+    We have the following 
+    \begin{align*}
+        0 = u(x,0) = c_1 \int_{0}^{-\infty} e^{-s^2} ds + c_2
+    \end{align*}
+    The key result here is 
+    \begin{align*}
+        \int_{0}^{\infty} e^{-s^2} ds = \int_{-\infty}^{0} e^{-s^2} ds = \frac{\sqrt{\pi}}{2} = \frac{1}{2} \int_{-\infty}^{\infty} e^{-s^2}ds
+    \end{align*}
+    This means our IC becomes
+    \begin{align*}
+        c_1 \frac{\sqrt \pi}{2} + c_2 &= 1 \\
+        -c_1 \frac{\sqrt{\pi}}{2} + c_2 &= 0 \\
+        c_2 &= \frac 12 \\
+        c_1 = \frac{1}{\sqrt \pi}
+    \end{align*}
+    \textbf{Definition}. The error function $\text{erf}(z)$ is defined by 
+    \begin{align*}
+        \text{erf}(z) &= \frac{2}{\sqrt{\pi}} \int_{0}^{z}e^{-s^2}ds \\
+        \Rightarrow \text{erf}(0) &= 0 \\
+        \Rightarrow \lim_{z \rightarrow\infty} \text{erf}(z) &= 1 \\
+        \Rightarrow u(x,t) &= \frac 12 \left( 1 + \text{erf}\left(\frac{x}{\sqrt{4kt}}\right)\right)
+    \end{align*}
+    This gives us the solution to the heat equation $u_t - ku_{xx} = 0$ for $u(x,0) = \begin{cases}
+        1 & x > 0 \\
+        0 & x < 0
+    \end{cases}$
+    \item Now that we solved it for the special case of $u(x,0)$ being a step function, how do
+    we solve the general Cauchy problem with $u(x,0) = \phi(x)$?  \\ \\ 
+    \underline{Lemma}. Suppose $v(x,t)$ solves the heat equation. Then the following are also 
+    solutions.
+    \begin{itemize}
+        \item $v(x-y,t)$ for any $y$.
+        \item $a_1v(x-y_1,t) + a_2v(x-y_2,t)$ for any $a_1, a_2, y_1, y_2$.
+        \item $\int_{a}^{b} v(x-y,t)\psi(y)dy$ for any $a,b$, function $\psi$.
+        \item $v_x(x,t)$
+    \end{itemize}
+    Let $F(x,t)$ be the solution with the step function IC.
+    \begin{align*}
+        \Rightarrow F(x,t) = \frac 12 (1 + \text{erf}(\frac{x}{\sqrt{4kt}}))
+    \end{align*}
+    Goal: use above moves to transform $F$ into a solution of $(\ast)$. We will start small and 
+    go with a translation of the step function.
+    \begin{align*}
+        F(x - \epsilon, t) \\
+        u(x,0) = \begin{cases}
+            \alpha & x > \epsilon \\
+            0 & x < \epsilon
+        \end{cases}
+    \end{align*}
+    Next, consider the difference
+    \begin{align*}
+        F(x + \frac{\epsilon}{2},t) - F(x - \frac \epsilon 2, t)
+    \end{align*}
+    This gives a rectangle, with width $\epsilon$, height 1, centered at 0. Next, we try
+    \begin{align*}
+        \sum_{n = - \infty}^{\infty} \phi(n\epsilon) \left[F(x-n\epsilon + \frac{\epsilon}{2},t) - F(x-n\epsilon - \frac{\epsilon}{2},t)\right]
+    \end{align*}
+    This gives a series of rectangles, with width $\epsilon$, height $\phi(n\epsilon)$. 
+    Think Riemann sums. This is so cool! The solution is 
+    \begin{align*}
+        \sum_{n = - \infty}^{\infty} \phi(n\epsilon) \left[F(x-n\epsilon + \frac{\epsilon}{2},t) - F(x-n\epsilon - \frac{\epsilon}{2},t)\right] \\
+        \approx \epsilon F_x(x-n\epsilon, t) \\
+        \rightarrow \int_{-\infty}^{\infty} F_x ( x-y,t) \psi(y)dy
+    \end{align*}
+\end{enumerate}
 
 \end{document}
