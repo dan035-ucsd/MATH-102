@@ -15,7 +15,7 @@
 \fancyhead[C]{\textbf{Spring 2026}}
 \fancyhead[R]{\textbf{Dani Nguyen}}
 
-\section{}
+\section{Diffusion, Wave, and Laplace}
 \subsection{Lecture 1 - Gradient Systems}
 \underline{Notation}: for a function with two variables
 \begin{align*}
@@ -966,5 +966,126 @@ signs.
     D_1 a_{22} - D_2|a_{11}| > 0 \Rightarrow \frac{D_2}{D_1} < \frac{a_{22}}{|a_{11}|}
 \end{align*}
 
-
+\subsection{Lecture 9 - Method of Characteristics}
+Consider the following PDE
+\begin{align*}
+    u_t = -J_x
+\end{align*}
+We tried $\displaystyle J = -D \frac{\partial u}{\partial x} \Rightarrow \frac{\partial u}{\partial t} = D \frac{\partial^2 u}{\partial x^2}$.
+Which is a second order PDE. \\ \\ Now consider $J =cu$ where $c$ is a constant, we have
+\begin{align*}
+    \frac{\partial u}{\partial t} + c \frac{\partial u }{\partial x} = 0
+\end{align*}
+This is the transport equation. Consider a change of variables.
+\begin{align*}
+    (x,t) &\rightarrow (\xi, \eta) \\ 
+    \xi = x + ct &\qquad \eta = x- ct
+\end{align*}
+\begin{align*}
+    u_x &= u_\xi \xi_x + u_\eta \eta_x = u_\xi \cdot 1 + u_\eta \cdot 1 \\
+    u_t &= u_\xi \xi_t + u_\eta \eta_t = u_\xi \cdot c - u_\eta \cdot c
+\end{align*}
+Now plug this into the PDE
+\begin{align*}
+    u_t + cu_x &= 0 \\
+    c\left(u_\xi - u_\eta\right) + c(u_\xi + u_\eta) &= 0 \\
+    2cu_\xi &= 0 \\
+    \Rightarrow u &\text{ does not depend on } \xi \\
+    \Rightarrow u &\text{ only depends on } \eta
+\end{align*}
+So our general solution is 
+\begin{align*}
+    u = f(\eta) = f(x-ct)
+\end{align*}
+Note that this is the traveling wave problem. Now consider $f(x-ct)$, this is 
+constant along the lines $x-ct = a$ where $a$ is a constant. We have 
+\begin{align*}
+    t = \frac{x-a}{c}
+\end{align*}
+Suppose that at $t = 0$ the solution is $u(x,0) = e^{-|x|}$. The solution 
+is $f(x-ct) = e^{-|x-ct|}$. How long does it take for the cusp to reach $x = x_1$? 
+Notice that the cusp happens when $x - ct = 0$, plugging in $x = x_1$, we get 
+\begin{align*}
+    t = \frac{x_1}{c}
+\end{align*}
+Consider a more general case of a transport equation
+\begin{align*}
+    u_t + c(x,t)u_x = 0
+\end{align*}
+Assume there are lines along which the solution remains constant. Express them in
+parametric form.
+\begin{align*}
+    (x,t) \rightarrow (x(\eta),t(\eta))
+\end{align*}
+Recall the chain rule
+\begin{align*}
+    u_\eta = u_t t_\eta + u_x x_\eta
+\end{align*}
+For the transport equation, if we take 
+\begin{align*}
+    \frac{\partial t}{\partial \eta} = 1 \qquad \frac{\partial x}{\partial \eta} = c
+\end{align*}
+Then our PDE is satisfied. \\ \\ 
+Usually these problems come with an IC
+\begin{align*}
+    u_t + c u_x = 0 \\
+    u(x,0) = \phi(x)
+\end{align*}
+\boxed{\text{ex}} Consider 
+$\begin{cases}
+    u_t + x u_x = 0 \\
+    u(x,0) = e^{-|x|}
+\end{cases}$ \\
+We know that 
+\begin{align*}
+    u(x,t) &= f(\ln|x| - t)
+\end{align*}
+So we have 
+\begin{align*}
+    u(x,0) = f(\ln|x| - t) = e^{-|x|}
+\end{align*}
+Let $a = \ln|x| - t$, so 
+\begin{align*}
+    e^a &= |x| \\
+    \exp\{-e^a\} &= e^{-|x|} \\
+    f(a) &= \exp\{-e^a\}
+\end{align*}
+So our specific solution is 
+\begin{align*}
+    u(x,t) = \exp\{-e^{\ln|x|-t}\}
+\end{align*}
+We can also formulate an initial-boundary value problem
+\begin{align*}
+    u_t + c(x,t) u_x = 0 \\
+    u(x,0) = f(x) \\
+    u(0,t) = g(t)
+\end{align*}
+\boxed{\text{ex}} Consider the following IBVP
+\begin{align*}
+    u_t + 5u_x &= 0 \\
+    u(x,0) &= \cos x,\ x > 0 \\
+    u(0,t) &= e^{-at},\ t > 0
+\end{align*}
+The characteristic lines are $x - 5t = a$, with $t = \frac{x-a}{5}$. Say
+we have to find $u(1,4)$, what char passes through (1,4)?
+\begin{align*}
+    x-5t &= \xi \\
+    1 - 5 \cdot 4 &= \xi \\
+    \xi &= -19 \\
+    x-5t &= -19
+\end{align*}
+Does it hit the initial condition? $(t=0)$
+\begin{align*}
+    x - 5 \cdot 0 &= -19 \\
+    x &= -19
+\end{align*}
+No. Does it hit the boundary condition? $(x = 0)$
+\begin{align*}
+    0 - 5t &= -19 \\
+    t &= \frac{19}{5}
+\end{align*}
+So we have 
+\begin{align*}
+    u(1,4) = e^{-a\cdot \frac{19}{5}}
+\end{align*}
 \end{document}
