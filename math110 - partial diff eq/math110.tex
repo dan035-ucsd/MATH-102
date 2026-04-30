@@ -1489,4 +1489,187 @@ So for the Cauchy problem above, we have
     \end{align*}
 \end{enumerate}
 
+\subsection{Lecture 9 - Arbitrary Initial Conditions}
+\underline{Recap}: 
+\begin{itemize}
+    \item Heat equation with step-function IC
+    \begin{align*}
+        u_t - ku_{xx} = 0 \\
+        x \in \mathbb{R},\ t > 0 \\
+        u(x,0) = \begin{cases}
+            1 & x > 0 \\
+            0 & x < 0
+        \end{cases}
+    \end{align*}
+    \item For solns, try $u(x,t) = f(z)$ for $z(x,t) = \frac{x}{\sqrt{4kt}}$ \\
+    $\Rightarrow f'' + 2zf' = 0$
+    \item Soln 
+    \begin{align*}
+        F(x,t) = \frac 12 (1 + \text{erf}(\frac{x}{\sqrt{4kt}}))
+    \end{align*}
+    where 
+    \begin{align*}
+        \text{erf}(z) &= \frac{2}{\sqrt{\pi}}\int_{0}^{z}e^{-s^2}ds \\
+        \text{erf}(0) &= 0 \\
+        \lim_{z \rightarrow \pm \infty} \text{erf}(z) &= \pm 1
+    \end{align*}
+    \item If $v(x,t)$ is a soln to heat eq, then $v_x(x,t),\ v(x-y,t),\ \int v(x-y,t)\psi(y)dy$ 
+    are also solns to the heat equation.
+\end{itemize}
+\underline{Goal}: 
+\begin{align*}
+    \text{Solve }\ u_t - ku_{xx} = 0 \\
+    x \in \mathbb{R},\ t > 0 \\
+    u(x,0) = \phi(x)\quad \text{(bounded)}
+\end{align*}
+\underline{Strategy}: 
+\begin{center}
+    Step-function IC \\
+    $\downarrow$ \\
+    'Point source' IC \\
+    $\downarrow$ \\
+    General IC
+\end{center}
+So the following are solutions
+\begin{center}
+    $F(x,t)$ \\
+    $\downarrow$ \\
+    $F(x-\frac{\epsilon}{2},t)$ \\
+    $\downarrow$ \\
+    $F(x+\frac \epsilon 2 , t) - F(x-\frac \epsilon 2, t)$ \\
+    $\downarrow$ \\
+    $\epsilon F_x(x,t)$
+\end{center}
+where $F_x(x,t)$ is a solution for a 'point source.' \\ \\
+The IC $\phi$ can be thought of as a set of point sources of strength $\phi(y)$ at each 
+$y \in \mathbb{R}$.
+\begin{align*}
+    \int_{-\infty}^{\infty} \phi(y)F_x(x-y,t)dy 
+\end{align*}
+\underline{Remark}: The point source function is also called the Dirac delta function
+\begin{align*}
+    \delta(x) = \begin{cases}
+        0 & x \ne 0 \\
+        1 & x = 0
+    \end{cases}\ 
+    \text{ s.t. } \int_{-\infty}^{\infty} \delta(x)dx = 1
+\end{align*}
+Let $G(x,t) = F_x(x,t)$
+\begin{align*}
+    \Rightarrow G(x,t) = \partial_x \left[\frac 12 + \frac 12 \text{erf}\left(\frac{x}{\sqrt{4kt}}\right)\right]
+\end{align*}
+Recall that $\text{erf}(z) = \frac{2}{\sqrt{\pi}}\int_{0}^{z}e^{-s^2}ds$
+\begin{align*}
+    \Rightarrow G(x,t) = \frac{1}{\sqrt{4\pi k t}}\exp\left( \frac{-x^2}{4kt} \right) 
+\end{align*}
+$G$ here is called the \underline{heat kernel} or the fundamental solution to the heat equation. \\ \\
+The solution to the Cauchy problem 
+\begin{align*}
+    u_t - ku_{xx} &= 0 \\
+    x\in \mathbb{R},\ t &> 0 \\
+    u(x,0) &= \phi(x) \text{ (bounded)}
+\end{align*}
+is 
+\begin{align*}
+    u(x,t) &= \int_{-\infty}^{\infty} G(x-y,t)\phi(y)dy \\
+    &= \int_{-\infty}^{\infty} \frac{1}{\sqrt{4\pi kt}}e^{-\frac{(x-y)^2}{4kt}}\cdot \phi(y)dy
+\end{align*}
+We can simplify this by substituting 
+\begin{align*}
+    s &= \frac{x-y}{\sqrt{4kt}} \\
+    ds &= \frac{-dy}{\sqrt{4kt}}
+\end{align*}
+gives the equivalent formula
+\begin{align*}
+    u(x,t) = \frac{1}{\sqrt{\pi}} \int_{-\infty}^{\infty} e^{-s^2}\phi(x-s\sqrt{4kt})ds
+\end{align*}
+\underline{Remark}:
+\begin{itemize}
+    \item The above expression is called the Poisson integral representation.
+    \item The solution is an integral, often with no closed form.
+\end{itemize}
+\boxed{\text{ex}} Solve the following and give the solution in terms of erf.
+\begin{align*}
+    u_t - ku_{xx} &= 0 \\
+    x\in \mathbb{R},\ t &> 0 \\
+    \text{with } u(x,0) &= \phi(x) = \begin{cases}
+        e^{\lambda x} & x < 0 \\
+        0 & x > 0 
+    \end{cases}
+\end{align*}
+Using the Poisson integral above, we get 
+\begin{align*}
+    u(x,t) &= \frac{1}{\sqrt{\pi}} \int_{-\infty}^{\infty} e^{-s^2}\phi(x-s\sqrt{4kt})ds \\
+    &= \frac{1}{\sqrt{\pi}} \int_{\frac{x}{\sqrt{4kt}}}^{\infty} e^{-s^2} e^{\lambda x} e^{-\lambda s\sqrt{4kt}}ds
+\end{align*}
+The limits are values of $s$ for which $\phi(x-s\sqrt{4kt})$ is $\ne 0$
+\begin{align*}
+    \Rightarrow x - s\sqrt{4kt} < 0
+    \Rightarrow u(x,t) = \frac{e^{\lambda x}}{\sqrt \pi} \int_{\frac{x}{\sqrt{4kt}}}^{\infty} e^{-(s^2+2\lambda s\sqrt{kt})}ds
+\end{align*}
+Complete the square
+\begin{align*}
+    s^2 + 2s\lambda \sqrt{kt} = (s+\lambda\sqrt{kt})^2 - \lambda^2kt
+\end{align*}
+Then we have 
+\begin{align*}
+    u(x,t) &= \frac{e^{\lambda x}}{\sqrt{\pi}} \int_{\frac{x}{\sqrt{4kt}}}^{\infty} e^{-(s+\lambda\sqrt{kt})^2}e^{\lambda^2kt}
+\end{align*}
+Substitute $\theta = s + \lambda \sqrt{kt}$, $d\theta = ds$
+\begin{align*}
+    \Rightarrow u(x,t) = \frac{e^{\lambda^2kt+\lambda x}}{\sqrt \pi} \int_{\frac{x}{\sqrt{4kt}}}^{\infty}e^{-\theta^2}d\theta
+\end{align*}
+Note that 
+\begin{align*}
+    \text{erf}(b) &= \frac{2}{\sqrt \pi} \int_{0}^{b}e^{-s^2}ds \\
+    \frac{2}{\sqrt \pi} \int_{0}^{b} e^{-s^2} ds + \frac{2}{\sqrt{\pi}} \int_{b}^{\infty}e^{-s^2}ds &= 1 \\
+    \text{erf}(b) + \frac{2}{\sqrt{\pi}} \int_{b}^{\infty} e^{-s^2}ds &= 1 \\
+    \Rightarrow \frac{2}{\pi} \int_{b}^{\infty} e^{-s^2} ds = 1 - \text{erf}(b)
+\end{align*}
+Therefore 
+\begin{align*}
+    u(x,t) = \frac{1}{2} e^{\lambda^2kt+\lambda x}\left(1-\text{erf}\left(\frac{x}{\sqrt{4kt}}+\lambda\sqrt{kt}\right)\right)
+\end{align*}
+\boxed{\text{ex}} Solve the following and give the solution in terms of erf.
+\begin{align*}
+    u_t - ku_{xx} &= 0 \\
+    x\in \mathbb{R},\ t &> 0 \\
+    u(x,0) = \phi(x) &= \begin{cases}
+        x & 0 < x < 1 \\
+        0 & \text{otherwise}
+    \end{cases} 
+\end{align*}
+The solution is 
+\begin{align*}
+    u(x,t) = \frac{1}{\sqrt{\pi}} \int_{-\infty}^{\infty} e^{-s^2} \phi ( x - s\sqrt{4kt}) ds 
+\end{align*}
+\begin{align*}
+    \phi \ne 0 \text{ between} &\\
+    x - s \sqrt{4kt} = 0 \Rightarrow s &= \frac{x}{\sqrt{4kt}} = b \\
+    x - s \sqrt{4kt} = 1 \Rightarrow s &= \frac{x-1}{\sqrt{4kt}} = a
+\end{align*}
+\begin{align*}
+    \Rightarrow u &= \frac{1}{\sqrt{\pi}} \int_{a}^{b} e^{-s^2} (x - s\sqrt{4kt})ds \\
+    &= \frac{1}{\sqrt{\pi}} \left[x\int_{a}^{b} e^{-s^2} ds - \sqrt{4kt} \int_{a}^{b}se^{-s^2} ds  \right] \\
+    &= \frac{1}{\sqrt{\pi}} \left[x\cdot \frac{\sqrt{\pi}}{2}(\text{erf}(b)-\text{erf}(a)) - \sqrt{4kt}[\frac{-1}{2}e^{-s^2}]^b_a \right] \\
+    &= \frac{x}{2}(\text{erf}(b)-\text{erf}(a)) + \sqrt{\frac{kt}{\pi}}(e^{-b^2} - e^{-a^2})
+\end{align*}
+for $\displaystyle a = \frac{x-1}{\sqrt{4kt}},\ b = \frac{x}{\sqrt{4kt}}$ \\ \\ \\ 
+\underline{Remarks}:
+\begin{itemize}
+    \item The solutions here have infinite propagation speed, which is unphysical. Even if $u(x,0) = 0$,
+    we can have $u(x,t) \ne 0$, for small $t$, and $x \rightarrow \infty$. 
+    \item These solutions conserve mass. Suppose $u(x,t)$ is integrable and let 
+    \begin{align*}
+        M(t) = \int_{-\infty}^{\infty} u(x,t) dx 
+    \end{align*}
+    then \begin{align*}
+        \frac{dM}{dt} &= \int_{-\infty}^{\infty} u_t dx \\
+        &= k\int_{-\infty}^{\infty} u_{xx}dx \\
+        &= k \left[u_x\right]^\infty_{-\infty} \\
+        \Rightarrow \frac{dM}{dt} &= 0 \text{ if } u_x \rightarrow 0 \text{ as } x \rightarrow \pm \infty \\
+        \Rightarrow M &\text{ is constant.}
+    \end{align*}
+\end{itemize}
+
 \end{document}
