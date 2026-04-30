@@ -1088,4 +1088,158 @@ So we have
 \begin{align*}
     u(1,4) = e^{-a\cdot \frac{19}{5}}
 \end{align*}
+
+\subsection{Lecture 10 - Applications of Transport Equation}
+Recall the transport equation 
+\begin{align*}
+    \begin{cases}
+        u_t + x^2u_x = 0 \\
+        u(x,0) = \sin x
+    \end{cases} \\
+    \frac{dt}{d\eta} = 1 \qquad \frac{dx}{d\eta} = x^2 
+\end{align*}
+So we have 
+\begin{align*}
+    t = \eta \qquad -\frac 1x + \xi = t
+\end{align*}
+Which characteristic line passes through the point of interest $(x_0, t_0)$?
+\begin{align*}
+    t_0 &= -\frac{1}{x_0} + \xi \\
+    \xi &= t_0 + \frac{1}{x_0} \\
+    \Rightarrow t &= -\frac 1x + t_0 + \frac 1{x_0} 
+\end{align*}
+We follow this characteristic line back to $t = 0$, and find $x_\ast$:
+\begin{align*}
+    0 &= -\frac{1}{x_\ast} + t_0 + \frac{1}{x_0} \\
+    \frac{1}{x_\ast} &= t_0 + \frac{1}{x_0} \\
+    x_\ast &= \frac{1}{t_0 + \frac{1}{x_0}}
+\end{align*}
+We know that at point $(x_\ast,0)$, $u(x_\ast, 0) = \sin x_\ast$
+\begin{align*}
+    u(x_\ast, 0) \sin(\frac{1}{t_0 + \frac{1}{x_0}})
+\end{align*}
+Therefore, $u(x_0, t_0) = \sin(\frac{1}{t_0 + \frac{1}{x_0}})$
+\begin{align*}
+    \Rightarrow u(x,t) = \sin(\frac{1}{t+\frac 1x})
+\end{align*} 
+\boxed{\text{ex}} Consider $\begin{cases}
+    u_t + e^{-t}u_x = 5 \\
+    u(x,0) = \sin x
+\end{cases}$ \\
+We use the same method and define the characteristic lines to be solutions
+\begin{align*}
+    \frac{\partial t }{\partial \eta} = 1\qquad \frac{\partial x}{\partial \eta} = e^{-t}
+\end{align*}
+Along the char lines, we have $\frac{\partial u}{\partial \eta} = 5 \Rightarrow u = 5\eta + f(\xi)$
+\begin{align*}
+    t = \eta &\qquad \frac{dx}{dt} = e^{-t} \\
+    x &= -e^{-t} + \xi  \\
+    t &= -\ln(x-\xi) 
+\end{align*}
+Consider $(x_0,t_0)$, find the value of $\xi$
+\begin{align*}
+    x_0 &= e^{-t_0} + \xi \\
+    \xi &= x_0 - e^{-t_0}
+\end{align*}
+The characteristic line is 
+\begin{align*}
+    x = -e^{-t}+x_0 + e^{-t_0}
+\end{align*}
+What is $x_\ast$ when $t = 0$?
+\begin{align*}
+    u(\eta) &= 5\eta + \xi \\
+    u(0) &= \sin x_\ast = \xi \\
+    u(\eta) &= 5\eta + \sin x_\ast \\
+    u(x_0, t_0) &= \sin ()
+\end{align*}
+\underline{Application}: Age-structured population dynamics.  \\
+Suppose $u(a,t)$ is the population density at time $t$ corresponding to age $a$.
+\begin{align*}
+    \int_{0}^{\infty} u(a,t) da = u_{\text{tot}}(t) = \text{total pop at time }t.
+\end{align*} 
+This phenomenon is described by the following PDE
+\begin{align*}
+    u_t + u_a = -\gamma(a,t)u \\
+    u(a,2010) = f(a)
+\end{align*}
+where $-\gamma(a,t)u$ is attrition or the death term.
+\begin{align*}
+    \frac{\partial t}{\partial \eta} = 1 \qquad \frac{\partial a}{\partial \eta} = 1 \\
+    t = \eta + b 
+\end{align*}
+We want $\eta = 0$ to correspond to $t = 2010$ \\
+\begin{align*}
+    2010 &= 0 + b \\
+    t &= \eta + 2010 \\
+    \eta &= t - 2010
+\end{align*}
+We also get 
+\begin{align*}
+    a = \eta + c \\
+    a = t - 2010 + c
+\end{align*}
+Suppose we are interested in $(a_0, t_0) = (20,2024)$, or how many 20-year-olds are there in 2024?
+We find the characteristic line that passes through $(20,2024)$
+\begin{align*}
+    20 &= 2024 - 2010 + c \\
+    c &= 20 - 14 = 6 \\
+    a &= t - 2004
+\end{align*}
+We need $a_\ast$ which is the number of 6 year-olds at the 2010 census. 
+\begin{align*}
+    a_\ast = 2010 - 2004 = 6
+\end{align*}
+Assume that $\gamma = 0$. Then 
+\begin{align*}
+    u(20,2024) &= u(a_\ast, 2010) \\
+    &= u(6,2010)
+\end{align*}
+Now we include $\gamma(a, t)$
+\begin{align*}
+    \begin{cases}
+        \frac{\partial u}{\partial \eta} = - \gamma(a_0, \eta+2010) \\
+        u(0) = f(a_\ast)
+    \end{cases}
+\end{align*}
+If $\gamma$ = constant 
+\begin{align*}
+    u = u_0 e^{-\gamma \eta} \\
+    \Rightarrow u = f(6) e^{-\gamma \eta} \\
+    u = f(6) \exp\{-\gamma (t-2010)\}
+\end{align*}
+\boxed{\text{ex}} Consider now with a birth term
+\begin{align*}
+    \frac{\partial u}{\partial t} + \frac{\partial u}{\partial a} = -\gamma(a,t)u \\
+    u(a,t_0) = f(a) \\
+    u(0,t) = \int_{0}^{\infty} g(a,t)u(a,t)da
+\end{align*}
+\textbf{Inviscid-Burger equation}. \\
+Recall 
+\begin{align*}
+    u_t &= - J_x \\
+    J &= cu \tag{transport}\\
+    J &= -Du_x \tag{diffusion} \\
+    J &= \frac{u^2}{2} 
+\end{align*}
+So we have the following Inviscid-Burger's equations or the Riemann's equation
+\begin{align*}
+    \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = 0 
+\end{align*}
+Suppose we have $u = u(x(t),t)$. Use direct analogy $\frac{dx}{dt} = u$.
+\begin{align*}
+    \frac{du}{dt} &= \frac{\partial u }{\partial x} \frac{dx}{dt} + \frac{\partial u}{\partial t} \\
+    &= \frac{\partial u}{\partial x} \cdot u + \frac{\partial u}{\partial t} = 0
+\end{align*}
+Integrate $\frac{dx}{dt} = u$. Note that $u$ does not change along the characteristics line,
+therefore, we can treat $u$ as a constant
+\begin{align*}
+    \frac{dx}{dt} = u  \Rightarrow x = ut + k
+\end{align*}
+Characteristic lines are straight bu they may have different slopes. \\ \\
+Suppose $u(x,0) = f(x)$ which is our initial condition. The general solution is some function 
+$G(x-ut)$.
+\begin{align*}
+    G = f \Rightarrow f(x-ut) = u(x,t)
+\end{align*}
+\boxed{\text{ex}} $f(x) = ax+b \Rightarrow u(x,t) = a(x-ut) + b$.
 \end{document}
