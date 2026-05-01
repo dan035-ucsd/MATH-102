@@ -149,16 +149,23 @@
 \end{enumerate}
 \newpage
 \noindent \textbf{Question 5} 
-\begin{enumerate}[]
+\begin{enumerate}[(a)]
     \item Given $p(x,t) = \frac{1}{\sqrt{4\pi kt}} e^{-\frac{(x-\mu)^2}{4kt}}$
     \begin{align*}
         p_t &= \frac{-1}{2t\sqrt{4\pi kt}} e^{-\frac{(x-\mu)^2}{4kt}} + \frac{1}{\sqrt{4\pi kt}} e^{-\frac{(x-\mu)^2}{4kt}}\cdot \frac{(x-\mu)^2}{4kt^2} \\
         p_x &= \frac{1}{\sqrt{4\pi kt}} e^{-\frac{(x-\mu)^2}{4kt}} \cdot \frac{-2(x-\mu)}{4kt} \\
         &= \frac{-(x-\mu)}{2kt\sqrt{4\pi kt}}e^{-\frac{(x-\mu)^2}{4kt}}\\
-        p_{xx} &=
+        p_{xx} &= \frac{\mu-1}{2kt\sqrt{4\pi kt}}e^{-\frac{(x-\mu)^2}{4kt}} + \frac{\mu-x}{2kt\sqrt{4\pi kt}}e^{-\frac{(x-\mu)^2}{4kt}} \cdot \frac{2(\mu-x)}{4kt} \\
+        &= \frac{\mu-1}{2kt\sqrt{4\pi kt}}e^{-\frac{(x-\mu)^2}{4kt}} + \frac{(\mu-x)^2}{4k^2t^2\sqrt{4\pi kt}}e^{-\frac{(x-\mu)^2}{4kt}}
     \end{align*}
-
+    Then we have for the heat equation
+    \begin{align*}
+        \frac{-1}{2t\sqrt{4\pi kt}} + \frac{(x-\mu)^2}{4kt^2\sqrt{4\pi kt}} &= k\cdot \frac{\mu-1}{2kt\sqrt{4\pi kt}} + k\cdot \frac{(\mu-x)^2}{4k^2t^2\sqrt{4\pi kt}} \\
+        \frac{-1}{2t\sqrt{4\pi kt}} + \frac{(x-\mu)^2}{4kt^2\sqrt{4\pi kt}} &= \frac{\mu-1}{2t\sqrt{4\pi kt}} + \frac{(\mu-x)^2}{4kt^2\sqrt{4\pi kt}} \\
+        \frac{-1}{2t} + \frac{x^2-2\mu x + \mu^2}{4kt^2} &= \frac{\mu-1}{2t} + \frac{\mu^2 -2\mu x + x^2}{4kt^2} \\
+        0 &= \frac{\mu}{2t} \\
+        \text{what}
+    \end{align*}
+    \item
 \end{enumerate}
-
-
 \end{document}
