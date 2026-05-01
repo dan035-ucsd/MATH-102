@@ -74,12 +74,91 @@
     Therefore the wave equation is hyperbolic.
     \item Given $\displaystyle x = \frac 12 \xi + \frac 12 \eta$ and $\displaystyle t = \frac{1}{2c}\xi - \frac{1}{2c}\eta$
     \begin{align*}
-        u_\xi = u_x x_\xi + u_t t_\xi
+        u_\xi &= u_x x_\xi + u_t t_\xi \\
+        u_{\xi\xi} &= \frac{\partial}{\partial \xi}(u_x x_\xi) + \frac{\partial}{\partial \xi}(u_t t_\xi)
+    \end{align*}
+\end{enumerate}
+
+\noindent \textbf{Question 3} 
+\begin{enumerate}[(a)]
+    \item Given $u(x,t) = 2kt + x^2$ and the heat equation $u_t -ku_{xx} = 0$.
+    \begin{align*}
+        u_t &= 2k \\
+        u_x &= 2x \\
+        u_{xx} &= 2 \\
+        2k - k\cdot 2 &= 0 \\
+        0&=0\quad \checkmark 
+    \end{align*}
+    Try $u(x-y,t) = 2kt + x^2 -2xy + y^2$ 
+    \begin{align*}
+        u_t &= 2k \\
+        u_x &= 2x - 2y \\
+        u_{xx} &= 2 \\
+        2k - k\cdot 2 &= 0 \\
+        0 &= 0 \quad \checkmark
+    \end{align*}
+    As $x \rightarrow \pm \infty$, $u_x$ does not approach zero, therefore
+    it does not satisfy the decay condition.
+    \item Given $v(x,t) = \int_{0}^{1}u(x-y,t)y^2dy$
+    \begin{align*}
+        v(x,t) &= \int_{0}^{1}(2kt+x^2-2xy+y^2)y^2 dy \\
+        &=\int_{0}^{1} 2kty^2 + x^2y^2 - 2xy^3 + y^4 dy \\
+        &=\frac 23 kty^3 + \frac 13 x^2y^3 - \frac 12 xy^4 + \frac 15 y^5 \Big|_0^1 \\
+        &= \frac 23 kt + \frac 13 x^2 - \frac 12 x + \frac 15 \\
+        v_t &= \frac 23 k \\
+        v_x &= \frac 23 x - \frac 12 \\
+        v_{xx} &= \frac 23 \\
+        \frac 23 k - k\cdot \frac 23 &= 0 \\
+        0 &= 0 \quad \checkmark
+    \end{align*}
+    $v(x,t)$ does solve the heat equation.
+    \item 
+    \begin{align*}
+        v_t &= \int_{0}^{1}u_t(x-y,t)y^2 dy \\
+        \frac 23 k &= \int_{0}^{1}(2k)y^2 dy \\
+        &= \frac 23 ky^3 \Big|_0^1 \\
+        &= \frac 23 k \quad \checkmark
+    \end{align*}
+    \begin{align*}
+        v_{xx} &= \int_{0}^{1}u_{xx}(x-y,t)y^2 dy \\
+        \frac 23 &= \int_{0}^{1}2y^2 dy \\
+        &= \frac 23 y^3 \Big|_0^1 \\
+        &= \frac 23 \quad \checkmark
+    \end{align*}
+\end{enumerate}
+
+\noindent \textbf{Question 4} 
+\begin{enumerate}[(a)]
+    \item Let $w(x,t) = u(\sqrt a x, at)$
+    \begin{align*}
+        w_t = 
+    \end{align*}
+    \item Suppose $u(x,t) = f(\frac{x}{\sqrt{4kt}})$ 
+    \begin{align*}
+        u_t &= f'(z) \cdot -\frac 12 \frac{x}{\sqrt{4kt^3}} \\
+        &= f'(z) \cdot -\frac{1}{2t} z \\
+        u_x &= f'(z) \cdot \frac{1}{\sqrt{4kt}} \\
+        u_{xx} &= f''(z) \cdot \frac{1}{4kt} 
+    \end{align*}
+    Plugging this into the heat equation, we get
+    \begin{align*}
+        f'(z) \cdot -\frac{1}{2t} z - k f''(z) \cdot \frac{1}{4kt} &=0 \\
+        -\frac{1}{2t}f'(z) - \frac{1}{4t}f''(z) &= 0 \\
+        f''(z) + 2f'(z) = 0
+    \end{align*}
+\end{enumerate}
+\newpage
+\noindent \textbf{Question 5} 
+\begin{enumerate}[]
+    \item Given $p(x,t) = \frac{1}{\sqrt{4\pi kt}} e^{-\frac{(x-\mu)^2}{4kt}}$
+    \begin{align*}
+        p_t &= \frac{-1}{2t\sqrt{4\pi kt}} e^{-\frac{(x-\mu)^2}{4kt}} + \frac{1}{\sqrt{4\pi kt}} e^{-\frac{(x-\mu)^2}{4kt}}\cdot \frac{(x-\mu)^2}{4kt^2} \\
+        p_x &= \frac{1}{\sqrt{4\pi kt}} e^{-\frac{(x-\mu)^2}{4kt}} \cdot \frac{-2(x-\mu)}{4kt} \\
+        &= \frac{-(x-\mu)}{2kt\sqrt{4\pi kt}}e^{-\frac{(x-\mu)^2}{4kt}}\\
+        p_{xx} &=
     \end{align*}
 
 \end{enumerate}
 
-
-\noindent \textbf{Question 3} \\
 
 \end{document}
