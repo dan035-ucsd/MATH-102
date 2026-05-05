@@ -1672,4 +1672,202 @@ for $\displaystyle a = \frac{x-1}{\sqrt{4kt}},\ b = \frac{x}{\sqrt{4kt}}$ \\ \\ 
     \end{align*}
 \end{itemize}
 
+\subsection{Lecture 10 - Unbounded Wave Equation}
+\underline{Recap}:
+\begin{itemize}
+    \item Heat equation on $\mathbb{R}$
+    \begin{align*}
+        u_t - ku_{xx} = 0 \\
+        k > 0,\ t > 0 \\
+        x \in \mathbb{R} \\
+        u(x,0) = \phi(x)\\ 
+        \text{ (bounded)}
+    \end{align*}
+    \item Solution to the heat equation with arbitrary initial condition.
+    \begin{align*}
+        u(x,t) = \int_{-\infty}^{+\infty} \frac{1}{\sqrt{4\pi kt}} e^{-\frac{(x-y)^2}{4kt}} \phi(y)dy
+    \end{align*}
+    \item Solution describes $u(x,t)$ 'spreading out' or diffusing
+    \item If $u_x \rightarrow 0$ as $|x| \rightarrow \infty$ then 
+    total mass 
+    \begin{align*}
+        M(t) = \int_{-\infty}^{\infty} u(x,t)dx
+    \end{align*}
+    is conserved ($\frac{dM}{dt} = 0$)
+\end{itemize}
+\textbf{Cauchy problem for wave equation.} (Logan 2.2) \\
+The wave equation for $u(x,t)$ is 
+\begin{align*}
+    u_{tt} - c^2u_{xx} = 0 \\
+    c > 0 
+\end{align*}
+This has one space dimension, or 1d. \\ \\ 
+We can find the general solution more directly than for the heat equation. \\
+\underline{Method 1}:
+\begin{align*}
+    \text{Let } \xi &= x - ct \\
+    \eta &= x + ct
+\end{align*}
+This is the same transformation as in HW3, where we write $u(x(\xi,\eta), t(\xi,\eta))$ 
+and find $u_{\xi\xi}$, etc. Here we write $u(\xi(x,t),\eta(x,t))$
+\begin{align*}
+    \Rightarrow u_x &= u_\xi \xi_x + u_\eta \eta_x \\
+    &= u_\xi + u_\eta \\
+    \Rightarrow u_{xx} &= \partial_\xi (u_\xi + u_\eta) \cdot \xi_x + \partial_\eta(u_\xi + u_\eta)\cdot \eta_x \\
+    &= u_{xx} + 2u_{\xi\eta} + u_{\eta\eta}
+\end{align*}
+and 
+\begin{align*}
+    u_t = c^2u_{\xi\xi} - 2c^2u_{\xi\eta} + c^2u_{\eta\eta} \\
+    \Rightarrow u_{tt} - c^2u_{xx} = -4c^2u_{\xi\eta}
+\end{align*}
+so 
+\begin{align*}
+    u_{tt} - c^2 u_{xx} = 0 \\
+    \Leftrightarrow u_{\xi\eta} = 0 \\
+\end{align*}
+We now solve $u_{\xi\eta = 0}$
+\begin{align*}
+    u_\xi = f(\xi) \\
+    \Rightarrow u(\xi,\eta) = \int f(\xi)d\xi + G(\eta)
+\end{align*}
+Notice that an integral of an arbitrary function is another arbitrary function
+\begin{align*}
+    \Rightarrow u(\xi,\eta) &= F(\xi) + G(\eta) \\
+    \Rightarrow u(x,t) &= F(x-ct) + G(x+ct) \\
+    \text{for arbitrary functions } F,\ G
+\end{align*}
+\underline{Method 2}: 
+\begin{align*}
+    \text{Let } L = \partial_t^2 - c^2\partial_x^2
+\end{align*}
+So $Lu = (\partial_t^2 - c^2\partial_x^2)u = u_{tt} - c^2u_{xx}$. We can factorize this 
+differential operator.
+\begin{align*}
+    \text{Let } L_1 &= \partial_t - c\partial_x \\
+    L_2 &= \partial_t + c\partial_x 
+\end{align*}
+\underline{Lemma}: $L = L_1L_2$. Note that $L_1L_2 u$ means apply $L_2$, then apply $L_1$.
+\begin{align*}
+    L_1L_2 &= L_1[(\partial_t + c\partial_x)u] \\
+    &= L_1[u_t + cu_x] \\
+    &= (\partial_t - c\partial_x)[u_t + cu_x] \\
+    &= u_{tt} + cu_{xt} - cu_{tx} - c^2u_{xx} \\
+    &= u_{tt} - c^2u_{xx} \\
+    &= Lu
+\end{align*}
+And so $Lu = 0 \Leftrightarrow L_1 L_2 u = 0$. The coordinates $\xi,\eta$ from method 1 comes 
+characteristics of 1st order PDEs
+\begin{align*}
+    L_1 v = 0 \\
+    L_2 v = 0
+\end{align*}
+\underline{D'Alembert's solution of the wave equation}. The Cauchy problem/initial value problem 
+for wave equation is 
+\begin{align*}
+    u_{tt} - c^2u_{xx} = 0 \\
+    t > 0 \\
+    x\in \mathbb{R} \\
+    u(x,0) = \phi(x) \\
+    u_t(x,0) = \psi(x)
+\end{align*}
+e.g. $u(x,t)$ is the height of an infinite string with initial displacement $\phi(x)$ and 
+initial velocity $\psi(x)$. The solution is 
+\begin{align*}
+    u(x,t) = F(x-ct) + G(x+ct)
+\end{align*}
+We plug in the initial conditions to get
+\begin{align*}
+    u(x,0) &= F(x) + G(x) = \phi(x) \\
+    u_t(x,0) &= -cF'(x) + cG'(x) = \psi(x)
+\end{align*}
+These can be solved for $F,G$ and we get 
+\begin{align*}
+    u(x,t) = \frac 12 (\phi(x-ct) + \phi(x+ct)) + \frac{1}{2c}\int_{x-ct}^{x+ct} \psi(s)ds
+\end{align*}
+\boxed{\text{ex}} Plucking an infinite string. Solve 
+\begin{align*}
+    u_{tt} - 4 u_{xx} &= 0 \\
+    x \in \mathbb{R},\ t &> 0 \\
+    u(x,0) = \phi(x) &= e^{-x^2} \\
+    u_t(x,0) = \psi(x) &= 0
+\end{align*}
+So we have 
+\begin{align*}
+    u(x,t) &= \frac{1}{2}(\phi(x-ct) + \phi(x+ct)) \\
+    &= \frac 12 (e^{-(x-2t)^2} + e^{-(x+2t)^2})
+\end{align*}
+Visually, notice that $e^{-(x-2t)^2}$ is a peak at location $x = 2t$, and as $t$ increases, 
+this peak moves to the right. In contrast, $e^{-(x+2t)^2}$ is a left-moving peak. \\ \\ 
+\boxed{\text{ex}} $u_{tt} - c^2u_{xx} = 0$
+\begin{align*}
+    u(x,0) &= 0 \\
+    u_t(x,0) &= \psi(x) = \frac{1}{1+x^2}
+\end{align*}
+We use the D'Alembert solution again.
+\begin{align*}
+    u(x,t) &= \frac{1}{2c}\int_{x-ct}^{x+ct}\psi(s)ds \\
+    &= \frac{1}{2c} \int_{x-ct}^{x+ct} \frac{1}{1+s^2}ds \\
+    &= \frac{1}{2c} (\arctan(x+ct) - \arctan(x-ct))
+\end{align*}
+\underline{Causality}: \\
+D'Alembert solution reveals a causal structure of the wave equation.
+\begin{align*}
+    u(x,t) = \frac 12 (\phi(x-ct)+\phi(x+ct)) + \frac{1}{2c} \int_{x-ct}^{x+ct} \psi(s)ds
+\end{align*}
+Suppose $\phi(x),\ \psi = 0$ for $x < a,\ x > b$, i.e. $\phi,\psi$ are non-zero only when 
+$x \in [a,b]$. Then $u(x,t)$ is non-zero only if $x-ct\in[a,b]$ or $x+ct \in [a,b]$.
+\begin{itemize}
+    \item Signals propagate at speed $\pm c$ along lines
+    \begin{align*}
+        x - ct = \text{ const} \\
+        x + ct = \text{ const}
+    \end{align*}
+    \item The area between $x+ct = a$ and $x-ct = b$ is called the region of influence of signal.
+    \item The solution at a point $(x_0,t_0)$ has a domain of dependence which comes from 
+    tracing characteristics backwards.
+\end{itemize}
+\underline{Energy}.
+Just like the heat equation has a conserved mass, the wave equation has a conserved 
+energy. Suppose $u_{tt} - c^2u_{xx} = 0$ with $u_t$ or $u_x \rightarrow 0$ as $|x| \rightarrow \infty$.
+We can define energy as 
+\begin{align*}
+    E(t) = \int_{-\infty}^{\infty} \frac{1}{2}(u_t^2 + c^2u_x^2)dx
+\end{align*}
+Then $\frac{dE}{dt} = 0$, i.e. $E$ is conserved. \\ \\
+\underline{Remarks}
+\begin{itemize}
+    \item Conservation of $E(t)$ is a good check on solutions (especially for simulations)
+    \item Conserved quantities tell us how solutions behaves.
+\end{itemize}
+\underline{Proof}
+\begin{align*}
+    \frac{dE}{dt} &= \int_{\infty}^{\infty} (u_tu_{xx}+c^2u_xu_{xt})dx \\
+    &= \int_{-\infty}^{\infty} (c^2u_tu_{xx} + c^2u_xu_{xt})dx \\
+    &= c^2 \int_{-\infty}^{\infty} \partial_x(u_tu_x)dx \text{ by product rule} \\
+    \Rightarrow \frac{dE}{dt} &= c^2[u_tu_x]^\infty_{-\infty} \\
+    &= 0
+\end{align*}
+\underline{Summary}:
+\begin{itemize}
+    \item Heat: parabolic, signal spreads out, diffuses
+    \item Wave: hyperbolic, signal propagates at speed $c$, coherently
+    \item Laplace: elliptic, ?
+\end{itemize}
+What about Laplace's equation?
+\begin{align*}
+    u_{xx} + u_{yy} = 0 \text{ for } u(x,y)
+\end{align*}
+Let's try to formulate a Cauchy/initial value problem as with heat/wave equations with $y$ acting 
+as time. So the Cauchy problem is 
+\begin{align*}
+    u_{xx} + u_{yy} &= 0\\
+    x\in \mathbb{R},\ y &> 0\\
+    u(x,0) &= \phi(x) \\
+    u_y(x,0) &= \psi(x)
+\end{align*}
+As with the wave equation, we have $u(x,0)$ as the initial profile and $u_y(x,0)$ is the 
+initial velocity.
+
+
 \end{document}
