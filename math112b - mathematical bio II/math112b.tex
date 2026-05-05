@@ -15,7 +15,7 @@
 \fancyhead[C]{\textbf{Spring 2026}}
 \fancyhead[R]{\textbf{Dani Nguyen}}
 
-\section{Diffusion, Wave, and Laplace}
+\section{Diffusion \& Wave}
 \subsection{Lecture 1 - Gradient Systems}
 \underline{Notation}: for a function with two variables
 \begin{align*}
@@ -1214,7 +1214,7 @@ If $\gamma$ = constant
     u(a,t_0) = f(a) \\
     u(0,t) = \int_{0}^{\infty} g(a,t)u(a,t)da
 \end{align*}
-\textbf{Inviscid-Burger equation}. \\
+\textbf{Inviscid Burger's equation}. \\
 Recall 
 \begin{align*}
     u_t &= - J_x \\
@@ -1222,7 +1222,7 @@ Recall
     J &= -Du_x \tag{diffusion} \\
     J &= \frac{u^2}{2} 
 \end{align*}
-So we have the following Inviscid-Burger's equations or the Riemann's equation
+So we have the following Inviscid Burger's equations or the Riemann's equation
 \begin{align*}
     \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = 0 
 \end{align*}
@@ -1243,4 +1243,102 @@ $G(x-ut)$.
     G = f \Rightarrow f(x-ut) = u(x,t)
 \end{align*}
 \boxed{\text{ex}} $f(x) = ax+b \Rightarrow u(x,t) = a(x-ut) + b$.
+
+\subsection{Lecture 11 - Inviscid Burger's Equation}
+We have 
+\begin{align*}
+    u_t + u\cdot u_x = 0
+\end{align*}
+We have the following characteristic line
+\begin{align*}
+    x - ut = k
+\end{align*}
+Suppose the initial condition is given by 
+\begin{align*}
+    u(x,0) = \begin{cases}
+        2 & x < 0 \\
+        2-x & 0 \le x \le 1 \\
+        1 & x > 1
+    \end{cases}
+\end{align*}
+Suppose a char line crosses the $x$-axis at point $x_\ast = -3 \Rightarrow$ along this line we 
+have $u(x,t) = u_0(-3) = 2$. Therefore, the slope is $\frac{1}{2}$. If 
+$x_\ast \Rightarrow u_0(1) = 1 \Rightarrow$ slope is $\frac{1}{u} = 1$. \\ \\
+Consider the shape of $u(x,t)$ and how it changes over time. We notice that at a critical time, 
+we stop having a function for a solution, this is called shock formation. Do we always expect
+shock formation in a nonlinear equation inviscid Burgers equation? We must have a region in 
+$u_0(x)$ where $u_0$ decreases, where $u_0(x) = u(x,0)$. \\ \\
+\boxed{\text{ex}} Consider 
+\begin{align*}
+    u_0(x) = \begin{cases}
+        1 & x < 0 \\
+        1+x & 0 \le x \le 1 \\
+        2 & x \ge 1
+    \end{cases}
+\end{align*}
+When the characteristics are graphed, we see no shock formation. \\ \\ 
+When can we expect to find the first shock given $u_0(x)$? A shock forms when we first observe
+$\frac{\partial u}{\partial x} \rightarrow \infty$. We can use the implicit solution for the 
+transport equation.
+\begin{align*}
+    u = u_0(x-ut)
+\end{align*}
+Differentiate in $x$
+\begin{align*}
+    u_x &= u_0'(x-ut) \cdot \frac{\partial}{\partial x}(x - ut) \\
+    u_x &= u'_0(x-ut) \cdot (1 - u_xt) \\
+    u_x(1+u'_0\cdot t) &= u'_0   \\
+    u_x &= \frac{u'_0}{1+u'_0t}
+\end{align*}
+This grows to infinity if $1 + u'_0t = 0$. From this, we can find that 
+\begin{align*}
+    t_\ast = \min_x\{-\frac{1}{u_0'(x)}\ |\ u'_0 (x) < 0\}
+\end{align*}
+\boxed{\text{ex}} Consider the following 
+\begin{align*}
+    \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = 0 \\
+    u(x,0) = u_0(x) = \begin{cases}
+        a & x \le 0 \\
+        b & x > 0
+    \end{cases}
+\end{align*}
+This does not result in a shock formation but rather a rarefaction wave. \\ \\
+To fill the gap, define
+\begin{align*}
+    u_\epsilon \begin{cases}
+        a & x < 0 \\
+        \frac{(b-a)x}{\epsilon} + a & 0 \le x \le \epsilon \\
+        b & x > \epsilon
+    \end{cases}
+\end{align*}
+We can solve the equation by using the method of implicit functions.
+\begin{align*}
+    u = u_\epsilon(x-ut)
+\end{align*}
+We have
+\begin{align*}
+    u(x,t) = \begin{cases}
+        a & x < ta \\
+        \frac xt & ta < x < tb + \epsilon \\
+        b & x > tb + \epsilon
+    \end{cases}
+\end{align*}
+Now take $\epsilon \rightarrow 0$, we still get a continuous solution.  \\ \\
+\textbf{Burger's Equation}.
+\begin{align*}
+    \underbrace{\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x}}_{\text{Inviscid Burger's}} = \underbrace{\gamma \frac{\partial^2u}{\partial x^2}}_{\text{viscosity}}
+\end{align*}
+This is a 2nd order nonlinear PDE. We can not characterize all solutions, but can find a 
+special solution via the traveling wave solution. \\ \\ 
+Consider $\xi = x - ct$, where $c$ is an unknown constant, and look for solutions of the 
+special form 
+\begin{align*}
+    u(x,t) = v(\xi) = v(x-ct)
+\end{align*}
+We have via chain rule
+\begin{align*}
+    u_t &= v'(-c) \\
+    u_x &= v'\cdot 1 \\
+    u_{xx} &= v''
+\end{align*}
 \end{document}
