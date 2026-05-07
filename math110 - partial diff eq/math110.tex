@@ -1866,8 +1866,224 @@ as time. So the Cauchy problem is
     u(x,0) &= \phi(x) \\
     u_y(x,0) &= \psi(x)
 \end{align*}
-As with the wave equation, we have $u(x,0)$ as the initial profile and $u_y(x,0)$ is the 
+As with the wave equation, we have $u(x,0)$ as the initial profile and $u_y(x,0)$ as the 
 initial velocity.
 
+\subsection{Lecture 11 - Heat Equation on Half-line}
+\underline{Recap}:
+\begin{itemize}
+    \item Heat equation Cauchy problem
+    \begin{align*}
+        u_t - ku_{xx} = 0 \\
+        x \in \mathbb{R} \\
+        k, t > 0 \\
+        u(x,0) = \phi(x)
+    \end{align*}
+    \item Wave equation Cauchy problem 
+    \begin{align*}
+        u_{tt} - c^2u_{xx} = 0 \\
+        x \in \mathbb{R} \\
+        t > 0 \\
+        u(x,0) = \phi(x) \\
+        u_t(x,0) = \psi(x)
+    \end{align*}
+\end{itemize}
+Following from last lecture, we have the following Cauchy problem for Laplace's equation.
+\begin{align*}
+    u_{xx} + u_{yy} &= 0\\
+    x\in \mathbb{R},\ y &> 0\\
+    u(x,0) &= \phi(x) \\
+    u_y(x,0) &= \psi(x)
+\end{align*}
+where $u(x,0)$ is the initial profile and $u_y(x,0)$ is the 
+initial velocity. This is fine for zero IC,
+\begin{align*}
+    \text{Take }\ \psi(x) &= 0 \\
+    \phi(x) &= \phi^0(x) = 0
+\end{align*}
+Note here that superscripts are labels, not exponents. We have 
+\begin{align*}
+    u(x,y) = u^0(x,y) = 0
+\end{align*}
+So zero IC gives zero solution, now we try 'almost zero' ICs.
+\begin{align*}
+    \psi(x) &= 0\\
+    \phi(x) &= \phi^\lambda(x) = \lambda\cos(\frac x\lambda)
+\end{align*}
+Let $u^\lambda(x,y)$ be the solution for these ICs. We have $\lim_{\lambda \rightarrow 0} \phi^\lambda(x) = 0 = \phi^0(x)$.
+So does $\lim_{\lambda \rightarrow 0} u^\lambda(x,y) = 0$? No! But why?
+\begin{align*}
+    u^\lambda(x,y) = \lambda\cos(\frac x\lambda)\cosh(\frac y\lambda)
+\end{align*}
+This solution blows up as $\lambda \rightarrow 0$. \\ \\
+\underline{Remarks}:
+\begin{itemize}
+    \item The Cauchy problem (IVP) for Laplace's equation is ill-posed.
+    \item Elliptic PDEs (like Laplace's equation) describe static, time-independent processes.
+    \item A PDE with ICs or BCs is well-posed if solutions have 
+    \begin{itemize}
+        \item Existence
+        \item Uniqueness
+        \item Stability (solution depends continuously on ICs and BCs)
+    \end{itemize}
+    \item The Cauchy problems for the heat and wave equation is well-posed.
+    \item Next: The solutions to the wave/heat equation let us solve more general problems
+    \begin{itemize}
+        \item Semi-infinite domains
+        \item Inhomogeneous problems
+    \end{itemize}
+\end{itemize}
+\textbf{Semi-infinite domains} (Logan 2.4). We've solved the wave/heat equations on domain $x \in \mathbb{R}$. We now solve PDEs on
+the half-line $x \in (0,\infty)$.  \\
+\boxed{\text{ex}} Consider the heat equation on the half-line
+\begin{align*}
+    u_t - ku_{xx} = 0 \\
+    k,x,t > 0 \\
+    u(x,0) = \phi(x) = xe^{-x^2} \\
+    u(0,t) = 0 \\
+\end{align*}
+\underline{Method}: extend to an IVP on $\mathbb{R}$ using symmetry, whose solution on $x > 0$
+is the desired solution. \\ \\ 
+Consider the heat equation on $\mathbb{R}$
+\begin{align*}
+    v_t - kv_{xx} = 0 \\
+    x\in \mathbb{R}, t > 0 \\
+    u(x,0) = \begin{cases}
+        \phi(x) & x > 0 \\
+        -\phi(-x) & x < 0
+    \end{cases} = p(x)
+\end{align*} 
+Here $p(x)$ is called the odd-extension of $\phi(X)$. The solution for $v(x,t)$ is
+\begin{align*}
+    v(x,t) = \frac{1}{\sqrt{\pi}} \int e^{-s^2}p(x-s\sqrt{4kt})ds
+\end{align*}
+The solution $v(x,t)$ satisfies the half-line PDE for $x > 0$
+\begin{align*}
+    \text{Check }\ &v_t - kv_{xx} = 0 \text{ for } x > 0\\
+    &v(x,0) = p(x) = \phi(x) \text{ for }x > 0 \\
+    &v(0,t) = 0 \ \forall t\ \text{ 'by symmetry'}
+\end{align*}
+So the solution to the half-line PDE is 
+\begin{align*}
+    u(x,t) = \frac{1}{\sqrt{\pi}} \int_{-\infty}^{\infty} e^{-s^2}p(x-s\sqrt{4kt})ds \\
+    \text{for } x > 0
+\end{align*}
+\underline{Remark}: This works even for $\phi(0) \ne 0$ \\ \\
+\textbf{Odd-even functions}. Let $f:\mathbb{R} \rightarrow \mathbb{R}$ be a function 
+\begin{itemize}
+    \item $f$ is an even function if 
+    \begin{align*}
+        f(x) = f(-x)
+    \end{align*} 
+    \item $f$ is an odd function if 
+    \begin{align*}
+        f(x) = -f(-x)
+    \end{align*}
+\end{itemize}
+\underline{Properties}.
+\begin{itemize}
+    \item If $f$ is odd and continuous, then $f(0) = 0$.
+    \item If $f$ is even and smooth, then $f'(0) = 0$
+\end{itemize}
+\underline{Definition}. Let $g:(0,\infty) \rightarrow \mathbb{R}$
+\begin{itemize}
+    \item The odd extension of $g$ is 
+    \begin{align*}
+        G_{\text{odd}}(x) = \begin{cases}
+            g(x) & x > 0 \\
+            -g(-x) & x < 0
+        \end{cases}
+    \end{align*}
+    \item The even extension of $g$ is 
+    \begin{align*}
+        G_{\text{even}}(x) =\begin{cases}
+            g(x) & x > 0 \\
+            g(-x) & x < 0
+        \end{cases}
+    \end{align*}
+\end{itemize}
+\underline{Symmetry of PDEs}. \\
+Suppose $u(x,t)$ is a solution of the heat or wave equation for $x \in \mathbb{R},\ t > 0$. 
+If the initial data are odd functions, then $u(x,t)$ is odd wrt to $x$
+\begin{align*}
+    u(x,t) &= -u(-x,t) \\
+    u(0,t) &= 0\ \text{ if } u \text{ is continuous}
+\end{align*}
+Similarly, if the initial data are even functions, then $u(x,t)$ is even wrt to $x$
+\begin{align*}
+    u_x(0,t) = 0 \ \forall t\ \text{ if } u \text{ is smooth}
+\end{align*}
+\underline{Solutions of half-line PDEs}. $x \in (0,\infty)$. \\
+Idea: Extend PDE to $x \in \mathbb{R}$ by taking an odd or even extension of initial data, 
+depending on BCs.
+\begin{align*}
+    \begin{matrix}
+        \text{Dirichlet BCs} \\ u(0,t) = 0
+    \end{matrix} 
+    \rightarrow 
+    \begin{matrix}
+        \text{odd extension} \\ \text{of ICs}
+    \end{matrix}
+    \rightarrow
+    \begin{matrix}
+        \text{solve} \\ \text{take } x > 0
+    \end{matrix} \\
+    \begin{matrix}
+        \text{Neumann BCs} \\ u_x(0,t) = 0
+    \end{matrix} 
+    \rightarrow 
+    \begin{matrix}
+        \text{even extension} \\ \text{of ICs}
+    \end{matrix}
+    \rightarrow
+    \begin{matrix}
+        \text{solve} \\ \text{take } x > 0
+    \end{matrix}
+\end{align*}
+\boxed{\text{ex}} Consider the wave equation.
+\begin{align*}
+    u_{tt} - c^2u_{xx} = 0 \\
+    x > 0,\ t > 0 \\
+    u(x,0) = \phi(x) = \cos x, x > 0 \\
+    u_t(x,0) = \psi(x) = 0, x > 0 \\
+    u_x(0,t) = 0, t > 0
+\end{align*}
+The BC here is Neumann, so we use even extension on the ICs. Let $p(x),q(x)$ be the even 
+extensions of $\phi(x), \psi(x)$. Then
+\begin{align*}
+    p(x) &= \begin{cases}
+        \cos(x) & x > 0 \\
+        \cos(-x) & x < 0
+    \end{cases} \\ 
+    &= \cos x \quad \forall x \in \mathbb{R} \\
+    q(x) &= 0\quad x \in \mathbb{R}
+\end{align*}
+We use D'Alembert's solution 
+\begin{align*}
+    u(x,t) &= \frac 12 (p(x-ct) + p(x + ct)) \\
+    &= \frac 12 (\cos(x-ct) + \cos(x+ct)) \\ 
+    &= \cos(x)\cos(ct),\quad x \in \mathbb{R}
+\end{align*}
+The half-line solution is 
+\begin{align*}
+    u(x,t) = \cos x \cos ct \\
+    x > 0
+\end{align*}
+Our BC is satisfied 
+\begin{align*}
+    u_x &= -\sin x \cos ct \\
+    &= 0 \quad \text{for x = 0}
+\end{align*}
 
+\subsection{Lecture 12 - Inhomogeneous Wave/Heat Equation} 
+\underline{Recap}:
+\begin{itemize}
+    \item 
+\end{itemize}
+Consider the inhomogeneous heat equation with source $f(x,t)$
+\begin{align*}
+    u_t - ku_{xx} = f(x,t) \\
+    x\in \mathbb{R},\ t,k > 0 \\
+    u(x,0) = 0
+\end{align*}
 \end{document}
