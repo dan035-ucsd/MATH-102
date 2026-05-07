@@ -1341,4 +1341,169 @@ We have via chain rule
     u_x &= v'\cdot 1 \\
     u_{xx} &= v''
 \end{align*}
+\subsection{Lecture 12 - Burger's Equation}
+We have 
+\begin{align*}
+    u_t + uu_x = \gamma u_{xx}
+\end{align*}
+We look for solutions of the form 
+\begin{align*}
+    u(x,t) = v(x-ct) = v(\xi)
+\end{align*}
+This gives us an ODE
+\begin{align*}
+    -cv' - vv' = \gamma v''
+\end{align*}
+Notice that 
+\begin{align*}
+    vv' = \frac{d}{d\xi}(\frac 12 v^2) = \frac 12 \cdot 2v \cdot \frac{dv}{d\xi}
+\end{align*}
+So integrating wrt to $\xi$, we get 
+\begin{align*}
+    -cv - \frac{v^2}{2} + k &= \gamma v' \\
+    \gamma v' = k-cv + \frac 12 v^2
+\end{align*}
+Notice that this is a 1st-order ODE and the RHS is a quadratic function of $v$. If the RHS has no 
+roots, the solution will always grow. Let us assume that the RHS has 2 roots, they are 
+\begin{align*}
+    &c \pm \sqrt{c^2 - 2k} \\
+    \text{Let }\ & a \equiv c - \sqrt{c^2 - 2k} \\
+    & b \equiv c + \sqrt{c^2 - 2k} \\ \\
+    \Rightarrow \text{RHS } &= \frac 12 (v-a)(v-b) \\
+    c &= \frac{a+b}{2},\ b > a 
+\end{align*}
+So we have 
+\begin{align*}
+    2\gamma v' &= (v-a)(v-b) \\
+    \int \frac{2\gamma dv}{(v-a)(v-b)} &= \int d\xi \\
+    \frac{2\gamma}{b-a} \ln \frac{b-v}{v-a} &= \xi - \delta
+\end{align*}
+Solving this, we get 
+\begin{align*}
+    v(\xi) &= \frac{a\exp((b-a)(\xi-\delta)/2\gamma)+b}{\exp((b-a)(\xi-\delta)/2\gamma)+1} \\
+    u(x,t) &= \frac{a\exp((b-a)(x-ct -\delta)/2\gamma)+b}{\exp((b-a)(x - ct -\delta)/2\gamma)+1} \\
+    &= \text{ Traveling wave solution}
+\end{align*}
+Taking the limit where $\xi \rightarrow \pm \infty$, we get 
+\begin{align*}
+    \lim_{\xi \rightarrow \infty} v(\xi) = a \\
+    \lim_{\xi \rightarrow -\infty} v(\xi) = b \\
+\end{align*}
+What happens when our viscosity $\gamma$ goes to zero? 
+\begin{align*}
+    \text{If } \xi > \delta \text{ and } \gamma \rightarrow 0 \Rightarrow v \rightarrow a \\
+    \text{If } \xi < \delta \text{ and } \gamma \rightarrow 0 \Rightarrow v \rightarrow b 
+\end{align*}
+\section{Stochastic Processes}
+\subsection{Lecture 12 - Intro to Stochastics}
+Now we move on to stochastic descriptions, where there are states of the system (discrete, 
+like \# of cells), and transitions among states that are described by probabilities. \\ \\
+\underline{Discrete states}:
+\begin{align*}
+    j = \{0,1,\dots, N\}
+\end{align*} 
+\underline{Discrete time} means that events happen at given time points. \\ \\
+\textbf{Transition matrix}. \\
+Define the transition matrix $P_{ij} = \mathbb{P}(i\rightarrow j)$ in one step. $P_{ij}$ is a 
+stochastic matrix, meaning
+\begin{align*}
+    \sum_{j=0}^{N} P_{ij} = 1
+\end{align*}
+Boundary conditions can be imposed in different ways, below is the reflecting boundary condition.
+\begin{align*}
+    \begin{bmatrix}
+        1-p & p &  & 0\\
+        q & 1- p - q & p & \\
+         & q & 1-p-q & p \\
+        0 &  & q & 1-q
+    \end{bmatrix}
+\end{align*}
+Alternatively, we could have absorbing boundary condition.
+\begin{align*}
+    \begin{bmatrix}
+        1 &  &  & 0\\
+        q & 1- p - q & p & \\
+         & q & 1-p-q & p \\
+        0 &  &  & 1
+    \end{bmatrix}
+\end{align*}
+These are Markov chains. This means transitions only depends on finite history. The process with
+an absorbing boundary condition is also called the Gambler's ruin. \\ \\
+The \underline{absorbing state} $i$:
+\begin{align*}
+    \sum_{j \ne i} P_{ij} = 0 \quad \text{(cannot leave)}
+\end{align*}
+\underline{Recurrent state} means the system will return to the state with probability 1 sometime
+in the future. \\ \\
+We introduce $\varphi_i^t = $ probability to be at state $i$ at time $t$. A property that arises
+is 
+\begin{align*}
+    \sum_{i=0}^{N} \varphi_i^t = 1
+\end{align*}
+This means our probability of being in the state space is 1. What about the probability of 
+being in a particular state?
+\begin{align*}
+    \varphi_i^{t+1} = \varphi^t_{i-1}\cdot p + \varphi_{i+1}^t\cdot q + \varphi_i^t \cdot (1-p-q)
+\end{align*}
+Define the vector 
+\begin{align*}
+    \vec \varphi^t = \begin{bmatrix}
+        \varphi_0^t \\ \varphi_1^t \\ \vdots \\ \varphi^t_N
+    \end{bmatrix}^T
+\end{align*}
+In general, we have 
+\begin{align*}
+    \vec\varphi^{\ t+1} = \vec \varphi^{\ t} \cdot P
+\end{align*}
+Suppose at time $t = 0$, we have $i = 3$. Find probabilities to be at $0,1,\dots, N$ at time
+$t = 10$. According to the problem, we have the following initial condition
+\begin{align*}
+    \vec \varphi^{\ 0} &= \begin{bmatrix}
+        0 & 0 & 0 & 1 & 0 & 0 & \cdots & 0
+    \end{bmatrix} \\
+    \vec \varphi^{\ 1} &= \vec \varphi^{\ 0} P \\
+    \vec \varphi^{\ 2} &= \vec \varphi^{\ 1} P  \\
+    \vdots \\
+    \vec \varphi^{\ 10} &= \vec \varphi^{\ 0} P^{10} 
+\end{align*}
+In general, 
+\begin{align*}
+    \boxed{\vec \varphi^{\ t} = \vec \varphi^{\ 0} P^t}
+\end{align*}
+What about long-term behavior, perhaps as $t \rightarrow \infty$, the state of the system stops 
+changing? This means we reach a steady state.
+\begin{align*}
+    \vec \varphi^{\ t+1} &= \vec \varphi^{\ t} P \\
+    \vec \varphi^{\ t} &= \vec \varphi^{\ t} P
+\end{align*}
+Notice that here we have $\vec \varphi^{\ t}$ as the left eigenvector of matrix $P$, with the 
+corresponding $\lambda = 1$. For stochastic matrices, 1 is the largest eigenvalue. \\ \\
+\boxed{\text{ex}} Wright-Fisher processes. This is a model of a population that maintains 
+a constant size. We keep track of 2 types of individuals, the wild type $a$ and mutant $A$.
+Assume that there are $2N$ individuals. Describe the change of generations as a sampling 
+with replacement of the current population. \\ \\
+\underline{States}. We have $j$ of '$a$' and $2N-j$ of '$A$' 
+\begin{align*}
+    j \in \{0,1,\dots, 2N\}
+\end{align*}
+Construct the transition matrix:
+\begin{align*}
+    \mathbb{P}(\text{pick } a) \equiv P_j &= \frac{j}{2N} \\
+    \mathbb{P}(\text{pick } A) \equiv Q_j &= 1 - \frac{j}{2N} 
+\end{align*}
+Sample $2N$ times, we have 
+\begin{align*}
+    \mathbb{P}(\text{have exactly }k \text{ of '}a\text{'}) &= {2N\choose k} P_j^k Q_j^{2N - k} \\
+    &= P_{jk}
+\end{align*}
+This gives each element of our transition matrix.
+\begin{align*}
+    \left(\begin{matrix}
+        \text{had }j \\ \text{ of }a
+    \end{matrix}\right) \Rightarrow
+    \left(\begin{matrix}
+        \text{got }k \\ \text{ of }a
+    \end{matrix}\right)
+\end{align*}
+If $j = 0$, what is $P_{0k} = 0$ if $k \ne 0$. This is an absorbing boundary.
 \end{document}
