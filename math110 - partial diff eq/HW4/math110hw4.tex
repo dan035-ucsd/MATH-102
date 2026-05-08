@@ -10,7 +10,54 @@
 \fancyhead[R]{\textbf{Dani Nguyen}}
 
 \noindent \textbf{Question 1} \\
-\noindent \textbf{Question 2} \\
+Given $\int_{-\infty}^{\infty} e^{-x^2}dx = \sqrt{\pi}$.
+\begin{enumerate}[(a)]
+    \item Let $u = \sqrt{a}x$. So $u^2 = ax^2$ and $du = \sqrt{a}dx$.
+    \begin{align*}
+        \int_{-\infty}^{\infty} e^{-ax^2}dx &= \int_{-\infty}^{\infty} e^{-u^2} \cdot \frac{1}{\sqrt{a}}du \\
+        &= \frac{1}{\sqrt{a}} \int_{-\infty}^{\infty}e^{-u^2}du \\
+        &= \sqrt{\frac{\pi}{a}}
+    \end{align*}
+    \item Let $u = \frac{x-a}{b}$. So $u^2 = \frac{(x-a)^2}{b^2}$ and $du = \frac{1}{b}dx$.
+    \begin{align*}
+        \int_{-\infty}^{\infty} e^{-\frac{(x-a)^2}{b^2}}dx &= \int_{-\infty}^{\infty} e^{-u^2} \cdot bdu \\
+        &= b\int_{-\infty}^{\infty} e^{-u^2}du \\
+        &= b\sqrt{\pi}
+    \end{align*}
+    \item First we simplify
+    \begin{align*}
+        \int_{-\infty}^{\infty} e^{-ax^2+2bx}dx &= \int_{-\infty}^{\infty} e^{-a\left(x^2-\frac{2b}{a}x\right)} \\
+        &= \int_{-\infty}^{\infty} e^{-a\left(x^2-\frac{2b}{a}x + \frac {b^2}{a^2} - \frac {b^2}{a^2} \right)} \\
+        &= \int_{-\infty}^{\infty} e^{-a\left(x^2-\frac{2b}{a}x + \frac {b^2}{a^2}\right) + \frac {b^2}{a}} \\
+        &= \int_{-\infty}^{\infty} e^{-a\left(x -\frac{b}{a}\right)^2 + \frac {b^2}{a}} \\
+        &= e^{\frac {b^2}{a}} \int_{-\infty}^{\infty} e^{-a\left(x -\frac{b}{a}\right)^2} \\
+    \end{align*}
+    Let $u = \sqrt{a}(x - \frac ba)$. So $u^2 = a(x-\frac ba)^2$ and $du = \sqrt adx$.
+    \begin{align*}
+        \int_{-\infty}^{\infty} e^{-ax^2+2bx}dx &= e^{\frac {b^2}{a}} \int_{-\infty}^{\infty} e^{-u^2} \cdot \frac{1}{\sqrt a}du \\
+        &= e^{\frac {b^2}{a}} \sqrt{\frac{\pi}{a}}
+    \end{align*}
+    \item We use integration by parts. Let $u = x$ and $dv = xe^{-ax^2}dx$. 
+    \begin{align*}
+        du = dx \qquad  v &= \int xe^{-ax^2}dx
+    \end{align*}
+    Let $w = -ax^2$ so $dw = -2axdx$ and $dx = \frac{-1}{2ax}dw$. So we have
+    \begin{align*}
+        v &= \int \frac{-1}{2ax}\cdot xe^wdw \\
+        &= \frac{-1}{2a}e^{-ax^2}
+    \end{align*}
+    So in all,
+    \begin{align*}
+        \int_{-\infty}^{\infty} x^2e^{-ax^2}dx &= x\cdot \frac{-1}{2a}e^{-ax^2}\Big|^\infty_{-\infty} - \frac{-1}{2a}\int_{-\infty}^{\infty} e^{-ax^2}dx \\
+        &= 0 + \frac{1}{2a}\cdot \sqrt{\frac{\pi}{a}} \\
+        &= \frac{\sqrt \pi}{2\sqrt{a^3}}
+    \end{align*}
+\end{enumerate}
+\newpage
+\noindent \textbf{Question 2}
+\begin{enumerate}[(a)]
+    \item 
+\end{enumerate}
 \noindent \textbf{Question 3} \\
 \noindent \textbf{Question 4} \\
 \noindent \textbf{Question 5} \\
