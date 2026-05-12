@@ -2076,14 +2076,172 @@ Our BC is satisfied
 \end{align*}
 
 \subsection{Lecture 12 - Inhomogeneous Wave/Heat Equation} 
-\underline{Recap}:
+Note on HW4, Q2a:
+\begin{align*}
+    u_t - ku_{xx} = 0 \\
+    x \in \mathbb{R} \\
+    k > 0, t > 0 \\
+    u(x,0) = \exp\left(-\frac{(x-a)^2}{b^2}\right)
+\end{align*}
+Method 1: Poisson integral representation. \\
+Method 2: Transform the heat kernel. \\
+The heat kernel $G(x,t)$ satisfies heat equation
+\begin{align*}
+    G(x,t) &= \frac{1}{\sqrt{4\pi kt}}e^{\frac{-x^2}{4kt}} \\
+    G_t - kG_{xx} &= 0
+\end{align*}
+At time $t = 0$, $G(x,t)$ is a point source. For $t > 0$, $G(x,t)$ is Gaussian. Since $G(x,t)$
+satisfies the heat equation, we have 
 \begin{itemize}
-    \item 
+    \item $G(x+A,t)$ satisfies heat equation
+    \item $G(x+A,t+B)$ satisfies heat equation
+    \item $\lambda G(x+A,t+B)$ satisfies heat equation
 \end{itemize}
+This problem has a Gaussian IC, and the heat kernel describes a sequence of Gaussians.
+To solve this problem, try the candidate solution
+\begin{align*}
+    u(x,t) &= \lambda G(x+A,t+B) \\
+    &= \frac{\lambda}{\sqrt{4\pi k (t+B)}}\exp\left( -\frac{(x+A)^2}{4k(t+B)} \right)
+\end{align*}
+We need $u(x,0) = \exp\left(-\frac{(x-a)^2}{b^2}\right)$.
+\begin{align*}
+    \Rightarrow A = -a,\ B = \frac{b^2}{4k},\ \lambda &= \sqrt{4\pi k B} \\
+    &= \sqrt{\pi}b
+\end{align*}
+\textbf{Inhomogeneous PDEs} \\
 Consider the inhomogeneous heat equation with source $f(x,t)$
 \begin{align*}
     u_t - ku_{xx} = f(x,t) \\
     x\in \mathbb{R},\ t,k > 0 \\
     u(x,0) = 0
 \end{align*}
+\underline{ODE Case}. Consider an ODE version of the above example, for $y(t)$ 
+\begin{align*}
+    y' - ky = t \\
+    t > 0 \\
+    y(0) = 0
+\end{align*}
+Note here that the source is $f(t) = t$. We can solve this ODE in many ways, e.g. integrating
+factor.
+\begin{align*}
+    e^{-kt}y' - ke^{-kt}y &= te^{-kt} \\
+    (e^{-kt}y)' &= te^{-kt} \\
+    e^{-kt}y &= \int_{0}^{t}e^{-k\tau}\tau d\tau + c
+\end{align*}
+Note that $y(0) = 0 \Rightarrow C = 0$
+\begin{align*}
+    y(t) &= e^{kt} \int_{0}^{t}e^{-k\tau}\tau d\tau \\
+    &= \int_{0}^{t} e^{k(t-\tau)}\tau d\tau
+\end{align*}
+The solution at time $t$ is the response to a source $f(\tau) = \tau$ for all $0 < \tau < t$.
+This is equivalent to taking solutions of the homogeneous ODE ($y'-ky=0$) with IC $f(\tau) = \tau$
+for $0 < \tau < t$ and superposing them. \\ \\
+E.g. define $w(t;\tau)$ by 
+\begin{align*}
+    w' - kw = 0 \\
+    \text{with } w(0;\tau) = \tau
+\end{align*}
+We solve for $w$
+\begin{align*}
+    \Rightarrow w(t;\tau) = Ae^{kt} = \tau e^{kt}
+\end{align*}
+The value $w(t-\tau;\tau)$ gives the effect of a source $f(\tau) = \tau$ at a time $t > \tau$. \\ \\
+Superpose to find $y(t)$
+\begin{align*}
+    y(t) &= \int_{0}^{t} w(t -\tau;\tau) d\tau \\
+    &= \int_{0}^{t}e^{k(t-\tau)}\tau d\tau
+\end{align*}
+This is Duhamel's principle, which converts inhomogeneous problem with zero IC to homogeneous
+problem with non-zero IC. \\
+\underline{PDE Case}. Consider the inhomogeneous heat equation.
+\begin{align*}
+    u_t - ku_{xx} = f(x,t) \\
+    x \in \mathbb{R},\ k,t > 0 \\
+    u(x,0) = 0
+\end{align*}
+First find solutions $w(x,t;\tau)$ of heat equation with IC $f(x,\tau)$
+\begin{align*}
+    w_t - kw_{xx} = 0 \\
+    x \in \mathbb{R},\ k, t > 0 \\
+    w(x,0; \tau) = f(x,\tau)
+\end{align*}
+Then solution is 
+\begin{align*}
+    u(x,t) = \int_{0}^{t} w(x, t-\tau;\tau)d\tau \tag{Duhamel's principle}
+\end{align*}
+We can write $w(x,t;\tau)$ in terms of the heat kernel $G(x,t) = \displaystyle\frac{1}{\sqrt{4\pi kt}} e^{\frac{-x^2}{4kt}}$.
+\begin{align*}
+    w(x,t;\tau)&= \int_{-\infty}^{\infty} G(x-y,t) f(y,\tau)dy \\ 
+    \Rightarrow u(x,t) &= \int_{0}^{t}d\tau \int_{-\infty}^{\infty} G(x-y,t-\tau)f(y,\tau)dy
+\end{align*}
+\underline{Remarks}:
+\begin{itemize}
+    \item Rarely possible to evaluate this integral.
+    \item Expression is useful for analyzing solution properties, or numerics.
+\end{itemize}
+\section{Bounded Domains}
+\subsection{Lecture 12 - Bounded Heat Equation} 
+\boxed{\text{ex}} Heat equation on a bounded domain in 1d.
+\begin{align*}
+    u_t = u_{xx} \tag{I}\\
+    0 < x < \pi \\
+    t > 0  \\
+    \text{BC: } u(0,t) = u(\pi,t) = 0 \tag{II} \\
+    \text{IC: } u(x,0) = f(x) \tag{III}
+\end{align*}
+Strategy:
+\begin{enumerate}
+    \item Observe that 
+    \begin{align*}
+        u_n(x,t) = e^{-n^2t}\sin(nx)
+    \end{align*}
+    Satisfies (I), (II) for $n = 1,2,3,\dots$
+    \item Every solution to (I) and (II) is a superposition of $u_n$'s
+    \begin{align*}
+        u(x,t) = \sum_{n=1}^{\infty} a_n e^{-n^2t} \sin(nx) \\
+        \text{for } a_n \in \mathbb{R}
+    \end{align*}
+    \item The IC determines the constants $a_n$
+    \begin{align*}
+        u(x,0) = f(x) = \sum_{n=1}^{\infty} a_n \sin(nx)
+    \end{align*}
+    All suitable functions $g(x)$ on $x \in [0,\pi]$ (domain) can be uniquely written as a sum of
+    $\sin(nx)$ terms. 
+\end{enumerate}
+\underline{Remarks}:
+\begin{itemize}
+    \item We will flesh this out in the phase of class.
+    \item A key method is expanding functions in terms of 'simpler' functions (e.g. steps 2 \& 3)
+\end{itemize}
+\textbf{Series expansions}. \\
+\underline{Warm-up}: Taylor series. \\
+The Taylor series of a function $f(x)$ about $x = 0$ is 
+\begin{align*}
+    f(x) = \sum_{n=0}^{\infty}c_nx^n = c_0 + c_1x + c_2x^2 + \dots
+\end{align*}
+\begin{itemize}
+    \item The basis functions here are the functions in the expansion, i.e. $1,x,x^2,\dots$.
+    \item The coefficients $c_n$ can be calculated 
+    \begin{align*}
+        c_n = \frac{f^{(n)}(0)}{n!}
+    \end{align*}
+    \item $f$ is any sufficiently smooth functions defined at 0.
+\end{itemize}
+\underline{Fourier series}. \\
+Let $f:[-\pi,\pi] \rightarrow \mathbb{R}$ (we will change domain of $f$ later). The Fourier 
+series of $f$ is an expansion in terms of the following basis functions:
+\begin{align*}
+    1,\ \cos(x),\ \cos(2x),\dots,\ \sin(x),\ \sin(2x),\dots
+\end{align*}
+Fourier series for $f(x)$ is 
+\begin{align*}
+    f(x) = \frac{a_0}{2} + \sum_{n=1}^{\infty} (a_n\cos(nx) + b_n \sin(nx))
+\end{align*}
+The coefficients are given by 
+\begin{align*}
+    a_n &= \frac{1}{\pi} \int_{-\pi}^{\pi} f(x)\cos(nx)dx,\quad n = 0,1,2,\dots \\
+    b_n &= \frac{1}{\pi} \int_{-\pi}^{\pi} f(x)\sin(nx)dx,\quad n = 1,2,3,\dots
+\end{align*}
+
+
 \end{document}
