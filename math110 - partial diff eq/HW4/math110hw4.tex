@@ -59,10 +59,31 @@ Given $\int_{-\infty}^{\infty} e^{-x^2}dx = \sqrt{\pi}$.
     \item Given $u(x,0) = \phi(x) = e^{-\frac{(x-a)^2}{b^2}}$
     \begin{align*}
         u(x,t) &= \frac{1}{\sqrt \pi} \int_{-\infty}^{\infty} e^{-s^2}\phi(x-s\sqrt{4kt})ds \\
-        &= \frac{1}{\sqrt \pi} \int_{-\infty}^{\infty}e^{-s^2}e^{-\frac{(x-s\sqrt{4kt}-a)^2}{b^2}} ds
+        &= \frac{1}{\sqrt \pi} \int_{-\infty}^{\infty}e^{-s^2}e^{-\frac{(x-s\sqrt{4kt}-a)^2}{b^2}} ds \\
+        &= \frac{1}{\sqrt \pi} \int_{-\infty}^{\infty}e^{-\left(\frac{b^2+4kt}{b^2}s^2+\frac{2(x-a)\sqrt{4kt}}{b^2}s+\frac{(x-a)^2}{b^2}\right)} ds \\
+        &= \frac{1}{\sqrt \pi} \int_{-\infty}^{\infty}e^{-\left(\frac{b^2+4kt}{b^2}\left(s^2+\frac{2(x-a)\sqrt{4kt}}{b^2+4kt}s\right)\right)-\frac{(x-a)^2}{b^2}} ds \\
+        &= \frac{e^{-\frac{(x-a)^2}{b^2}}}{\sqrt\pi}\int_{-\infty}^{\infty}e^{-\frac{b^2+4kt}{b^2}\left(s^2+\frac{2(x-a)\sqrt{4kt}}{b^2+4kt}s+\frac{(x-a)^24kt}{(b^2+4kt)^2}-\frac{(x-a)^24kt}{(b^2+4kt)^2}\right)} ds \\
+        &= \frac{e^{-\frac{(x-a)^2}{b^2}}}{\sqrt\pi}\int_{-\infty}^{\infty}e^{-\frac{b^2+4kt}{b^2}\left(s^2+\frac{2(x-a)\sqrt{4kt}}{b^2+4kt}s+\frac{(x-a)^24kt}{(b^2+4kt)^2}\right)+\frac{(x-a)^24kt}{b^2(b^2+4kt)}} ds \\
+        &= \frac{e^{-\frac{(x-a)^2}{b^2}}e^{\frac{(x-a)^24kt}{b^2(b^2+4kt)}}}{\sqrt\pi}\int_{-\infty}^{\infty}e^{-\frac{b^2+4kt}{b^2}\left(s+\frac{(x-a)\sqrt{4kt}}{b^2+4kt}\right)^2}ds \\
+        &= \frac{e^{-\frac{(x-a)^2}{b^2}+\frac{(x-a)^24kt}{b^2(b^2+4kt)}}}{\sqrt\pi} \cdot \frac{\sqrt{\pi}}{\sqrt{-\frac{b^2+4kt}{b^2}}} \\
+        &= \frac{e^{-\frac{(x-a)^2}{b^2}+\frac{(x-a)^24kt}{b^2(b^2+4kt)}}}{\sqrt{-\frac{b^2+4kt}{b^2}}} \\
+    \end{align*}
+    \item 
+\end{enumerate}
+\newpage
+\noindent \textbf{Question 3}
+\begin{enumerate}[(a)]
+    \item 
+    \begin{align*}
+        u(x,t) =\frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^{\infty} e^{-\frac{(x-y)^2}{4kt}}\phi(y)dy \\
+        u(-x,t)=\frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^{\infty} e^{-\frac{(-x-y)^2}{4kt}}\phi(y)dy 
+    \end{align*}
+    \item 
+    \begin{align*}
+        -u(-x,t)&=\frac{-1}{\sqrt{4\pi kt}}\int_{-\infty}^{\infty} e^{-\frac{(-x-y)^2}{4kt}}\phi(y)dy \\
+        -u(-x,t)&=\frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^{\infty} e^{-\frac{(-x-y)^2}{4kt}}\phi(-y)dy \\
     \end{align*}
 \end{enumerate}
-\noindent \textbf{Question 3} \\
 \noindent \textbf{Question 4} \\
 \noindent \textbf{Question 5} \\
 
