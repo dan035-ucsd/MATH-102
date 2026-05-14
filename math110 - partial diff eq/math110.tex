@@ -2178,6 +2178,9 @@ We can write $w(x,t;\tau)$ in terms of the heat kernel $G(x,t) = \displaystyle\f
 \begin{itemize}
     \item Rarely possible to evaluate this integral.
     \item Expression is useful for analyzing solution properties, or numerics.
+    \item Intuition: point heat source at position $y$, time $\tau$, spreads out as $G(x-y,t-\tau)$
+    \item Duhamel's solution due to source $f(x,t)$ = solution due to point sources of strength 
+    $f(y,\tau)$ at $y,\tau$
 \end{itemize}
 \section{Bounded Domains}
 \subsection{Lecture 12 - Series Expansion} 
@@ -2227,7 +2230,7 @@ The Taylor series of a function $f(x)$ about $x = 0$ is
     \end{align*}
     \item $f$ is any sufficiently smooth functions defined at 0.
 \end{itemize}
-\underline{Fourier series}. \\
+\underline{Fourier series}. (Logan 3.2) \\
 Let $f:[-\pi,\pi] \rightarrow \mathbb{R}$ (we will change domain of $f$ later). The Fourier 
 series of $f$ is an expansion in terms of the following basis functions:
 \begin{align*}
@@ -2242,6 +2245,174 @@ The coefficients are given by
     a_n &= \frac{1}{\pi} \int_{-\pi}^{\pi} f(x)\cos(nx)dx,\quad n = 0,1,2,\dots \\
     b_n &= \frac{1}{\pi} \int_{-\pi}^{\pi} f(x)\sin(nx)dx,\quad n = 1,2,3,\dots
 \end{align*}
-
-
+\subsection{Lecture 13 - Series Expansion cont.}
+\underline{Fourier series}. \\
+Let $f:[-\pi,\pi]\rightarrow \mathbb{R}$. The Fourier series for $f$ is an expansion in terms of 
+the following basis functions.
+\begin{align*}
+    1 \text{ or } \cos(0\cdot x),\ \cos x,\ \cos 2x,\ \dots,\ \sin x,\ \sin 2x
+\end{align*}
+The Fourier series for $f(x)$ is 
+\begin{align*}
+    f(x) = \frac{a_0}{2} + \sum_{n=1}^{\infty}(a_n\cos nx + b_n \sin nx)
+\end{align*}
+\underline{Remark}: 
+\begin{itemize}
+    \item We can write Fourier series for more general domains (not just $[-\pi, \pi]$)
+    \item We haven't yet said anything about when the series is valid.
+\end{itemize}
+The Fourier coefficients are given by
+\begin{align*}
+    a_n &= \frac{1}{\pi} \int_{-\pi}^{\pi} f(x)\cos(nx)dx,\quad n = 0,1,2,\dots \\
+    b_n &= \frac{1}{\pi} \int_{-\pi}^{\pi} f(x)\sin(nx)dx,\quad n = 1,2,3,\dots
+\end{align*}
+\underline{Proof}: \\
+We will first check the expression for $b_n$
+\begin{align*}
+    b_n = \frac 1\pi \int_{-\pi}^{\pi} f(x)\sin(nx)dx
+\end{align*}
+We can calculate this using Fourier series for $f(x)$. Calculating $\int_{-\pi}^{\pi}f(x)\sin(nx)dx$
+requires integrals of the form
+\begin{align*}
+    \int_{-\pi}^{\pi}\cos(mx)\sin(nx)dx,\quad \int_{-\pi}^{\pi} \sin(mx)\sin(nx)dx \\
+    \forall m,n
+\end{align*}
+First note that
+\begin{align*}
+    \int_{-\pi}^{\pi} \sin(mx)dx = 0 \quad \forall m \in \mathbb{Z}
+\end{align*}
+Check:
+\begin{align*}
+    \int_{-\pi}^{\pi}\sin(mx)dx &= -\frac{1}{m}\cos(mx) \Big|^\pi_{-\pi} \\
+    &= -\frac{1}{m}[\cos(\pi m) - \cos(-\pi m)] \\
+    &= 0\quad \text{ (since } \cos(x) = \cos (-x))
+\end{align*}
+Similarly
+\begin{align*}
+    \int_{-\pi}^{\pi} \cos(mx)dx = \begin{cases}
+        0 & m \in \mathbb{Z},\ m > 0 \\
+        2\pi & m = 0
+    \end{cases}
+\end{align*}
+Also 
+\begin{align*}
+    \int_{-\pi}^{\pi} \cos(mx)\sin(nx) dx &= \int_{\pi}^{-\pi} \frac{1}{2} (\sin((n+m)x)-\sin((n-m)x))dx \\
+    &= 0
+\end{align*}
+Similarly
+\begin{align*}
+    \int_{-\pi}^{\pi} \sin(mx)\sin(nx)dx &= 0 \ \text{ for } m\ne n\\
+    &= \frac 12 [\cos((m-n)x) - \cos((m+n)x)] \\
+    & m-n,\ m+n \ne 0,\ \text{if } m\ne n
+\end{align*}
+And 
+\begin{align*}
+    \int_{-\pi}^{\pi} \sin^2(nx)dx = \int_{-\pi}^{\pi} \cos^2(nx)dx = \pi
+\end{align*}
+We use these integrals to calculate $\int_{-\pi}^{\pi} f(x) \sin(nx)dx$
+\begin{align*}
+    &\int_{-\pi}^{\pi}f(x) \sin(nx)dx \\
+    &= \int_{-\pi}^{\pi} \left[\frac{a_0}{2} + \sum_{m=1}^{\infty} (a_m \cos(mx) + b_m \sin(mx))\right]\sin(nx)dx \\
+    &= \int_{-\pi}^{\pi} \frac{a_0}{2}\sin(nx)dx + \sum_{m=1}^{\infty} \left(\int_{-\pi}^{\pi}a_m \cos(mx)\sin(nx)dx + \int_{-\pi}^{\pi}b_m \sin(mx)\sin(nx)\right) \\
+    &= 0 + \sum_{m=1}^{\infty} \left(0 + \int_{-\pi}^{\pi}b_m \sin(mx)\sin(nx)\right) \\
+    &= \int_{-\pi}^{\pi} b_n\sin^2(nx) dx \\
+    &= b_n \pi
+\end{align*}
+\underline{Remarks}:
+\begin{itemize}
+    \item Key properties
+    \begin{align*}
+        \int_{-\pi}^{\pi} \cos(mx)\sin(nx)dx &= 0 \\
+        \int_{-\pi}^{\pi} \sin(nx)dx &= 0\\
+        \int_{-\pi}^{\pi} \sin(mx)\sin(nx)dx &= \begin{cases}
+            0 & m\ne n \\
+            \pi & m = n
+        \end{cases}
+    \end{align*}
+    \item Functions whose product integrate to 0 are called \underline{orthogonal}
+\end{itemize}
+\boxed{\text{ex}} Fourier series of a step-function on $[-\pi,\pi]$
+\begin{align*}
+    f(x) = \begin{cases}
+        1 & 0 < x < \pi \\
+        0 & -\pi < x < 0
+    \end{cases}
+\end{align*}
+Goal: find $a_n, b_n$ such that
+\begin{align*}
+    f(x) &= \frac{a_0}{2} + \sum_{n=1}^{\infty} (a_n \cos(nx) + b_n\sin(nx)) \\
+    a_n &= \frac 1\pi \int_{-\pi}^{\pi} f(x)\cos(nx)dx \quad n=0,1,2,\dots \\
+    b_n &= \frac 1\pi \int_{-\pi}^{\pi} f(x)\sin(nx)dx \quad n=1,2,3,\dots 
+\end{align*}
+Calculate $a_0$
+\begin{align*}
+    a_0 &= \frac 1\pi \int_{-\pi}^{\pi}f(x)dx = \frac 1\pi \int_{0}^{\pi}1dx = 1
+\end{align*}
+For $n > 0$:
+\begin{align*}
+    a_n &= \frac 1\pi \int_{-\pi}^{\pi} f(x)\cos(nx) dx \\
+    &= \frac 1\pi \int_{0}^{\pi}\cos(nx)dx \\
+    &= \frac 1\pi \left[\frac 1n \sin(nx)\right]^\pi_0 \\
+    &= 0 
+\end{align*}
+\begin{align*}
+    b_n &= \frac 1\pi \int_{-\pi}^{\pi} f(x)\sin(nx)dx \\
+    &= \frac 1\pi \int_{0}^{\pi} \sin(nx)dx \\
+    &= \frac 1\pi \left[-\frac{1}{n}\cos(nx)\right]^\pi_0 \\
+    &= \frac{1}{n\pi}(1-\cos(n\pi)) \\
+    &= \frac{1}{n\pi}(1-(-1)^n) \\
+    &= \begin{cases}
+        0 & n \text{ even} \\
+        \frac{2}{n\pi} & n \text{ odd}
+    \end{cases}
+\end{align*}
+$\Rightarrow$ Fourier series for $f(x)$ is 
+\begin{align*}
+    f(x) = \frac 12 + \frac 2\pi(\sin x + \frac 13 \sin 3x + \frac 15 \sin 5x + \dots)
+\end{align*}
+\underline{Remarks}. As we take more terms, we get a better approximation for $f(x)$. \\ \\
+\textbf{Function spaces}. (Logan 3.2). Writing $f(x)$ in terms of Fourier basis is analogous
+to writing a vector in components. \\ \\
+\boxed{\text{ex}} Consider $\mathbb{R}^3$. Let $e_1, e_2, e_3$ be the standard basis
+\begin{align*}
+    e_1 &= (1,0,0) \\
+    e_2 &= (0,1,0) \\
+    e_3 &= (0,0,1)
+\end{align*}
+This basis is \underline{orthogonal} since 
+\begin{align*}
+    e_1 \cdot e_2 = e_2 \cdot e_3 = e_1 \cdot e_3 = 0
+\end{align*}
+This basis is \underline{normalized} since 
+\begin{align*}
+    e_1 \cdot e_1 = e_2 \cdot e_2 = e_3 \cdot e_3 = 1
+\end{align*}
+We can 'expand' vector $v \in \mathbb{R}^3$ in terms of $e_1,e_2,e_3$
+\begin{align*}
+    v = a_1e_1 + a_2e_2 + a_3e_3 \\
+    \text{where } a_1 = v\cdot e_1,\text{ etc.}
+\end{align*}
+Connection with Fourier series 
+\begin{center}
+    \begin{tabular}{c c c}
+        vector & $\rightarrow$ & functions \\
+        $v,w \in \mathbb{R}^3$ & & $f,g:[-\pi,\pi] \in \mathbb{R}$ \\ \\
+        inner product & $\rightarrow$ & integral \\
+        $v\cdot w$ & & $\int_{-\pi}^{\pi} f(x)g(x)dx$ \\ \\
+       basis & $\rightarrow$ & Fourier basis \\
+       $e_1,e_2,e_3$ & & $1,\cos x,\dots,\sin x,\dots$ \\ \\
+       expansion & $\rightarrow$ & Fourier series \\
+       $v = \sum a_i e_i$ & & $f(x) = \frac{a_0}{2} + \sum(a_n\cos nx + b_n \sin nx)$ \\
+       $a_i = v\cdot e_i$ & & $a_n = \frac 1\pi(f,\cos nx),\ b_n = \frac 1\pi (f,\sin nx)$
+    \end{tabular}
+\end{center}
+Notation: $(f,g) = \int_{-\pi}^{\pi}f(x)g(x)dx$ \\ \\ 
+\underline{$L^2$-space}. The correspondence above works because functions and vectors obey the 
+same properties - in fact, we say that functions are vectors. To fix context, consider functions
+on a fixed domain $[a,b]$.  \\ \\
+The function space $L^2[a,b]$ is the set of all functions $f:[a,b] \rightarrow \mathbb{R}$ 
+such that $\int_{a}^{b}f(x)^2 dx < \infty$. This is called a square integrable function. \\ \\
+Fourier series, and other series expansions, work for $L^2$ functions. $L^2$ includes smooth 
+functions but also some non-continuous functions like step-functions, etc. Typically, we only 
+see $L^2$ functions. $L^2$ has the structure to understand series expansions.
 \end{document}
