@@ -1505,5 +1505,94 @@ This gives each element of our transition matrix.
         \text{got }k \\ \text{ of }a
     \end{matrix}\right)
 \end{align*}
-If $j = 0$, what is $P_{0k} = 0$ if $k \ne 0$. This is an absorbing boundary.
+If $j = 0$, $P_{0k} = 0$ if $k \ne 0$. This is an absorbing boundary.
+\subsection{Lecture 13 - Markov Chains}
+Continuing from last lecture, we have $2N + 1$ total states. Therefore, our transition matrix 
+will have $(2N+1)^2$ entries. \\ \\ 
+We now introduce mutation, where $\mathbb{P}(a\rightarrow A) = \alpha$ and $\mathbb{P}(A\rightarrow a) = \beta$.
+Now we have 
+\begin{align*}
+    P_{jk} = (1-\alpha) \frac{j}{2N} + (\beta) \frac{2N-j}{2N}
+\end{align*}
+Now we introduce selection, where fitness of $a = 1+s$ where $s$ is the selection coefficient and 
+fitness of $A = 1$. Our new population of $j$ is 
+\begin{align*}
+    \mathbb{P}(\text{pick }a) = \frac{(1+s)j}{(1+s)j+2N-j}
+\end{align*}
+\textbf{Random walk}. Consider a Markov chain, with state space 
+\begin{align*}
+    \Omega &= \{0,\dots, N\} \\
+    |\Omega| &= N+1
+\end{align*}
+At location $i$, we have possibility of moving left $q$, moving right $p$, staying still $1-q-p$. \\ \\
+Consider the case $N = 4$
+\begin{align*}
+    P = 
+    \begin{bmatrix}
+        1 & 0 & 0 & 0 & 0\\
+        q & 1- p - q & p & 0 & 0\\
+        0 & q & 1-p-q & p & 0\\
+        0 & 0 & q & 1-p-q & p \\
+        0 & 0 & 0 & 0 & 1
+    \end{bmatrix}
+\end{align*}
+With time $t \rightarrow \infty$, we are likely to end up at one of the absorbing states. \\ \\
+Given the initial position $i = 3$, we have the following probability vector of where we will be
+\begin{align*}
+    \varphi^0 = \begin{bmatrix}
+        0 & 0 & 0 & 1 & 0 & 0 & \dots
+    \end{bmatrix}
+\end{align*}
+As $t \rightarrow \infty$, we have $\varphi^\ast = \varphi^\ast P$. This is called the stationary
+distribution. For a transition matrix with an absorbing boundary condition, we have
+\begin{align*}
+    \varphi^\ast = \begin{bmatrix}
+        \varphi_0 & 0 & \dots & 0 & 1 - \varphi_0
+    \end{bmatrix}
+\end{align*}
+\underline{Proof}: Here we calculate the stationary distribution for an absorbing boundary condition.
+\begin{align*}
+    \varphi_0(1) + \varphi_1(q) &= \varphi_0 \\
+    \varphi_0(0) + \varphi_1(1-p-q) + \varphi_2(q) &= \varphi_1
+\end{align*}
+From this we see that $\varphi_1 = \varphi_2 = 0$ and so on. \\ \\ 
+For reflecting boundary condition
+\begin{align*}
+    P = 
+    \begin{bmatrix}
+        1-p & p & 0 & 0 & 0\\
+        q & 1- p - q & p & 0 & 0\\
+        0 & q & 1-p-q & p & 0\\
+        0 & 0 & q & 1-p-q & p \\
+        0 & 0 & 0 & q & 1-q
+    \end{bmatrix}
+\end{align*}
+We have 
+\begin{align*}
+    \varphi_0(1-p) + \varphi_1q &= \varphi_0 \\
+    \varphi_0(p) + \varphi_1(1-p-q) + \varphi_2(q) &= \varphi_1 \tag{$\ast$}
+\end{align*}
+And 
+\begin{align*}
+    \varphi_1q &= \varphi_0 - \varphi_0(1-p) \\
+    \varphi_1q &= \varphi_0(1-1+p) \\
+    \varphi_1 &= \frac{p}{q} \varphi_0
+\end{align*}
+Returning to $(\ast)$
+\begin{align*}
+    \varphi_0 p + (1-p-q)\frac{p}{q}\varphi_0 + \varphi_2q &= \frac{p}{q}\varphi_0 \\
+    \varphi_1 &= \frac{p}{q}\varphi_0 \\
+    \varphi_2 &= \left(\frac{p}{q}\right)^2 \varphi_0 \\
+    \varphi_i &= \left(\frac{p}{q}\right)^i \varphi_0
+\end{align*}
+Consider the probability $\mathbb{P}(i\rightarrow N) = h_i = \alpha^i$. From the position 
+$i+1 \rightarrow N$, we have $h_{i+1} = \alpha^{i+1}$ and vice versa for $i-1 \rightarrow N$.
+We have
+\begin{align*}
+    h_i &= ph_{i+1} + qh_{i-1} + (1-p-q)h_i \\
+    0 &= p\alpha^{i+1} + q \alpha^{i-1} - (p+q)\alpha^i \\
+    0 &= p\alpha + \frac{q}{\alpha} -(p+q) \\
+    \alpha &= \frac pq \\
+    \alpha &= 1
+\end{align*}
 \end{document}
