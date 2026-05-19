@@ -1592,7 +1592,161 @@ We have
     h_i &= ph_{i+1} + qh_{i-1} + (1-p-q)h_i \\
     0 &= p\alpha^{i+1} + q \alpha^{i-1} - (p+q)\alpha^i \\
     0 &= p\alpha + \frac{q}{\alpha} -(p+q) \\
-    \alpha &= \frac pq \\
-    \alpha &= 1
+    \alpha &= \frac pq \text{ or }1
 \end{align*}
+\subsection{Lecture 14 - Neutral Drift}
+Consider $P_{ij} = \begin{bmatrix}
+    1 & 0 & 0 & 0 & 0\\
+    q & 1-p-q & p & 0 & 0\\
+    0 & q & 1-q-p & p & 0 \\
+    0 & 0 & q & 1-q-p & p \\
+    0 & 0 & 0 & 0 & 1
+\end{bmatrix}$ \\ \\
+This is an absorbing boundary condition. If we start at $i$, in the long term, we 
+either get absorbed at 0 or at $N$. \\ \\
+Call $h_i$ the probability to get absorbed at $N$ starting at $i$, with $0 \le i \le N$. We use a single-step
+analysis to proceed.
+\begin{align*}
+    h_i = P_{i\rightarrow i+1}h_{i+1} + P_{i\rightarrow i-1}h_{i-1} + P_{i\rightarrow i}h_i \\
+    \text{for } 0 < i < N
+\end{align*}
+For boundary conditions,
+\begin{align*}
+    h_0 &= 0 \\
+    h_N &= 1
+\end{align*}
+In terms of $P_{ij}$ above, we have 
+\begin{align*}
+    h_i &= ph_{i+1} + qh_{i-1} + (1-p-q)h_i \\
+    0 &= ph_{i+1} + qh_{i-1} - (p+q)h_i
+\end{align*}
+To solve, assume that $h_i = \alpha^i$, where $\alpha$ is an unknown constant.
+\begin{align*}
+    h_{i+1} = \alpha^{i+1},\ h_{i-1} = \alpha ^{i-1}
+\end{align*}
+So we have 
+\begin{align*}
+    p\alpha^{i+1}+q\alpha^{i-1} - (p+q)\alpha^i &= 0 \\
+    p\alpha^2 - (p+q)\alpha + q &= 0 \\
+    \alpha &= \frac{(p+q)\pm \sqrt{(p+q)^2 -4pq}}{2p} \\
+    \alpha &= \frac{(p+q)\pm \sqrt{p^2+2pq+q^2 -4pq}}{2p} \\
+    \alpha &= \frac{(p+q)\pm \sqrt{p^2-2pq+q^2}}{2p} \\
+    \alpha &= \frac{(p+q)\pm \sqrt{(p-q)^2}}{2p} \\
+    \alpha &= \frac{(p+q)\pm (p-q)}{2p} \\
+    \alpha &= \begin{cases}
+        \frac{2p}{2p} = 1 \\
+        \frac{2q}{2p} = \frac{q}{p}
+    \end{cases}
+\end{align*}
+So we have 2 solutions. Plug in boundary conditions to solve.
+\begin{align*}
+    h_i &= A\cdot 1^i + B(\frac{q}{p})^i \\
+    h_0 &= A + B = 0 \Rightarrow B = -A \\ 
+    h_N &= A\cdot 1^N + B(\frac{q}{p})^N \\
+    &= A(1-(\frac{q}{p})^N) = 1 \\
+    &\Rightarrow A = \frac{1}{1-(\frac{q}{p})^N} \\
+    \Rightarrow h_i &= \frac{1-(\frac{q}{p})^i}{1-(\frac{q}{p})^N} \\
+\end{align*}
+We have two cases, if $p > q,\text{ and } N \gg 1$
+\begin{align*}
+    h_i \approx 1 - (\frac{q}{p})^i
+\end{align*}
+If $q > p, \text{ and } N \gg 1$ 
+\begin{align*}
+    (\frac{q}{p})^N \gg 1 \Rightarrow h_i = \frac{(\frac{q}{p})^i-1}{(\frac{q}{p})^N}
+\end{align*}
+What if $p = q$? Consider $\frac{q}{p} = 1-\epsilon$, and take $\epsilon \rightarrow 0$.
+\begin{align*}
+    \lim_{\epsilon \rightarrow 0} \frac{1-(1-\epsilon)^i}{1-(1-\epsilon)^N} &= 
+    \lim_{\epsilon \rightarrow 0} \frac{1-1+i\epsilon + \dots}{1-1 + N\epsilon + \dots} \\
+    &= \frac{i}{N}
+\end{align*}
+\textbf{Moran process.} Let's apply this to biology. Consider a simple process that includes 
+birth, death, mutations, and competition/selection called the Moran process. \\ \\
+We have constant population $N$, with two types of individuals
+\begin{center}
+    Type 0 $\Rightarrow$ fitness $f_0$ (we consider this wildtype)\\
+    Type 1 $\Rightarrow$ fitness $f_1$ (we consider this mutant)
+\end{center}
+Updates to this population happen as birth-death pairs. \\ \\
+Suppose we have $j$ mutants, or $j$ type 1's. We have the number of wildtypes = $N-j$ and
+\begin{align*}
+    j \in \{0,1,\dots, N\}
+\end{align*}
+Suppose an individual dies (everyone is equally likely to die). What is the probability that 
+a mutant is chosen to reproduce? \\ \\
+If we have the same fitness for both types, we have 
+\begin{align*}
+    \mathbb{P}(\text{pick mutant}) = \frac{j}{N}
+\end{align*}
+But if we have different fitness, we take a weighted fraction 
+\begin{align*}
+    \mathbb{P}(\text{pick mutant}) = \frac{f_1 j}{f_1\cdot j + f_0 (N-j)}
+\end{align*}
+Let's construct a transition matrix. Since we have constant population, if one dies, only one 
+reproduces, this means that $j \rightarrow j+2$ is impossible. So we can only have
+\begin{align*}
+    j\rightarrow j+1,\ j\rightarrow i-1,\ j\rightarrow j
+\end{align*}
+Calculate the probability for each scenario.
+\begin{align*}
+    \mathbb{P} (j\rightarrow j+1) &= \mathbb{P}(\text{w.t. dies})\times \mathbb{P}(\text{mut. repr}) \\
+    &= \frac{N-j}{N} \times \frac{f_1 \cdot j}{f_1\cdot j + f_0(N-j)} \\
+    \mathbb{P}(j \rightarrow j-1) &= \mathbb{P}(\text{mut. dies})\times \mathbb{P}(\text{w.t. repr}) \\
+    &= \frac{j}{N} \times \frac{f_0(N-j)}{f_1\cdot j + f_0 (N-j)} \\
+    \mathbb{P}(j \rightarrow j)   &= 1 - \mathbb{P}(j \rightarrow j+1) - \mathbb{P}(j\rightarrow j-1)
+\end{align*}
+What boundary conditions are these?
+\begin{align*}
+    \text{If } j = 0,\ \mathbb{P}(0\rightarrow 1) = 0 \Rightarrow \mathbb{P}(0\rightarrow 0) = 1 \\
+    \text{If } j = N,\ \mathbb{P}(N\rightarrow N-1) = 0 \Rightarrow \mathbb{P}(N\rightarrow N) = 1
+\end{align*}
+This is absorbing boundary conditions! We are interested in the probability of mutant takeover 
+or mutant fixation. \\ \\
+Call $\rho_j$ the probability to absorb at $N$ starting from $j$. We have
+\begin{align*}
+    \rho_j &= P(j\rightarrow j+1)\rho_{i+1} + P(j \rightarrow j-1)\rho_{j-1} + (1-P(j\rightarrow j+1) - P(j\rightarrow j-1))\rho_j \\
+    0 &= \frac{N-j}{N}\frac{f_1\cdot j}{f_1\cdot j + f_0(N-j)}\rho_{j+1} + \frac{j}{N}\frac{f_0(N-j)}{f_1\cdot j + f_0(N-j)}\rho_{j-1} \\
+    &\qquad - \left[\frac{N-j}{N}\frac{f_1\cdot j}{f_1\cdot j + f_0(N-j)} + \frac{j}{N}\frac{f_0(N-j)}{f_1\cdot j + f_0(N-j)}\right]\rho_j \\
+    0 &= f_1\cdot \rho_{j+1} + f_0 \rho_{j-1} - (f_1+f_0)\rho_j = 0  
+\end{align*}
+With the BCs $\rho_0 = 0$ and $\rho_N = 1$
+Solving for $\rho_i$ like we did with $h_i$, we have 
+\begin{align*}
+    \rho_i = \frac{1-(\frac{f_0}{f_1})^i}{1-(\frac{f_0}{f_1})^N}
+\end{align*}
+We can interpret $\frac{f_0}{f_1}$ as the relative fitness.
+\begin{align*}
+    \text{If } \frac{f_1}{f_0} &> 1 \Rightarrow \text{advantegeous mut.} \\
+    \text{If } \frac{f_1}{f_0} &< 1 \Rightarrow \text{deleterious mut.} \\
+    \text{If } \frac{f_1}{f_0} &= 1 \Rightarrow \text{neutral mut. } (\rho_i = \frac{i}{N})
+\end{align*}
+\textbf{Absorption time.} For absorption time, we go back to $q$ and $p$. \\ 
+Call $\gamma_i = E(t|\text{absorption starting at } i)$. We use 1st-step analysis.
+\begin{align*}
+    \gamma_i = p\gamma_{i+1} + q\gamma_{i-1} + (1-p-q)\gamma_i + 1 \\
+    0 < i < N
+\end{align*}
+This is an inhomogeneous system. Now consider boundary conditions.
+\begin{align*}
+    \gamma_i &= 0 \\
+    \gamma_N &= 0
+\end{align*}
+Simplify by assuming that $p=q =\frac 12$. Take 
+\begin{align*}
+    i = 1 &: \gamma_1 = \frac 12 \gamma_2 + \frac 12 \gamma_0 + 1 \Rightarrow -1 = \frac 12 (\gamma_2 -\gamma_1) -\frac 12 (\gamma_1-\gamma_0) \\
+    i = 2 &: \gamma_2 = \frac 12 \gamma_3 + \frac 12 \gamma_1 + 1 \Rightarrow -1 = \frac 12 (\gamma_3 -\gamma_2) -\frac 12 (\gamma_2-\gamma_1) \\
+    &\vdots
+\end{align*}
+Take $x_i = \gamma_i - \gamma_{i-1}$
+\begin{align*}
+    -1 &= \frac 12 x_2 - \frac 12 x_1 \\
+    -1 &= \frac 12 x_3 - \frac 12 x_2 \\
+    &\vdots \\
+    -1 &= \frac 12 x_N - \frac 12 x_{N-1}
+\end{align*}
+We can solve for $x_i$ in each and plug it in the next, this is a collapsing telescopic sum,
+where all the sums cancel out except for $x_1$ and $x_N$.
+\subsection{Lecture 15 - Absorbing Time}
+
 \end{document}
