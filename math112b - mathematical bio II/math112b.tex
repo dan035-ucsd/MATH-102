@@ -1748,5 +1748,180 @@ Take $x_i = \gamma_i - \gamma_{i-1}$
 We can solve for $x_i$ in each and plug it in the next, this is a collapsing telescopic sum,
 where all the sums cancel out except for $x_1$ and $x_N$.
 \subsection{Lecture 15 - Absorbing Time}
+Recall that the mean time to fixation is 
+\begin{align*}
+    \gamma_i = p\gamma_{i+1} + q\gamma_{i-1} + (1-p-q)\gamma_i + 1 \\
+    \text{Take }p=q=\frac 12 \text{ and } x_i = \gamma_i-\gamma_{i-1}
+\end{align*}
+We have 
+\begin{align*}
+    -1 &= \frac 12 x_2 - \frac 12 x_1 \\
+    -1 &= \frac 12 x_3 - \frac 12 x_2 \\
+    &\vdots \\
+    -1 &= \frac 12 x_N - \frac 12 x_{N-1}
+\end{align*}
+We can add the first two equations
+\begin{align*}
+    -2 &= \frac 12 x_3 - \frac 12 x_1 \\
+    -3 &= \frac 12 x_4 - \frac 12 x_1
+\end{align*}
+In general,
+\begin{align*}
+    x_k = x_1 - 2(k-1) \text{ for } k=2,3,\dots, N
+\end{align*}
+For each $x$
+\begin{align*}
+    x_1 &= \gamma_1 - \gamma_0 = \gamma_1 \\
+    x_2 &= \gamma_2 - \gamma_1 \\
+    x_3 &= \gamma_3 - \gamma_2 = \gamma_1 - 2\cdot 2 \Rightarrow \gamma_3 = \gamma_2 + \gamma_1 -2\cdot 2\\
+    x_4 &= \gamma_4 - \gamma_3 = \gamma_1 - 2\cdot 3 \Rightarrow \gamma_4 = \gamma_3 + \gamma_1 -2\cdot 3\\
+    &\Downarrow \\
+    \gamma_k &= k\gamma_1 - 2(1+2+\dots+(k-1)) = k\gamma_1 - k(k-1)
+\end{align*}
+We want 
+\begin{align*}
+    \gamma_N &= N\gamma_1 - N(N-1) = 0 \\
+    \gamma_1 &= N-1 \\
+    \Rightarrow \gamma_k &= k(N-1)-k(k-1) = k(N-k)
+\end{align*}
+\boxed{\text{ex}} Consider the demography problem in Karlin \& Taylor. We have 6 stages to 
+human life.
+\begin{center}
+    \begin{tabular}{c l}
+        $E_0$ & pre-puberty \\
+        $E_1$ & single \\
+        $E_2$ & married \\
+        $E_3$ & divorced \\
+        $E_4$ & widowed \\
+        $E_5$ & dead
+    \end{tabular}
+\end{center}
+We have the following transition matrix
+\begin{center}
+    \begin{tabular}{c | c | c | c | c | c | c}
+    & $E_0$ & $E_1$ & $E_2$ & $E_3$ & $E_4$ & $E_5$ \\
+    \hline
+    $E_0$ & 0 & 0.9 & 0 & 0 & 0 & 0.1 \\
+    \hline
+    $E_1$ & 0 & 0.5 & 0.4 & 0 & 0 & 0.1 \\
+    \hline
+    $E_2$ & 0 & 0 & 0.6 & 0.2 & 0.1 & 0.1 \\
+    \hline
+    $E_3$ & 0 & 0 & 0.4 & 0.5 & 0 & 0.1 \\
+    \hline
+    $E_4$ & 0 & 0 & 0.4 & 0 & 0.5 & 0.1\\
+    \hline
+    $E_5$ & 0 & 0 & 0 & 0 & 0 & 1 
+    \end{tabular}
+\end{center}
+Let $\omega_i$ be the mean time spent in $E_2$ starting in $i$. We are interested in $\omega_0$. \\ \\
+Using first-step analysis
+\begin{align*}
+    \omega_0 &= 0.9\omega_1 + 0.1\omega_5 \\
+    \omega_1 &= 0.5\omega_1 + 0.4\omega_2 + 0.1\omega_5  \\
+    \omega_2 &= 1 + 0.6\omega_2 + 0.2\omega_3 + 0.1\omega_4 + 0.1\omega_5  \\
+    \omega_3 &= 0.4\omega_2 + 0.5\omega_3 + 0.1\omega_5 \\
+    \omega_4 &= 0.4\omega_2 + 0.5\omega_4 + 0.1\omega_5 \\
+    \omega_5 &= 0 
+\end{align*}
+Notice that this is in the form $A\vec \omega = B$, this matrix is not singular, therefore there
+is a unique solution. \\\\
+\textbf{Continuous-time Markov process}. This is a linear birth-death process which is different
+from the Moran process. Birth-death events are not coupled and can happen at any time. Therefore, 
+our states (number of cells) are discrete, but our time is continuous. \\ \\
+Denote $\varphi_i(t) = $ probability to have $i$ cells at time $t$. There are divisions 
+$(i\rightarrow i+1)$ and deaths $(i\rightarrow i-1)$. \\ \\
+If we have discrete time:
+\begin{align*}
+    P(i\rightarrow i+1) = L\cdot i \\
+    P(i\rightarrow i-1) = D\cdot i \\
+    \text{where } L,D \text{ are constants}
+\end{align*}
+For sufficiently large $i$, our probabilities make no sense. Instead, take an infinitesimally small
+time-interval, say $\Delta t$.
+\begin{align*}
+    P(i\rightarrow i+1) &= L\cdot i\cdot \Delta t \\
+    P(i\rightarrow i-1) &= D\cdot i\cdot \Delta t \\
+    P(i\rightarrow i) &= 1 - P(i\rightarrow i+1) - P(i\rightarrow i-1)
+\end{align*}
+and 
+\begin{align*}
+    P(i\rightarrow k) = 0 \quad k \notin\{i,i-1,i+1\}
+\end{align*}
+Now we perform first-step analysis
+\begin{align*}
+    \varphi_i(t+\Delta t) &= \varphi_{i-1}(t)\cdot P(i-1\rightarrow i) + \varphi_{i+1}\cdot P(i+1\rightarrow i) + \varphi_i(t)\cdot P(i\rightarrow i) \\
+    &= \varphi_{i-1}(t)L(i-1)\Delta t + \varphi_{i+1}(t)D(i+1)\Delta t + \varphi_i(t)(1-Li\Delta t - Di\Delta t) \\
+    \varphi_i(t+\Delta t) - \varphi_i &= \varphi_{i-1} L (i-1)\Delta t + \varphi_{i+1} D(i+1)\Delta t - \varphi_i(Li\Delta t + Di \Delta t) \\
+    \frac{\varphi_i(t+\Delta t) - \varphi_i(t)}{\Delta t} &= \varphi_{i-1}L(i-1) + \varphi_{i+1}D(i+1)-\varphi_i i(L+D) 
+\end{align*}
+Take the limit as $\Delta t \rightarrow 0$ on both sides, we have
+\begin{align*}
+    \frac{d\varphi_i}{dt} = \varphi_{i-1}L(i-1) + \varphi_{i+1}D(i+1)-\varphi_i i(L+D) 
+\end{align*}
+Consider the special case when $i = 0$?
+\begin{align*}
+    \varphi_0(t+\Delta t)&= \varphi_1(t)\cdot D\cdot 1\Delta t + \varphi_0(t)\cdot 1 \\
+    \frac{\varphi_0(t+\Delta t) - \varphi_0(t)}{\Delta t} &= \varphi_1(t) D \\
+    \frac{d\varphi_0}{dt} &= \varphi_1(t) D 
+\end{align*}
+So we have the following system of 1st-order linear ODE's
+\begin{align*}
+    \begin{cases}
+        \displaystyle\frac{d\varphi_i}{dt} &= \varphi_{i-1}L(i-1) + \varphi_{i+1}D(i+1)-\varphi_i i(L+D) \quad i = 1,2,\dots \\
+        \displaystyle\frac{d\varphi_0}{dt} &= \varphi_1(t) D 
+    \end{cases}
+\end{align*}
+Consider the following initial conditions 
+\begin{align*}
+    \varphi_i(0) = \begin{cases}
+        0 & i \ne M \\
+        1 & i = M 
+    \end{cases}
+\end{align*}
+This means that at the beginning, we have exactly $M$ cells. We will solve this assuming that 
+$D = 0$ (no death), this is the pure birth / Yule process. So we have the following problem.
+\begin{align*}
+    \begin{cases}
+        \displaystyle\frac{d\varphi_i}{dt} &= \varphi_{i-1}L(i-1) -\varphi_i Li \quad 1 < i < \infty \\
+        \displaystyle\frac{d\varphi_0}{dt} &= 0 \\
+        \varphi_i(0) &= \begin{cases}
+            1 & i = M \\
+            0 & i \ne M
+        \end{cases} \quad M \ne 0
+    \end{cases}
+\end{align*}
+Start with $\frac{d\varphi_0}{dt} = 0 \Rightarrow \varphi_0(t) = $ constant. We apply the 
+initial condition and get $\varphi_0(0) = 0 \Rightarrow \varphi_0(t) = 0$. \\ \\
+So we have 
+\begin{align*}
+    \frac{d\varphi_1}{dt} &= L\varphi_0\cdot 0-L\varphi_1 \\
+    &= -L\varphi_1 \\
+    \varphi_1(t) &= ae^{-Lt}
+\end{align*}
+Given $\varphi_1(0) = 0$, we have
+\begin{align*}
+    \varphi_1(0) &= ae^{0} = 0\\
+    &\qquad a = 0 \\
+    \Rightarrow \varphi_1(t) &= 0
+\end{align*}
+Try $\varphi_2$
+\begin{align*}
+    \frac{d\varphi_2}{dt} = L\varphi_1 - L\varphi_2 \Rightarrow \varphi_2(t) = 0
+\end{align*}
+This pattern changes at $i = M$
+\begin{align*}
+    \frac{d\varphi_M}{dt} &= L\varphi_{M-1}(M-1) - L\varphi_M \\
+    &= -L\varphi_M \\
+    &\Rightarrow \begin{cases}
+        \varphi_M (t) = ae^{-Lt} \\
+        \varphi_M (0) = 1
+    \end{cases} \\
+    &\Rightarrow \varphi_M(t) = e^{-Lt}
+\end{align*}
+Consider $\varphi_{M+1}$
+\begin{align*}
+    \frac{d\varphi_{M+1}}{dt} = L\varphi_M \cdot M - L \varphi_{M+1}(M+1) \\
+\end{align*}
 
 \end{document}
