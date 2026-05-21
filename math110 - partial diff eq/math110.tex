@@ -3,7 +3,7 @@
 \usepackage{amsmath, amssymb, amsthm, enumerate, graphicx, fancyhdr}
 \pagestyle{fancy}
 
-\title{MATH 110}
+\title{MATH 110 - Partial Differential Equations}
 \author{Dani Nguyen}
 \date{Spring 2026}
 
@@ -2415,4 +2415,187 @@ such that $\int_{a}^{b}f(x)^2 dx < \infty$. This is called a square integrable f
 Fourier series, and other series expansions, work for $L^2$ functions. $L^2$ includes smooth 
 functions but also some non-continuous functions like step-functions, etc. Typically, we only 
 see $L^2$ functions. $L^2$ has the structure to understand series expansions.
+
+\subsection{Lecture 14 - Function Spaces}
+\underline{Recap}:
+\begin{itemize}
+    \item Fourier series for functions $f:[-\pi,\pi] \rightarrow \mathbb{R}$
+    \item $L^2$ function spaces
+    \item Fourier series are analogous to expanding vectors in terms of basis vectors.
+    The Fourier basis for functions on $[-\pi,\pi]$ is $1,\sin(nx),\cos(nx),\ n = 1,2,$
+    \item Consider functions on a fixed domain $[a,b]$, the space of functions $L^2[a,b]$
+    is the set of all $f:[a,b]\rightarrow\mathbb{R}$ such that 
+    \begin{align*}
+        \int_{a}^{b}f(x)^2dx < \infty
+    \end{align*}
+    This includes all 'typical' functions.
+    \item Fourier series 'work' on $L^2$ spaces.
+\end{itemize}
+\textbf{Vector operations}. $L^2[a,b]$ is a vector space which means that
+\begin{itemize}
+    \item $\forall f,g \in L^2[a,b]$ and 
+    $\forall\lambda \in \mathbb{R}$, we have 
+    \begin{align*}
+       f+g &\in L^2[a,b]\quad (\text{addition}) \\
+        \lambda f &\in L^2[a,b]\quad (\text{scalar mult.})
+    \end{align*}
+    Intuition: addition, scalar multiplication for functions is same as vectors.
+    \item $L^2[a,b]$ has an inner product
+    \begin{align*}
+        (f,g) = \int_{a}^{b}f(x)g(x)dx \in \mathbb{R}
+    \end{align*}
+    Note:
+    \begin{align*}
+        (f,\lambda g) &= \lambda(f,g),\quad \forall \lambda \in \mathbb{R} \\
+        (f,g_1+g_2) &= (f,g_1) + (f,g_2),\quad \forall g_1,g_2,f \in L^2[a,b]
+    \end{align*}
+    \item The \underline{norm} of $f$ is 
+    \begin{align*}
+        ||f|| = \sqrt{(f,f)} = \left(\int_{a}^{b}f(x)^2\right)^\frac{1}{2}
+    \end{align*}
+    \item $f,g$ are \underline{orthogonal} if 
+    \begin{align*}
+        (f,g) = 0
+    \end{align*}
+\end{itemize}
+\boxed{\text{ex}} Consider $f(x) = x, g(x) = 1+x^2$ for $x \in [-1,1]$
+\begin{align*}
+    \Rightarrow f,g &\in L^2[-1,1] \\
+    ||f||^2 &= (f,f) = \int_{-1}^{+1}x^2dx = \left[\frac 13 x^3\right]^{1}_{-1} = \frac{2}{3} \\
+    (f,g) &= \int_{-1}^{1}x(1+x^2)dx = \left[\frac 12 x^2 + \frac 14 x^4\right]^1_{-1} \\
+    &= 0 \\
+    \Rightarrow f,g &\text{ are orthogonal}
+\end{align*}
+\underline{Remark}:
+\begin{itemize}
+    \item $||f|| = 0 \Leftrightarrow f = 0$
+    \item Fourier series are nice because the basis functions are orthogonal. \\
+    Fourier basis on $[-\pi,\pi]$
+    \begin{align*}
+        1,\cos x, \cos 2x, \dots, \sin x, \sin 2x, \dots\ \in L^2[-\pi,\pi]
+    \end{align*}
+    Then 
+    \begin{align*}
+        (1,\cos nx) = (1,\sin nx) &= 0,\ \forall n > 0 \\
+        (\cos nx, \sin mx) &= 0,\ \forall m,n > 0 \\
+        (\cos nx, \cos mx) &= 0,\ \forall m\ne n \\
+        (\sin nx, \sin mx) &= 0,\ \forall m\ne n
+    \end{align*}
+    $\Rightarrow$ Every pair is orthogonal
+\end{itemize}
+\textbf{Orthogonal expansions} (Logan 3.2, 3.3). \\
+Define a set of functions 
+\begin{align*}
+    f_1, f_2,\dots \in L^2[a,b] 
+\end{align*}
+is an orthogonal set if 
+\begin{align*}
+    (f_i,f_j) &= 0 \quad \forall i\ne j \\
+    (f_i,f_i) &\ne 0 \quad \forall i\ (\text{i.e. } f_i \ne 0)
+\end{align*}
+For example, the Fourier basis is an orthogonal set. \\ \\
+\underline{Definition}: An orthogonal set $f_1,f_2,\dots \in L^2[a,b]$ is \underline{complete} if 
+every $g \in L^2[a,b]$ can be written 
+\begin{align*}
+    g(x) &= c_1f_1(x) + c_2f_2(x) + \dots \\
+    &= \sum_{1}^{\infty} c_n f_n(x) \quad c_n \in \mathbb{R} \
+\end{align*}
+The $c_n$'s can then be found with inner products
+\begin{align*}
+    (g,f_n) &= \left(\sum_{i=1}^{\infty} c_i f_i, f_n\right) \\
+    &= \sum_{i=1}^{\infty} (c_i f_i, f_n) \\
+    \Bigg[\text{since } \int_{a}^{b} f(g_1+g_2)dx &= \int_{a}^{b} (fg_1 + fg_2)dx \ \forall f,g_1,g_2 \in L^2[a,b]\Bigg] \\
+    &= \sum_{i=1}^{\infty} c_i(f_i,f_n) \\
+    \big[\text{since } (f_i,f_n) &= 0 \text{ for } i\ne n\big] \\
+    &= c_n (f_n,f_n) \\
+    \Rightarrow (g,f_n) &= c_n ||f_n||^2 \\
+    c_n &= \frac{(g,f_n)}{||f_n||^2}\ \forall n
+\end{align*}
+\underline{Remarks}:
+\begin{itemize}
+    \item Complete means that the series is valid
+    \item Orthogonal means that the coefficients $c_n$'s can be calculated with 
+    inner products.
+    \item An orthogonal set which is complete is called a complete orthogonal set (c.o.s)
+    (same as orthogonal basis for our purposes).
+\end{itemize}
+\boxed{\text{ex}} The Fourier basis on $[-\pi,\pi]$ is an orthogonal basis. For $f\in[-\pi,\pi]$
+\begin{align*}
+    f &= \frac{a_0}{2} + \sum_{n=1}^{\infty}(a_n\cos nx + b_n \sin nx) \\
+    \text{with } (f,1) &= (\frac{a_0}{2},1) = \int_{-\pi}^{\pi}\frac{a_0}{2}\cdot 1 dx = a_0 \pi
+\end{align*}
+For $n \ge 1$ 
+\begin{align*}
+    (f,\cos nx) &= a_n (\cos nx, \cos nx) = a_n \pi \\
+    (f,\sin nx) &= b_n (\sin nx, \sin nx) = b_n \pi
+\end{align*}
+\underline{Fourier series on $[-L,L]$} \\
+The Fourier basis on $[-L,L]$ is 
+\begin{align*}
+    1, \cos\left(\frac{n\pi x}{L}\right), \sin\left(\frac{n\pi x}{L}\right)\quad n = 1,2,\dots
+\end{align*}
+This is an orthogonal basis (c.o.s). The Fourier series for $f:[-L,L] \rightarrow \mathbb{R}$ is 
+\begin{align*}
+    f(x) &= \frac{a_0}{2} + \sum_{n=1}^{\infty}\left(a_n\cos\left(\frac{n\pi x}{L}\right) + b_n \sin\left(\frac{n\pi x}{L}\right)\right) \\
+    a_n &= \frac 1L\left(f,\cos\left(\frac{n\pi x}{L}\right)\right) \quad n = 0,1,2,\dots \\
+    b_n &= \frac 1L\left(f,\sin\left(\frac{n\pi x}{L}\right)\right) \quad n = 1,2,3,\dots
+\end{align*}
+\boxed{\text{ex}} Find Fourier series of $f(x) = x,\ x \in [-L,L]$. We have 
+\begin{align*}
+    a_0 = \frac 1L (f,1) = \frac 1L \int_{-L}^{L} xdx = 0
+\end{align*}
+For $n > 0$
+\begin{align*}
+    a_n &= \frac 1L \int_{-L}^{L}x\cos\left(n\pi x\right)dx \\
+    &= \frac 1L \left[x\cdot \frac{L}{n\pi}\sin \left(\frac{n\pi x}{L}\right)\right]^L_{-L} - \frac{1}{L}\int_{-L}^{L} \frac{L}{n\pi} \sin\left(\frac{n\pi x}{L}\right) dx \\
+    &= \frac{L}{n\pi} \left(\sin(n\pi) - \sin(-n\pi)\right) \\
+    &= 0 \\
+\end{align*}
+\begin{align*}
+    b_n &= \frac 1L \int_{-L}^{L} x\sin \left(\frac{n\pi x}{L}\right)dx \\
+    &= \frac 1L \left[x \cdot \frac{-L}{n\pi}\cos\left(\frac{n\pi x}{L}\right)\right] - \frac{1}{L} \int_{-L}^{L} \frac{-L}{n\pi} \cos\left(\frac{n\pi x}{L}\right)dx \\
+    &= \frac{-1}{n\pi} \left[L\cos(n\pi) + L \cos (-n\pi)\right] \\
+    &= \frac{-2L}{n\pi} \cos(n\pi) \leftarrow (-1)^n \\
+    &= \frac{2L}{n\pi}(-1)^{n+1} \\
+    \Rightarrow f(x) &= \frac{2L}{\pi}\left(\sin\left(\frac{\pi x}{L}\right)-\frac 12 \sin\left(\frac{2\pi x}{L}\right)+\dots\right) \\
+    &= x
+\end{align*}
+\underline{Remarks}:
+\begin{itemize}
+    \item $\cos$ is even, $\sin$ is odd
+    \item Odd $\times$ even is an odd function 
+    \item Odd functions integrate to 0 over $[-L,L]$
+    \item $f$ is odd $\Leftrightarrow a_n = 0\ \forall n$ (no $\cos$)
+    \item $f$ is even $\Leftrightarrow b_n = 0\ \forall n$ (no $\sin$)
+    \item Above $f(x)=x$ is odd $\Rightarrow a_n = 0$.
+    \item The Fourier series extends to periodic functions on $\mathbb{R}$ with period $2L$
+\end{itemize}
+Any functions $g:[0,2L]\rightarrow \mathbb{R}$ also extends to a $2L$-periodic function on 
+$\mathbb{R}$ and so can be expanded with the same Fourier basis. \\ \\
+\underline{Fourier series on $[0,2L]$} \\
+Fourier basis 
+\begin{align*}
+    1,\cos\left(\frac{n\pi x}{L}\right),\sin\left(\frac{n\pi x}{L}\right)\quad n =1,2,\dots
+\end{align*}
+A function $g:[0,2L]\rightarrow \mathbb{R}$ has Fourier series 
+\begin{align*}
+    g(x) = \frac{a_0}{2} + \sum_{n=1}^{\infty}\left(a_n\cos\left(\frac{n\pi x}{L}\right)+b_n\sin\left(\frac{n\pi x}{L}\right)\right)
+\end{align*}
+where 
+\begin{align*}
+    a_n &= \frac 1L\left(g,\cos\left(\frac{n\pi x}{L}\right)\right) = \frac 1L \int_{0}^{2L} g(x)\cos\left(\frac{n\pi x}{L}\right)dx \quad n = 0,1,2,\dots \\
+    b_n &= \frac 1L\left(g,\sin\left(\frac{n\pi x}{L}\right)\right) \quad n = 1,2,3,\dots
+\end{align*}
+\boxed{\text{ex}} Consider $g(x) = \begin{cases}
+    x & 0 < x < L \\
+    x - 2L & L < x < 2L
+\end{cases}$
+The period extension of $g$ to $\mathbb{R}$ is the same as $f(x)$ above, $g$ has same Fourier series
+as $f$.
+\begin{align*}
+    g(x) = \frac{2L}{\pi} \left(\sin\left(\frac{\pi x}{L}\right)-\frac 12\sin\left(\frac{2\pi x}{L}\right)+\dots\right)
+\end{align*}
+
+\subsection{Lecture 15 -}
+
 \end{document}
