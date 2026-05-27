@@ -1879,7 +1879,7 @@ Consider the following initial conditions
         1 & i = M 
     \end{cases}
 \end{align*}
-This means that at the beginning, we have exactly $M$ cells. We will solve this assuming that 
+This means that at time $t = 0$, we have exactly $M$ cells. We will solve this assuming that 
 $D = 0$ (no death), this is the pure birth / Yule process. So we have the following problem.
 \begin{align*}
     \begin{cases}
@@ -1911,17 +1911,42 @@ Try $\varphi_2$
 \end{align*}
 This pattern changes at $i = M$
 \begin{align*}
-    \frac{d\varphi_M}{dt} &= L\varphi_{M-1}(M-1) - L\varphi_M \\
-    &= -L\varphi_M \\
+    \frac{d\varphi_M}{dt} &= L\varphi_{M-1}(M-1) - L\varphi_M M \\
+    &= -L\varphi_M M \\
     &\Rightarrow \begin{cases}
-        \varphi_M (t) = ae^{-Lt} \\
+        \varphi_M (t) = ae^{-LMt} \\
         \varphi_M (0) = 1
     \end{cases} \\
-    &\Rightarrow \varphi_M(t) = e^{-Lt}
+    &\Rightarrow \varphi_M(t) = e^{-LMt}
 \end{align*}
-Consider $\varphi_{M+1}$
+Consider $\varphi_{M+1}$ with $\varphi_{M+1}(0) = 0$
 \begin{align*}
-    \frac{d\varphi_{M+1}}{dt} = L\varphi_M \cdot M - L \varphi_{M+1}(M+1) \\
+    \frac{d\varphi_{M+1}}{dt} &= L\varphi_M \cdot M - L \varphi_{M+1}(M+1) \\
+    &= LMe^{-LMt} - L \varphi_{M+1}(M+1)
 \end{align*}
+We look for solutions with the form $\varphi_{M+1} = B(t)e^{-L(M+1)t}$
+\begin{align*}
+    \frac{d\varphi_{M+1}}{dt} = \frac{dB}{dt}e^{-L(M+1)t} - L(M+1)Be^{-L(M+1)t} &= LMe^{-LMt} - L \varphi_{M+1}(M+1) \\
+    \frac{dB}{dt}e^{-L(M+1)t} - L(M+1)Be^{-L(M+1)t} &= LMe^{-LMt} - L(M+1)Be^{-L(M+1)t} \\
+    \frac{dB}{dt}e^{-L(M+1)t} &= LMe^{-LMt} \\
+    \frac{dB}{dt} &= LMe^{Lt(M+1-M)} \\
+    \frac{dB}{dt} &= LMe^{Lt} \\
+    B &= \int_{0}^{t}LMe^{Lt}dt \\
+    &= M\Big[e^{Lt}\Big]^t_0 \\
+    &= M(e^{Lt}-1) 
+\end{align*}
+Therefore,
+\begin{align*}
+    \varphi_{M+1}(t) &= M(e^{Lt}-1)e^{-L(M+1)t} \\
+    &= M(e^{Lt-Lt(M+1)}-e^{-L(M+1)t}) \\
+    &= M(e^{-LMt}-e^{-L(M+1)t})
+\end{align*}
+Take $M = 1$, which means we had 1 cell at time $t = 0$, then
+\begin{align*}
+    \boxed{\ \varphi_j (t) = e^{-Lt}(1-e^{-Lt})^{j-1}\ }
+\end{align*}
+\begin{center}
+    \includegraphics[scale=0.85]{yule process.png}
+\end{center}
 
 \end{document}
