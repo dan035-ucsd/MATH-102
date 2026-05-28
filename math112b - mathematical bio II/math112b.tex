@@ -1747,7 +1747,7 @@ Take $x_i = \gamma_i - \gamma_{i-1}$
 \end{align*}
 We can solve for $x_i$ in each and plug it in the next, this is a collapsing telescopic sum,
 where all the sums cancel out except for $x_1$ and $x_N$.
-\subsection{Lecture 15 - Absorbing Time}
+\subsection{Lecture 15 - Yule Process}
 Recall that the mean time to fixation is 
 \begin{align*}
     \gamma_i = p\gamma_{i+1} + q\gamma_{i-1} + (1-p-q)\gamma_i + 1 \\
@@ -1948,5 +1948,79 @@ Take $M = 1$, which means we had 1 cell at time $t = 0$, then
 \begin{center}
     \includegraphics[scale=0.85]{yule process.png}
 \end{center}
+\subsection{Lecture 16 - Linear Birth-Death Process}
+
+
+
+\subsection{Lecture 17 - Linear Birth-Death Process cont.}
+Let $\varphi_i(t) = $ probability to have $i$ cells at time $t$
+\begin{align*}
+    \frac{d\varphi_i}{dt} &= \varphi_{i-1}L(i-1) + \varphi_{i+1} D(i+1) - \varphi_i(L+D)i \qquad 1 \le i < \infty \\
+    \frac{d\varphi_0}{dt} &= \varphi_1D \\
+    \varphi_i(0) &= \delta_{iM}
+\end{align*}
+Can we go back from $\psi(x,t) \rightarrow\{\varphi_i(t)\}^\infty_{i=0}$? \\ \\
+Take $x = 1$
+\begin{align*}
+    \Rightarrow \psi(1,t) &= \sum_{i=0}^{\infty}\varphi_i(t)1^i \\
+    &= \sum_{i=0}^{\infty} \varphi_i(t) \\
+    &= 1
+\end{align*}
+Consider the first derivative of $\psi$
+\begin{align*}
+    \psi_x &= \frac{\partial}{\partial x}\sum_{i=0}^{\infty} \varphi_i(t) x^i \\
+    &= \sum_{i=0}^{\infty}\varphi_i(t) \frac{\partial}{\partial x}(x^i) \\
+    &= \sum_{i=1}^{\infty}\varphi_i(t)\cdot ix^{i-1}
+\end{align*}
+Evaluate at $x = 1$
+\begin{align*}
+    \psi_x\Big|_{x=1} &= \sum_{i=1}^{\infty} \varphi_i(t)i\cdot 1^{i-1} \\
+    &= \sum_{i=1}^{\infty}\varphi_i(t)i \\
+    &= E(i)
+\end{align*}
+Consider the second derivative of $\psi$
+\begin{align*}
+    \psi_{xx} &= \sum_{i=0}^{\infty}\varphi_i(t) \frac{\partial^2}{\partial x^2}(x^i) \\
+    &= \sum_{i=2}^{\infty}\varphi_i(t)\cdot  i(i-1)x^{i-2}
+\end{align*}
+Again evaluating at $x = 1$
+\begin{align*}
+    \psi_{xx}\Big|_{x=1} &= \sum_{i=0}^{\infty}\varphi_i(t)i^2 - \sum_{i=0}^{\infty}\varphi_i(t)i \\
+    &= E(i^2) - E(i)
+\end{align*}
+And for the third derivative
+\begin{align*}
+    \psi_{xxx}\Big|_{x=1} = E(i^3) - 3E(i^2) + 2E(i)
+\end{align*}
+To get moments it is better to use moment generating function:
+\begin{align*}
+    G(x,t) = \sum_{i=0}^{\infty} \varphi_i(t) e^{xi}
+\end{align*}
+Take $x=0$
+\begin{align*}
+    \Rightarrow\psi(0,t) &= \sum_{i=0}^{\infty} \varphi_i(t) o^i \\
+    &= \varphi_0(t) \\
+    &= \text{ probability of extinction}
+\end{align*}
+Now check the first, second, and third derivatives
+\begin{align*}
+    \psi_x\Big|_{x=0} &= \sum_{i=1}^{\infty} \varphi_i(t)ix^{i-1}\Big|_{x=0} \\
+    &= \sum_{i=1}^{\infty}\varphi_i(t)\cdot i \cdot 0^{i-1} \\
+    &= \varphi_1(t)\cdot 1 \\
+    \psi_{xx} \Big|_{x=0} &= \sum_{i=2}^{\infty}\varphi_i(t)i(i-1)o^{i-2} \\
+    &= \varphi_2(t)\cdot 2\cdot 1 \\
+    \psi_{xxx} \Big|_{x=0} &= \sum_{i} \varphi_i(t)i(i-1)(i-2)0^{i-3} \\
+    &= \varphi_3\cdot 3 \cdot 2 \cdot 1
+\end{align*}
+We have the following pattern 
+\begin{align*}
+    \frac{\partial^n \psi}{\partial x^n}\Big|_{x=0} &= n!\varphi_n(t) \\
+    \varphi_i(t) &= \frac{1}{i!} \cdot \frac{\partial^i \psi}{\partial x^i}\Big|_{x=0}
+\end{align*}
+And so 
+\begin{align*}
+    \psi(x,t) = \sum_{i=0}^{\infty} \varphi_i(t) x^i
+\end{align*}
+
 
 \end{document}
