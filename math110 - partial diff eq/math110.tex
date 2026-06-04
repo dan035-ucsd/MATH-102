@@ -2596,6 +2596,150 @@ as $f$.
     g(x) = \frac{2L}{\pi} \left(\sin\left(\frac{\pi x}{L}\right)-\frac 12\sin\left(\frac{2\pi x}{L}\right)+\dots\right)
 \end{align*}
 
-\subsection{Lecture 15 -}
-
+\subsection{Lecture 18 - Final Review}
+\begin{itemize}
+    \item 1st part (Midterm 1, Practice midterm 1, HW 1-2)
+    \begin{itemize}
+        \item Characteristics
+        \item 2nd order ODEs, steady state solutions, standing waves
+    \end{itemize}
+    \item 2nd part (Midterm 2, Practice midterm 2, HW 3-5)
+    \begin{itemize}
+        \item Classification of PDEs
+        \item Cauchy problem for heat, wave equation.
+        \item Properties of solutions (e.g. conservation of energy/mass)
+        \item Semi-infinite domains
+        \item Duhamel's principle
+    \end{itemize}
+    \item 3rd part (Practice final, HW 6-7)
+    \begin{itemize}
+        \item Fourier series
+        \item Orthogonal expansions - Fourier sine and cosine series.
+        \item Separation of variables.
+    \end{itemize}
+\end{itemize}
+\textbf{Characteristics}. \\
+\boxed{\text{ex}} Solve $u_x + 2yu_y = 0$, $(x,y)\in \mathbb{R}^2$, subject to $u(0,s) = s^2$,
+$s \in \mathbb{R}$.
+\begin{enumerate}
+    \item Solve parametric eqs for chars:
+    \begin{align*}
+        \frac{dx}{d\eta} = 1 &\qquad \frac{dy}{d\eta} = 2y \\
+        x = \eta + A &\qquad y = Be^{2\eta}
+    \end{align*}
+    \item Combine constants to get a transformation $x(\xi, \eta), y(\xi,\eta)$ which is 
+    invertible. Here we try $A = 0, B = \xi$.
+    \begin{align*}
+        x = \eta &\qquad y = \xi e^{2\eta} \\
+        \eta = x &\qquad \xi = ye^{-2x}
+    \end{align*}
+    $\Rightarrow$ Transformation is well-defined. \\
+    \underline{Why}: We've transformed the PDE 
+    \begin{align*}
+        u_\eta &= u_x x_\eta + u_y y_\eta \\
+        &= u_x + 2yu_y \\
+        &= 0
+    \end{align*}
+    We've found $\eta$ s.t. $u_\eta = 0$. \\
+    \underline{Interpretation}:
+    \begin{itemize}
+        \item $\eta$ is a co-ord which simplifies the PDE 
+        \item To get a valid transform, we need $(x,y)\rightarrow (\eta,\xi)$
+    \end{itemize}
+    Eliminate $\eta$ to get $y = \xi e^{2x}$.
+    \item Solve the transformed PDE
+    \begin{align*}
+        u_n &= 0 \\
+        u(\xi, \eta) &= f(\xi) \\
+        u(x,y) &= f(ye^{-2x})
+    \end{align*}
+    \item Use the initial condition $u(0,s) = s^2 \qquad \forall s \in \mathbb{R}$
+    \begin{align*}
+        \Rightarrow u(0,s) = f(se^{-2\cdot 0}) &= s^2 \\
+        f(s) &= s^2
+    \end{align*}
+    This IC tells us what the arbitrary function in the general solution is. Here $f$ is the 
+    function $s \mapsto s^2$. So the solution is 
+    \begin{align*}
+        u(x,y) = f(ye^{-2x}) = y^2e^{-4x}
+    \end{align*}
+\end{enumerate}
+\textbf{Orthogonal expansion}. 
+\begin{itemize}
+    \item Working with a vector space with nice functions $[a,b] \rightarrow \mathbb{R}$
+    \item Inner product $f,g$ on $[a,b]\rightarrow \mathbb{R}$ is 
+    \begin{align*}
+        (f,g) = \int_{a}^{b}f(x)g(x)dx
+    \end{align*}
+    \item $f,g$ are orthogonal if 
+    \begin{align*}
+        (f,g) = 0
+    \end{align*}
+    \item Set of functions $\phi_1, \phi_2, \dots : [a,b] \rightarrow \mathbb{R}$ are
+    \begin{enumerate}
+        \item Orthogonal set if \begin{align*}
+            (\phi_m,\phi_n) = 0 \quad \forall m\ne n
+        \end{align*}
+        \item Complete orthogonal set or an orthogonal basis if every 'nice' 
+        $f:[a,b] \rightarrow \mathbb{R}$ can be written 
+        \begin{align*}
+            f(x) = \sum_{n=1}^{\infty} c_n \phi_n
+        \end{align*}
+    \end{enumerate}
+    \item Coefficients
+    \begin{align*}
+        (f,\phi_n) = c_n(\phi_n, \phi_n) \quad \forall n
+    \end{align*}
+\end{itemize}
+\underline{Orthogonal basis examples}
+\begin{enumerate}
+    \item Functions $[0,L]\rightarrow \mathbb{R}$ \\
+    Fourier sine basis:
+    \begin{align*}
+        \sin\left(\frac{n\pi x}{L}\right) \qquad n = 1,2,3,\dots
+    \end{align*}
+    Note that it is zero at boundary $0,L$ \\
+    Sine series:
+    \begin{align*}
+        f(x) &= \sum_{n=1}^{\infty} c_n \sin\left(\frac{n\pi x}{L}\right) \\
+        \Rightarrow (f,\sin(\frac{n\pi x}{L})) &= c_n (\sin(\frac{n\pi x}{L}),\sin(\frac{n\pi x}{L})) \\
+        &= c_n \int_{0}^{L} \sin^2(\frac{n\pi x}{L})dx \\
+        &= c_n \frac{L}{2}
+    \end{align*}
+    \item Functions $[0,L] \rightarrow\mathbb{R}$ \\
+    Fourier cosine basis:
+    \begin{align*}
+        \cos(\frac{n\pi x}{L}) \qquad n = 0,1,2,\dots
+    \end{align*}
+    Note that it is zero derivative at boundary $0,L$ \\
+    Cosine series:
+    \begin{align*}
+        f(x) = \frac{c_0}{2} + \sum_{n=1}^{\infty}c_n \cos(\frac{n\pi x}{L})
+    \end{align*}
+    At $n = 0$
+    \begin{align*}
+        (f,1) &= (c_0, 1) \\
+        &= \int_{0}^{L} \frac{c_0}{2}\cdot 1 dx \\
+        &= c_0 \frac{L}{2}
+    \end{align*}
+    At $n \ge 1$
+    \begin{align*}
+        (f, \cos(\frac{n\pi x}{L})) &= c_n (\cos(\frac{n\pi x}{L}), \cos(\frac{n\pi x}{L}))\\
+        &= c_n \frac{L}{2}
+    \end{align*}
+    \item Functions $[0,2L]\rightarrow\mathbb{R}$ or $[-L,L] \rightarrow\mathbb{R}$ \\
+    Fourier basis:
+    \begin{align*}
+        1, \cos(\frac{n\pi x}{L}), \sin(\frac{n\pi x}{L})\qquad n \ge 1
+    \end{align*}
+    Note that these have periodic boundary. \\
+    Fourier series:
+    \begin{align*}
+        f(x) = \frac{a_0}{2} + \sum_{n=1}^{\infty} (a_n \cos \frac{n\pi x}{L} + b_n \sin \frac{n\pi x}{L})
+    \end{align*}
+    e.g. 
+    \begin{align*}
+        (f,1) = (\frac{a_0}{2}, 1) = \frac{a}{2}\cdot 2L = aL
+    \end{align*}
+\end{enumerate}
 \end{document}
